@@ -1,0 +1,36 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-synology-provisioner
+  namespace: infra
+spec:
+  selector:
+    matchLabels:
+      app: nfs-synology-provisioner
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-synology-provisioner
+    spec:
+      serviceAccountName: nfs-synology-provisioner
+      containers:
+        - name: nfs-synology-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: synology/nfs
+            - name: NFS_SERVER
+              value: 172.23.0.2
+            - name: NFS_PATH
+              value: /volume2/nfs1
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 172.23.0.2
+            path: /volume2/nfs1
