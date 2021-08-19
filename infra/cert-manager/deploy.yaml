@@ -224,7 +224,7 @@ spec:
     tolerations: []
 
     webhook:
-      replicaCount: 1
+      replicaCount: 0
       timeoutSeconds: 10
 
       strategy: {}
