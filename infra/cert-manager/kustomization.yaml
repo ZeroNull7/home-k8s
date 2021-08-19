@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
 - helm-repo.yaml
 - secret.yaml
+- cert-manager.crds.yaml
 - deploy.yaml
 - certIssuer.yaml
