@@ -20,7 +20,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cert-manager
-        namespace: flux-system
+        namespace: infra
   values:
     # Default values for cert-manager.
     # This is a YAML-formatted file.
