@@ -33,6 +33,14 @@ spec:
           searchNamespace: ALL
     prometheus:
       prometheusSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: local 
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 128Gi
         podMonitorSelector:
           matchLabels:
             app.kubernetes.io/part-of: flux
