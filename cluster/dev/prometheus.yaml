@@ -5,6 +5,8 @@ metadata:
   name: prometheus
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: nfs-local
   healthChecks:
   - kind: Deployment
     name: kube-prometheus-stack-operator
