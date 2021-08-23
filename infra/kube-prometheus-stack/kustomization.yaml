@@ -6,7 +6,7 @@ resources:
   - repository.yaml
   - release.yaml
 configMapGenerator:
-  - name: grafana-dashboards
+  - name: fluxcd
     files:
-      - dashboards/control-plane.json
-      - dashboards/cluster.json
+      - grafana-dashboards/flux/control-plane.json
+      - grafana-dashboards/flux/cluster.json
