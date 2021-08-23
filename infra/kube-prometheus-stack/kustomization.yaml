@@ -10,3 +10,7 @@ configMapGenerator:
     files:
       - grafana-dashboards/flux/control-plane.json
       - grafana-dashboards/flux/cluster.json
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: "1"
