@@ -5,3 +5,8 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release.yaml
+configMapGenerator:
+  - name: grafana-dashboards
+    files:
+      - dashboards/control-plane.json
+      - dashboards/cluster.json
