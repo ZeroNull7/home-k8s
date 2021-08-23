@@ -18,6 +18,15 @@ spec:
   values:
     alertmanager:
       enabled: false
+      alertmanagerSpec:
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: local
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 16Gi
     grafana:
       sidecar:
         dashboards:
