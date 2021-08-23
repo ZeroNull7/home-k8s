@@ -12,7 +12,7 @@ spec:
   - kind: Deployment
     name: kube-prometheus-stack-grafana
     namespace: monitoring
-  interval: 10m0s
+  interval: 9m0s
   path: ./infra/kube-prometheus-stack
   prune: true
   sourceRef:
