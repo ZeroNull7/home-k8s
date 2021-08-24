@@ -8,7 +8,3 @@ resources:
   - rbac.yaml
   - release.yaml
   - flux-podmonitor.yaml
-configMapGenerator:
-  - name: prometheus-config
-    files:
-      - prometheus.yaml
