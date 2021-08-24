@@ -22,8 +22,8 @@ spec:
         targetPort: 10257
       serviceMonitor:
         https: true # use https
-          insecureSkipVerify: true # accept self-signed certificate
-          serverName: 127.0.0.1 # do not search for called ip, but 127.0.0.1 as CN in certificate
+        insecureSkipVerify: true # accept self-signed certificate
+        serverName: 127.0.0.1 # do not search for called ip, but 127.0.0.1 as CN in certificate
     kubeScheduler:
       service:
         port: 10259

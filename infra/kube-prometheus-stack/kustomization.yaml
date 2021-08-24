@@ -9,3 +9,4 @@ resources:
   - config.yaml
   - release.yaml
   - flux-podmonitor.yaml
+  
