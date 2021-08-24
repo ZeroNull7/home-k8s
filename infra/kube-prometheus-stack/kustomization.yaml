@@ -9,11 +9,6 @@ resources:
   - release.yaml
   - flux-podmonitor.yaml
 configMapGenerator:
-  - name: fluxcd-dashboards
+  - name: prometheus-config
     files:
-      - grafana-dashboards/flux/control-plane.json
-      - grafana-dashboards/flux/cluster.json
-generatorOptions:
-  disableNameSuffixHash: true
-  labels:
-    grafana_dashboard: "1"
+      - prometheus.yaml
