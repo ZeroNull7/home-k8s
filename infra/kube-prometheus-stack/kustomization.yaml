@@ -4,6 +4,8 @@ namespace: monitoring
 resources:
   - namespace.yaml
   - repository.yaml
+  - account.yaml
+  - rbac.yaml
   - release.yaml
   - flux-podmonitor.yaml
 configMapGenerator:

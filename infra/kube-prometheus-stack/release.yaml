@@ -44,3 +44,6 @@ spec:
         podMonitorSelector:
           matchLabels:
             app.kubernetes.io/part-of: flux
+        serviceAccount:
+          create: false
+          name: prometheus
