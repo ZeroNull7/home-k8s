@@ -7,6 +7,5 @@ resources:
   - account.yaml
   - rbac.yaml
   - config.yaml
-  - release.yaml
-  - flux-podmonitor.yaml
+
   
