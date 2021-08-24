@@ -16,6 +16,31 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
+    kubeControllerManager:
+      service:
+        port: 10257 # https port
+        targetPort: 10257
+      serviceMonitor:
+        https: true # use https
+          insecureSkipVerify: true # accept self-signed certificate
+          serverName: 127.0.0.1 # do not search for called ip, but 127.0.0.1 as CN in certificate
+    kubeScheduler:
+      service:
+        port: 10259
+        targetPort: 10259
+      serviceMonitor:
+        https: true
+        insecureSkipVerify: true
+    prometheusOperator:
+      hostNetwork: true
+    kubeEtcd:
+      serviceMonitor:
+        scheme: https
+        insecureSkipVerify: false
+        serverName: localhost
+        caFile: /etc/prometheus/secrets/etcd-client-cert/ca.crt
+        certFile: /etc/prometheus/secrets/etcd-client-cert/healthcheck-client.crt
+        keyFile: /etc/prometheus/secrets/etcd-client-cert/healthcheck-client.key
     alertmanager:
       enabled: false
       alertmanagerSpec:
@@ -33,6 +58,7 @@ spec:
           searchNamespace: ALL
     prometheus:
       prometheusSpec:
+        secrets: ['etcd-client-cert']
         additionalScrapeConfigs:
           - job_name: kubernetes-apiserver
             kubernetes_sd_configs:
