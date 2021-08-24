@@ -58,8 +58,7 @@ spec:
           searchNamespace: ALL
     prometheus:
       prometheusSpec:
-        secrets: 
-          - etcd-client-cert
+        secrets: ['etcd-client-cert']
         additionalScrapeConfigs:
           - job_name: kubernetes-apiserver
             kubernetes_sd_configs:
