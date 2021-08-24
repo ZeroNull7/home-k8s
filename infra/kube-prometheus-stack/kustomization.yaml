@@ -5,8 +5,9 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release.yaml
+  - flux-podmonitor.yaml
 configMapGenerator:
-  - name: fluxcd
+  - name: fluxcd-dashboards
     files:
       - grafana-dashboards/flux/control-plane.json
       - grafana-dashboards/flux/cluster.json
