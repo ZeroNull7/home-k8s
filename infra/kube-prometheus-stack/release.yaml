@@ -33,6 +33,7 @@ spec:
         insecureSkipVerify: true
     prometheusOperator:
       hostNetwork: true
+      internalPort: 10253
     kubeEtcd:
       serviceMonitor:
         scheme: https
