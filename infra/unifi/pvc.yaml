@@ -4,6 +4,7 @@ metadata:
   labels:
     app: unifi-unifi
   name: unifi-unifi
+  namespace: infra
 spec:
   storageClassName: k8s-1-nfs-storage
   accessModes:
@@ -19,6 +20,7 @@ metadata:
   labels:
     app: unifi-data
   name: unifi-data
+  namespace: infra
 spec:
   storageClassName: k8s-1-nfs-storage
   accessModes:
@@ -34,6 +36,7 @@ metadata:
   labels:
     app: unifi-backup
   name: unifi-backup
+  namespace: infra
 spec:
   storageClassName: k8s-1-nfs-storage
   accessModes:
