@@ -13,9 +13,9 @@ spec:
   path: ./apps/cotoami
   prune: true
   dependsOn:
-    - name: redis-noauth
-    - name: postgres
-    - name: neo4j
+    - name: 'infra/redis-noauth'
+    - name: 'infra/postgres'
+    - name: 'infra/neo4j'
   sourceRef:
     kind: GitRepository
     name: flux-system
