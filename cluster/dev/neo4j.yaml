@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: "./infra/rneo4j"
+  path: "./infra/neo4j"
   prune: true
   sourceRef:
     kind: GitRepository
