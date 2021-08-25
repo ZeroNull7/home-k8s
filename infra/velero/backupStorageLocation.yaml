@@ -1,0 +1,41 @@
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: default
+  namespace: velero
+spec:
+  # Name of the object store plugin to use to connect to this location.
+  #
+  # Required.
+  provider: velero.io/azure
+
+  objectStorage:
+    bucket: velero
+
+  config:
+    # Name of the resource group containing the storage account for this backup storage location.
+    #
+    # Required.
+    resourceGroup: home
+
+    # Name of the storage account for this backup storage location.
+    #
+    # Required.
+    storageAccount: store811d48e4fca8
+
+    # Name of the environment variable in $AZURE_CREDENTIALS_FILE that contains storage account key for this backup storage location.
+    #
+    # Required if using a storage account access key to authenticate rather than a service principal.
+    # storageAccountKeyEnvVar: MY_BACKUP_STORAGE_ACCOUNT_KEY_ENV_VAR
+
+    # ID of the subscription for this backup storage location.
+    #
+    # Optional.
+    subscriptionId: 4f581ec4-a0a0-4a9b-8e53-f001db85a611
+
+    # The block size, in bytes, to use when uploading objects to Azure blob storage.
+    # See https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs#about-block-blobs
+    # for more information on block blobs.
+    #
+    # Optional (defaults to 104857600, i.e. 100MB).
+    blockSizeInBytes: "104857600"
