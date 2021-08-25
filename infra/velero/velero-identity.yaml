@@ -1,0 +1,8 @@
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: velero
+spec:
+  type: 0
+  resourceID: /subscriptions/4f581ec4-a0a0-4a9b-8e53-f001db85a611/resourcegroups/home/providers/Microsoft.ManagedIdentity/userAssignedIdentities/velero
+  clientID: 3ed8876b-0fdb-49b0-88ea-9e970643bde3
