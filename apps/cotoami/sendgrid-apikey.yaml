@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: sendgrid-apikey
+    namespace: apps
+type: bootstrap.kubernetes.io/token
+data:
+    password: ENC[AES256_GCM,data:WiKRfTDzYT7WGkPvu9cXsnWPcL7JiQgLYntaXhqP4D/0u3OSOG34QWKkzPRhDgFGw/aBaYj2U5NmiuctplOahfQYzh4s,iv:KQgB/I45m6eq+LVesR576WzG5Xr3kZ/qcdumzspQ7Po=,tag:aZQjD5asC9iXcXapzKImVA==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-08-25T23:28:09Z"
+    mac: ENC[AES256_GCM,data:gRjfgAzcHJkgZYFK36UhGbNvhtttKyvyxz1WtIQCGZ5UfGIi4wjqTOdlSO8hXZ/6bqZf6hXlM5xW/7NOST3p24zsq6IQUqi5XyF7fELTP6plLs75pwGMANfWkmfLRwZPd2MZK6sQIOxOmEQYYPlejZckhxsyM+lheNC/AEF/8CA=,iv:IPj3dx8+ca8hAg70CEZIBg2Kq7TK/qHWA6NHhtJ78Sw=,tag:7mQhR/mj5V0Gq7I/WJq62g==,type:str]
+    pgp:
+        - created_at: "2021-08-25T23:28:08Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAx/NiVxbkaAhAQ/+NTYsWpCwf63HbkI/PHceeLl42+MByGU/8rIwFBsOxtl9
+            djnKYds9QmK8rsALscuamVo4prn4CFEHkVCigU1i9O064CSZ/F6VfjEW1TbLxqLO
+            rLt7SvtF2gWt27rPTb6KhZkHe+S3RlVBusVQ+eaoesUIi475b4Tq9/dSKjj8iKIl
+            PSrX4F4usAf4btS1ye91cDloOwoCxUVeAvlUFw91BCHFmtZuMzAZKIykruWzQ8JO
+            MAzQtwFv0wLF8d0TXYL6qZxw7SeSAtjjrTv8yW6b+oYb2e4Z8GF6yIRRwJHmXJbc
+            9tw9e381RxuHLOxYlnOC8w4kfvcnnvNJMU2TagsgYkMwBuLP5XE2DGiNJnlUnwGw
+            jmMa/HCe07aAofjxmFIPGaIev/1CJHp4hv8vJErwmEqhS9bFhdfV3v3sb5Z/G0/n
+            ObMvC5elj04UMfJcdkRu2EzTTbGYd5qkFcjBs29QrcMeBrKFntq73k5mT2op6S6x
+            hW+uIiFBOOLKWEXl/fWTnqRcHGqLTjYymLqsanFyjdGAWFYf2XJmwnfPmyMOy18K
+            kIjEZj58F7hRRRmARgwmGw2qXEXnzpQxhyGdZv/FZOJGtYDblptswj0cuLDJCayX
+            Gd0yWwq5r7+d5RsQDIfbwr3ZmVVbnnwhPbypdE877Lw9z5OEAsQyU3QaBw2TS0/U
+            ZgEJAhXQ/GRhgM0FEgztD1kicx48h5LBSW9+NjPF2CdJ17oqD7fw5ey9BZv8sGsY
+            E+VBnhyYig8JRrot+gV4uWOPdVNVIXc9tz4t0TjDO4WhOhxKe4bh4qM3buTpS89c
+            K2DRUw4fFA==
+            =SuKz
+            -----END PGP MESSAGE-----
+          fp: 9DC11809DD7D102342B09932C40921F65EFEF866
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
