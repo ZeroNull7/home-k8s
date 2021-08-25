@@ -7,4 +7,5 @@ metadata:
 spec:
   interval: 30m
   url: https://helm.elastic.co
-  timeout: 2m%
+  timeout: 2m
+  
