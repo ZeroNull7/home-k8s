@@ -6,7 +6,7 @@ metadata:
   name: unifi-unifi
   namespace: infra
 spec:
-  storageClassName: k8s-1-nfs-storage
+  storageClassName: synology
   accessModes:
     - ReadWriteOnce
   resources:
@@ -21,7 +21,7 @@ metadata:
   name: unifi-data
   namespace: infra
 spec:
-  storageClassName: k8s-1-nfs-storage
+  storageClassName: synology
   accessModes:
     - ReadWriteOnce
   resources:
@@ -36,7 +36,7 @@ metadata:
   name: unifi-backup
   namespace: infra
 spec:
-  storageClassName: k8s-1-nfs-storage
+  storageClassName: synology
   accessModes:
     - ReadWriteOnce
   resources:
