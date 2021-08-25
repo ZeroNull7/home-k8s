@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: elasticsearch
+  name: elasticsearch-default
   namespace: flux-system
 spec:
   dependsOn:
-    - name: elasticsearch-operator
+    - name: elasticsearch-default
   interval: 10m0s
-  path: ./infra/elasticsearch
+  path: ./infra/elasticsearch/default
   prune: true
   sourceRef:
     kind: GitRepository
