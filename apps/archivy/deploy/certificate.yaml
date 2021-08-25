@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: archivy.simplefxn.com
+  namespace: istio-system
+spec:
+  secretName: archivy.simplefxn.com
+  subject:
+    organizations:
+    - SimpleFxn
+  commonName: archivy.simplefxn.com
+  dnsNames:
+  - archivy.simplefxn.com
+  issuerRef:
+    name: simplefxn-issuer
+    kind: ClusterIssuer

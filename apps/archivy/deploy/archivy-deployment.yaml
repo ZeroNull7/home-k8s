@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: archivy
+  name: archivy
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: archivy
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: archivy
+    spec:
+      containers:
+        - env:
+            - name: ELASTICSEARCH_ENABLED
+              value: "1"
+            - name: ELASTICSEARCH_URL
+              value: http://archivy-elasticsearch:9200/
+            - name: FLASK_DEBUG
+              value: "0"
+          image: uzayg/archivy:latest
+          name: archivy
+          ports:
+            - containerPort: 5000
+          resources: {}
+          volumeMounts:
+            - name: archivy-claim0
+              mountPath: /archivy/data
+            - name: archivy-config
+              mountPath: /archivy/.local/share/archivy
+            - name: configmap-volume
+              mountPath: /archivy/.local/share/archivy/config.yml
+              subPath: config.yaml
+      restartPolicy: Always
+      volumes:
+        - name: archivy-claim0
+          persistentVolumeClaim:
+            claimName: archivy-claim0
+        - name: archivy-config
+          persistentVolumeClaim:
+            claimName: archivy-config
+        - name: configmap-volume
+          configMap:
+            name: archivy-configmap
