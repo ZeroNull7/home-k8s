@@ -6,7 +6,7 @@ metadata:
   namespace: apps
 spec:
   interval: 1m0s
-  path: ./cluster/k8s/apps/trilium/deploy
+  path: ./apps/trilium
   prune: true
   sourceRef:
     kind: GitRepository
