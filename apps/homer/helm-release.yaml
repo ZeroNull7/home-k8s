@@ -138,28 +138,40 @@ spec:
                 subtitle: "Shopping list"
                 tag: "app"
                 url: "https://grocy.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
               - name: "Haste"
                 subtitle: "Pastebin"
                 tag: "app"
                 url: "https://haste.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
               - name: "Kanboard"
                 logo: "https://grocy.info/img/grocy_logo.svg"
                 subtitle: "Kanban project management"
                 tag: "app"
                 url: "https://kanboard.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
               - name: "Paperless"
                 subtitle: "Index scanned documents"
                 tag: "app"
                 url: "https://paperless.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
               - name: "Trilium"
                 subtitle: "Personal Knowledge base"
                 tag: "app"
                 url: "https://trilium.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
               - name: "Archivy"
                 subtitle: "Personal Knowledge base"
                 tag: "app"
                 url: "https://archivy.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
               - name: "Cotoami"
                 subtitle: "Personal Knowledge base"
                 tag: "app"
                 url: "https://cotoami.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Kanboard"
+                subtitle: "Personal boards"
+                tag: "app"
+                url: "https://kanboard.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
