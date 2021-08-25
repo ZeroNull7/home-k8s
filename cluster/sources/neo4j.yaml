@@ -1,0 +1,24 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: neo4j-git
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  ref:
+    branch: master
+  url: https://github.com/neo4j-contrib/neo4j-helm
+#---
+#apiVersion: source.toolkit.fluxcd.io/v1beta1
+#kind: HelmChart
+#metadata:
+#  name: neo4j-chart
+#  namespace: flux-system
+#spec:
+#  chart: .
+#  version: 4.2.8-1
+#  sourceRef:
+#    kind: GitRepository
+#    name: neo4j-git
+#  interval: 5m0s
