@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: homer-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: homer-http-port
+      protocol: HTTP
+    hosts:
+      - homer.simplefxn.com
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: homer-https-port
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: homer.simplefxn.com
+    hosts:
+      - homer.simplefxn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: homer-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - "homer.simplefxn.com"
+  gateways:
+  - homer-gateway
+  http:
+  - route:
+    - destination:
+        host: homer.apps.svc.cluster.local
+        port:
+          number: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: homer
+  namespace: istio-system
+spec:
+  host: homer.apps.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE

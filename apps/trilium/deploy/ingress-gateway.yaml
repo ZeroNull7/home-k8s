@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: trilium-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: trilium-http-port
+      protocol: HTTP
+    hosts:
+      - trilium.simplefxn.com
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: trilium-https-port
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: trilium.simplefxn.com
+    hosts:
+      - trilium.simplefxn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: trilium-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - "trilium.simplefxn.com"
+  gateways:
+  - trilium-gateway
+  http:
+  - route:
+    - destination:
+        host: trilium.apps.svc.cluster.local
+        port:
+          number: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: trilium
+  namespace: istio-system
+spec:
+  host: trilium.apps.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE

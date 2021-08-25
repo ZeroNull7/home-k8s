@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: kanboard-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: kanboard-http-port
+      protocol: HTTP
+    hosts:
+      - kanboard.simplefxn.com
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: kanboard-https-port
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: kanboard.simplefxn.com
+    hosts:
+      - kanboard.simplefxn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kanboard-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - "kanboard.simplefxn.com"
+  gateways:
+  - kanboard-gateway
+  http:
+  - route:
+    - destination:
+        host: kanboard.apps.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: kanboard
+  namespace: istio-system
+spec:
+  host: kanboard.apps.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
