@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: elasticsearch-default
+    - name: elasticsearch-operator
   interval: 10m0s
   path: ./infra/elasticsearch/default
   prune: true
