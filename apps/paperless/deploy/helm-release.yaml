@@ -48,7 +48,6 @@ spec:
         mountPath: /usr/src/paperless/data
         accessMode: ReadWriteOnce
         size: 64Gi
-        storageClass: synology
         emptyDir:
           enabled: false
         retain: true
@@ -59,7 +58,6 @@ spec:
         mountPath: /usr/src/paperless/media
         accessMode: ReadWriteOnce
         size: 32Gi
-        storageClass: synology
         emptyDir:
           enabled: false
         retain: true
@@ -69,7 +67,6 @@ spec:
         enabled: true
         mountPath: /usr/src/paperless/consume
         accessMode: ReadWriteOnce
-        storageClass: synology
         emptyDir:
           enabled: false
         retain: true
@@ -79,7 +76,6 @@ spec:
         enabled: true
         mountPath: /usr/src/paperless/export
         accessMode: ReadWriteOnce
-        storageClass: synology
         emptyDir:
           enabled: false
         retain: true
