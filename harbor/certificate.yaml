@@ -8,9 +8,9 @@ spec:
   subject:
     organizations:
     - SimpleFxn
-  commonName: "*.harbor.simplefxn.com"
+  commonName: "*.simplefxn.com"
   dnsNames:
-  - "*.harbor.simplefxn.com"
+  - "*.simplefxn.com"
   issuerRef:
     name: simplefxn-issuer
     kind: ClusterIssuer
