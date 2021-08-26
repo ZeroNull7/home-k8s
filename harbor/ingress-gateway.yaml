@@ -36,7 +36,7 @@ spec:
   http:
   - route:
     - destination:
-        host: harbor.infra.apps.svc.cluster.local
+        host: harbor.harbor.apps.svc.cluster.local
         port:
           number: 80
 ---
@@ -57,7 +57,7 @@ spec:
       - harbor.simplefxn.com
     route:
     - destination:
-        host: harbor.infra.svc.cluster.local
+        host: harbor.harbor.svc.cluster.local
         port:
           number: 443
 ---
@@ -78,6 +78,6 @@ spec:
       - notary.simplefxn.com
     route:
     - destination:
-        host: harbor.infra.svc.cluster.local
+        host: harbor.harbor.svc.cluster.local
         port:
           number: 4443
