@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: harbor
+  namespace: harbor
+spec:
+  dependsOn:
+    - name: nfs-synology
+  interval: 10m0s
+  path: ./harbor
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
