@@ -15,9 +15,9 @@ spec:
   dependsOn:
     - name: redis-noauth
       namespace: infra
-    - name: /postgres
+    - name: postgres
       namespace: infra
-    - name: /neo4j
+    - name: neo4j
       namespace: infra
   sourceRef:
     kind: GitRepository
