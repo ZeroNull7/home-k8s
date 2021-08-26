@@ -7,6 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: nfs-synology
+      namespace: infra
   interval: 10m0s
   path: ./harbor
   prune: true
