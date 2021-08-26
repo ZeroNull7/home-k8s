@@ -8,6 +8,8 @@ spec:
   dependsOn:
     - name: nfs-synology
       namespace: infra
+    - name: istio-default
+      namespace: istio-system
   interval: 1m0s
   path: ./apps/haste
   prune: true
