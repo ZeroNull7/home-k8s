@@ -10,7 +10,7 @@ spec:
     secretRef:
       name: sops-gpg
   interval: 10m0s
-  path: ./infra/istio/operator
+  path: ./istio-system/operator
   prune: true
   sourceRef:
     kind: GitRepository

@@ -12,7 +12,7 @@ spec:
     secretRef:
       name: sops-gpg
   interval: 10m0s
-  path: ./infra/istio/default
+  path: ./istio-system/default
   prune: true
   sourceRef:
     kind: GitRepository
