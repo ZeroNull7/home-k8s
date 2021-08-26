@@ -5,6 +5,8 @@ metadata:
   name: unifi
   namespace: infra
 spec:
+  dependsOn:
+    - name: nfs-local
   interval: 10m0s
   path: ./infra/unifi
   prune: true

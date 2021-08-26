@@ -5,6 +5,8 @@ metadata:
   name: neo4j
   namespace: infra
 spec:
+  dependsOn: 
+    - name: nfs-synology
   interval: 10m0s
   path: "./infra/neo4j"
   prune: true

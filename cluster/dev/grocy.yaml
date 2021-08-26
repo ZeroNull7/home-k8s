@@ -5,6 +5,9 @@ metadata:
   name: grocy
   namespace: apps
 spec:
+  dependsOn:
+    - name: nfs-synology
+      namespace: infra
   interval: 1m0s
   path: ./apps/grocy
   prune: true

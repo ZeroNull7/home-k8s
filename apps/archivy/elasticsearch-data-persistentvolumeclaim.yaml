@@ -6,6 +6,7 @@ metadata:
   name: elasticsearch-data
   namespace: apps
 spec:
+  storageClassName: synology
   accessModes:
     - ReadWriteOnce
   resources:

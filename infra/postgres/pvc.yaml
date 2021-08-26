@@ -6,6 +6,7 @@ metadata:
   name: postgres-data
   namespace: infra
 spec:
+  storageClassName: synology
   accessModes:
     - ReadWriteOnce
   resources:

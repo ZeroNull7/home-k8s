@@ -6,6 +6,7 @@ metadata:
   name: archivy-config
   namespace: apps
 spec:
+  storageClassName: synology
   accessModes:
     - ReadWriteOnce
   resources:

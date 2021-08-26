@@ -5,6 +5,9 @@ metadata:
   name: kanboard
   namespace: apps
 spec:
+  dependsOn: 
+    - name: nfs-synology
+      namespace: infra
   interval: 1m0s
   path: ./apps/kanboard
   prune: true

@@ -5,6 +5,8 @@ metadata:
   name: postgres
   namespace: infra
 spec:
+  dependsOn:
+    - name: nfs-local
   interval: 1m0s
   path: ./infra/postgres
   prune: true

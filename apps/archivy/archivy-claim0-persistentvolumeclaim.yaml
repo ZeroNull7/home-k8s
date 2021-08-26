@@ -6,6 +6,7 @@ metadata:
   namespace: apps
   name: archivy-claim0
 spec:
+  storageClassName: synology
   accessModes:
     - ReadWriteOnce
   resources:
