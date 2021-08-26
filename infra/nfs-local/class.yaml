@@ -6,5 +6,5 @@ metadata:
   name: local
 provisioner: simplefxn.com/nfs
 parameters:
-  archiveOnDelete: false
+  archiveOnDelete: "false"
   onDelete: delete

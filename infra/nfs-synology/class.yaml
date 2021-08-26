@@ -6,5 +6,5 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "false"
 provisioner: synology/nfs
 parameters:
-  archiveOnDelete: false
+  archiveOnDelete: "false"
   onDelete: delete
