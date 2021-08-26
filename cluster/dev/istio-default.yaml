@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: istio-default
-  namespace: flux-system
+  namespace: istio-system
 spec:
   dependsOn:
     - name: istio-operator
@@ -17,3 +17,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+    namespace: flux-system

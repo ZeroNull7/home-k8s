@@ -19,6 +19,10 @@ spec:
       namespace: infra
     - name: neo4j
       namespace: infra
+    - name: istio-default
+      namespace: istio-system
+    - name: cert-manager
+      namespace: infra
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -5,6 +5,11 @@ metadata:
   name: homer
   namespace: apps
 spec:
+  dependsOn:
+    - name: istio-default
+      namespace: istio-system
+    - name: cert-manager
+      namespace: infra
   interval: 1m0s
   path: ./apps/homer
   prune: true
