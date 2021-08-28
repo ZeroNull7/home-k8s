@@ -6,6 +6,10 @@ configMapGenerator:
     files:
       - flux/control-plane.json
       - flux/cluster.json
+  - name: vue-dashboards
+    files:
+      - vue/dashboard-single-panel.json
+      - vue/dashboard.json
 generatorOptions:
   disableNameSuffixHash: true
   labels:
