@@ -6,6 +6,6 @@ resources:
   - account.yaml
   - rbac.yaml
   - config.yaml
+  - ./grafana-dashboards
   - release.yaml
   - flux-podmonitor.yaml
-  
