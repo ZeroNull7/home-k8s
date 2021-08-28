@@ -126,7 +126,7 @@ spec:
               - name: "Grafana"
                 subtitle: "Part of the ELK stack"
                 tag: "infra"
-                url: "http://10.99.39.115"
+                url: "http://10.103.22.35"
                 target: "_blank" # optional html a tag target attribute
               - name: "Kibana"
                 logo: "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5a54f1ac0a58f1a1/5ea8c80f4d8c1963bdceefef/brand-elastic-glyph-220x130.svg"
