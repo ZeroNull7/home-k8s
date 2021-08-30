@@ -27,6 +27,8 @@ spec:
     ingressGateways:
     - name: istio-ingressgateway
       enabled: true
+    - name: simplefxn-ingressgateway
+      enable: true
     egressGateways:
     - name: istio-egressgateway
       enabled: false
