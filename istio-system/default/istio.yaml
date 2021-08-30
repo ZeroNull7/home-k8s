@@ -28,7 +28,7 @@ spec:
     - name: istio-ingressgateway
       enabled: true
     - name: simplefxn-ingressgateway
-      namespace: knative
+      namespace: dev
       enabled: true
     egressGateways:
     - name: istio-egressgateway
