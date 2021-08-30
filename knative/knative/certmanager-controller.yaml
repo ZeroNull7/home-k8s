@@ -140,7 +140,9 @@ data:
     issuerRef: |
       kind: ClusterIssuer
       name: letsencrypt-issuer
-
+  issueRef: |
+    kind: ClusterIssuer
+    name: simplefxn-issuer
 ---
 # Copyright 2020 The Knative Authors
 #
