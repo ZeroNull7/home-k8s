@@ -117,6 +117,7 @@ data:
     # Knative doesn't know about that otherwise.
     defaultExternalScheme: "http"
   ingress.class: "istio.ingress.networking.knative.dev"
+  certificate.class: "cert-manager.certificate.networking.knative.dev"
   autoTLS: "Enabled"
   httpProtocol: Redirected
 kind: ConfigMap
