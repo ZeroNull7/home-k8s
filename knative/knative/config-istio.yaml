@@ -47,7 +47,7 @@ data:
     # endpoint readiness. Otherwise, probe as usual.
     # NOTE: This feature is currently experimental and should not be used in production.
     enable-virtualservice-status: "false"
-  local-gateway.knative-serving.knative-local-gateway: "simplefxn-ingressgateway.dev.svc.cluster.local"
+  local-gateway.mesh: "mesh"
 kind: ConfigMap
 metadata:
   labels:
