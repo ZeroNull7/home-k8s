@@ -4,7 +4,7 @@ resources:
   - dev-resources.yaml
   - config-network.yaml
   - config-domain.yaml
-  - config-istion.yaml
+  - config-istio.yaml
   - serving.yaml
   - serving-nscert.yaml
   - certmanager-controller.yaml
