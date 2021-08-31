@@ -134,6 +134,18 @@ spec:
                 tag: "infra"
                 url: "https://kibana.simplefxn.com"
                 target: "_blank" # optional html a tag target attribute
+              - name: "Synology garage"
+                logo: "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5a54f1ac0a58f1a1/5ea8c80f4d8c1963bdceefef/brand-elastic-glyph-220x130.svg"
+                subtitle: "K8s stuff and other related storage"
+                tag: "infra"
+                url: "https://172.23.0.2:5000"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Synology archive"
+                logo: "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5a54f1ac0a58f1a1/5ea8c80f4d8c1963bdceefef/brand-elastic-glyph-220x130.svg"
+                subtitle: "Personal stuff storage"
+                tag: "infra"
+                url: "https://172.23.0.3:5000"
+                target: "_blank" # optional html a tag target attribute
           - name: "Applications"
             icon: "fas fa-cloud"
             items:
