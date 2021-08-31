@@ -6,6 +6,6 @@ resources:
   - config-domain.yaml
   - config-istio.yaml
   - serving.yaml
-  - serving-nscert.yaml
+ # - serving-nscert.yaml
   - certmanager-controller.yaml
   - eventing.yaml
