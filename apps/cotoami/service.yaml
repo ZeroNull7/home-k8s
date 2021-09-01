@@ -8,12 +8,12 @@ spec:
     app: cotoami
   type: ClusterIP
   ports:
-  - name: tcp_80
+  - name: 'tcp-http'
     protocol: TCP
     port: 80
     targetPort: 4000
     #nodePort: 30100
-  - name: tcp_8080
+  - name: 'tcp-monitoring'
     protocol: TCP
     port: 8080
     targetPort: 8080
