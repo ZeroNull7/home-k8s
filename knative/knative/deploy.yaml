@@ -15,3 +15,6 @@ spec:
     - URL: https://github.com/knative/serving/releases/download/v${VERSION}/serving-hpa.yaml
     - URL: https://github.com/knative/serving/releases/download/v${VERSION}/serving-post-install-jobs.yaml
     - URL: https://github.com/knative/net-istio/releases/download/v${VERSION}/net-istio.yaml
+  config:
+    domain:
+      "simplefxn.com": ""
