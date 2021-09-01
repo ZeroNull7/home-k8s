@@ -9,7 +9,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 spec:
-  version: 25
+  version: 0.25.0
   manifests:
     - URL: https://github.com/knative/serving/releases/download/v${VERSION}/serving-core.yaml
     - URL: https://github.com/knative/serving/releases/download/v${VERSION}/serving-hpa.yaml
