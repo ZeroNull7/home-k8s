@@ -18,3 +18,19 @@ spec:
   config:
     domain:
       "simplefxn.com": ""
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-eventing
+---
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeEventing
+metadata:
+  name: knative-eventing
+  namespace: knative-eventing
+spec:
+  version: 0.25.0
+  manifests:
+    - URL: https://github.com/knative/eventing/releases/download/v${VERSION}/eventing.yaml
+    - URL: https://github.com/knative/eventing/releases/download/v${VERSION}/eventing-post-install-jobs.yaml
