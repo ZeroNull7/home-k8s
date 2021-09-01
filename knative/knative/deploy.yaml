@@ -27,6 +27,10 @@ spec:
   config:
     istio:
       gateway.knative-serving.knative-ingress-gateway: "knative-gateway.knative-serving.svc.cluster.local"
+  config:
+    network:
+      autoTLS: Enabled
+      httpProtocol: Redirected
 ---
 apiVersion: v1
 kind: Namespace
