@@ -8,11 +8,13 @@ spec:
     app: cotoami
   type: ClusterIP
   ports:
-  - protocol: TCP
+  - name: http_port
+    protocol: TCP
     port: 80
     targetPort: 4000
     #nodePort: 30100
-  - protocol: TCP
+  - name: http_port_2
+    protocol: TCP
     port: 8080
     targetPort: 8080
 ---
@@ -72,6 +74,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 4000
+        - containerPort: 8080
         env:
         - name: CHANGE_THIS_TO_FORCE_UPDATE
           value: "1"
