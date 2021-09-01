@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cotoami
+  namespace: apps
+spec:
+  selector:
+    app: cotoami
+  type: ClusterIP
+  ports:
+  - name: tcp_80
+    protocol: TCP
+    port: 80
+    targetPort: 4000
+    #nodePort: 30100
+  - name: tcp_8080
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
