@@ -18,6 +18,15 @@ spec:
   config:
     domain:
       "simplefxn.com": ""
+  ingress:
+    istio:
+      enabled: true
+      knative-ingress-gateway:
+        selector:
+          custom: knative-gateway
+  config:
+    istio:
+      gateway.knative-serving.knative-ingress-gateway: "knative-gateway.knative-serving.svc.cluster.local"
 ---
 apiVersion: v1
 kind: Namespace
