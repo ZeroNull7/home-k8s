@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: home-assistant
+  namespace: apps
+spec:
+  dependsOn:
+    - name: nfs-synology
+      namespace: infra
+    - name: istio-default
+      namespace: istio-system
+    - name: cert-manager
+      namespace: infra
+  interval: 1m0s
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  path: ./apps/home-assistant
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  validation: client
