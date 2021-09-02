@@ -12,3 +12,33 @@ spec:
   resources:
     requests:
       storage: 8Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: home-assistant
+  namespace: apps
+  name: home-assistant-backup
+spec:
+  storageClassName: synology
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: home-assistant
+  namespace: apps
+  name: home-assistant-media
+spec:
+  storageClassName: synology
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 16Gi

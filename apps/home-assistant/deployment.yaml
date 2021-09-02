@@ -77,6 +77,10 @@ spec:
         volumeMounts:
         - mountPath: /config
           name: config
+        - mountPath: /backup
+          name: backup
+        - mountPath: /media
+          name: media
         securityContext:
             runAsUser: 0
       dnsPolicy: ClusterFirst
@@ -91,3 +95,9 @@ spec:
       - name: config
         persistentVolumeClaim:
           claimName: home-assistant-config
+      - name: media
+        persistentVolumeClaim:
+          claimName: home-assistant-media
+      - name: backup
+        persistentVolumeClaim:
+          claimName: home-assistant-backup
