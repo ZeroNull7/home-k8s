@@ -79,7 +79,6 @@ spec:
           name: config
         securityContext:
             runAsUser: 0
-            fsGroup: 0
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       restartPolicy: Always
