@@ -6,4 +6,5 @@ resources:
 - pvc.yaml
 - secret.yaml
 - deployment.yaml
+- service.yaml
 - ingress-gateway.yaml
