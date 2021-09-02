@@ -150,13 +150,13 @@ spec:
             icon: "fas fa-cloud"
             items:
               - name: "Home Assistant"
-                logo: "https://www.home-assistant.io/images/home-assistant-logo.svg"
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Home_Assistant_Logo.svg/519px-Home_Assistant_Logo.svg.png"
                 subtitle: "Open source home automation"
                 tag: "app"
                 url: "https://home-assistant.simplefxn.com"
                 target: "_blank" # optional html a tag target attribute
               - name: "Grocy"
-                logo: "https://grocy.info/img/grocy_logo.svg"
+                logo: "https://github.com/grocy/grocy/raw/master/public/img/appicons/mstile-150x150.png"
                 subtitle: "Shopping list"
                 tag: "app"
                 url: "https://grocy.simplefxn.com"
@@ -164,10 +164,12 @@ spec:
               - name: "Haste"
                 subtitle: "Pastebin"
                 tag: "app"
+                logo: "https://raw.githubusercontent.com/nicholaswilde/helm-charts/main/images/haste.png"
                 url: "https://haste.simplefxn.com"
                 target: "_blank" # optional html a tag target attribute
               - name: "Kanboard"
                 subtitle: "Kanban project management"
+                logo: "https://raw.githubusercontent.com/kanboard/website/master/assets/img/icon.svg"
                 tag: "app"
                 url: "https://kanboard.simplefxn.com"
                 target: "_blank" # optional html a tag target attribute
