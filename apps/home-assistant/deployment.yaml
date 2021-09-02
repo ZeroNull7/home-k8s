@@ -61,7 +61,7 @@ spec:
         imagePullPolicy: IfNotPresent
         workingDir: /config
         args:
-          - --port=80
+          - --port=8080
           - --extensions-dir=/config/.vscode
           - --user-data-dir=/config/.vscode
         ports:
