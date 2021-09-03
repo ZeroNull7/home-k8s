@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: vuegraf-configs
+    namespace: apps
+data:
+    # Replace influx db configuration; emporia account information
+    # and channel names
+    vuegraf.json: |
+        {
+          "influxDb": {
+            "version": 2,
+            "url": "http://influxdb.infra.svc.cluster.local:8086",
+            "org": "simplefxn",
+            "bucket": "vuegraf",
+            "token": "Ufv00vEhOV3yfnh2ukB37D5LKxgvaFQ2d73cn_wPJg6AK89X2SRHNEQWowhjr-Y5ppa4K6uMoC57Qxl-jCKmzg==",
+            "reset": false
+          },
+          "accounts": [
+            {
+              "name": "Ketelburg",
+              "email": "marcelo@voidspace.us",
+              "password": "dUBWXF7gmsjRswp71Ps4",
+              "devices": [
+                {
+                  "name": "Left",
+                  "channels": [
+                    "Family",
+                    "Kitchen buttler",
+                    "Dinning",
+                    "Dryer",
+                    "Dryer",
+                    "Garage",
+                    "Refrigerator",
+                    "Washer"
+                  ]
+                },
+                {
+                  "name": "Right",
+                  "channels": [
+                    "Mediaroom",
+                    "Study",
+                    "Furnace",
+                    "Furnace",
+                    "AC",
+                    "AC",
+                    "AC",
+                    "AC"
+                  ]
+                }
+              ]
+            }
+          ]
+        }

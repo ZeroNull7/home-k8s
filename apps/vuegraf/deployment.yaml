@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: vuegraf
+    namespace: apps
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: vue
+    namespace: apps
+spec:
+    replicas: 1
+    revisionHistoryLimit: 3
+    selector:
+        matchLabels:
+            app: vue
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: vue
+        spec:
+            containers:
+                - image: docker.io/jertel/vuegraf:latest
+                  imagePullPolicy: IfNotPresent
+                  name: vue
+                  volumeMounts:
+                    - mountPath: /opt/vuegraf/conf/vuegraf.json
+                      subPath: vuegraf.json
+                      name: config
+            securityContext:
+                runAsNonRoot: true
+            volumes:
+                - name: config
+                  configMap:
+                    name: vuegraf-configs
+---

@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: vuegraf
+  namespace: apps
+spec:
+  dependsOn:
+    - name: influxdb
+      namespace: infra
+  interval: 10m0s
+  path: ./apps/vuefrag
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
