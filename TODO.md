@@ -18,3 +18,12 @@ This should not interfere with the HelmRelease or require scaling helm-operator
 You don't need to worry about adding labels to the HelmRelease or backing-up the helm secret object
 
 ----
+
+kubectl edit cm/kube-proxy -n kube-system
+
+...
+kind: KubeProxyConfiguration
+metricsBindAddress: 0.0.0.0:10249
+...
+
+$ kubectl delete pod -l k8s-app=kube-proxy -n kube-system
