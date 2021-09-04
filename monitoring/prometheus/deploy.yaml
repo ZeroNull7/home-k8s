@@ -15,8 +15,8 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: prometheus
-      version: 14.6.0
+      chart: kube-prometheus-stack
+      version: 16.2.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
