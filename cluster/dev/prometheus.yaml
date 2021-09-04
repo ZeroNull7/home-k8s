@@ -8,15 +8,8 @@ spec:
   dependsOn:
     - name: nfs-local
       namespace: infra
-  healthChecks:
-  - kind: Deployment
-    name: kube-prometheus-stack-operator
-    namespace: monitoring
-  - kind: Deployment
-    name: kube-prometheus-stack-grafana
-    namespace: monitoring
   interval: 10m0s
-  path: ./monitoring/kube-prometheus-stack
+  path: ./monitoring/prometheus
   prune: true
   sourceRef:
     kind: GitRepository
