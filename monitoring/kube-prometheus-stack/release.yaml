@@ -119,9 +119,4 @@ spec:
         podMonitorSelector:
           matchLabels:
             app.kubernetes.io/part-of: flux
-        configMaps:
-          - prometheus-config
-      serviceAccount:
-        create: false
-        name: prometheus
         
