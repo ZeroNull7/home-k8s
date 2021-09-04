@@ -22,6 +22,16 @@ spec:
         name: prometheus-community
         namespace: monitoring
   values:
+    kubeScheduler:
+      service:
+        port: 10259
+        targetPort: 10259
+      serviceMonitor:
+        https: true
+        insecureSkipVerify: true
+        serverName: 127.0.0.1
+    prometheusOperator:
+      hostNetwork: true
     kubeEtcd:
       serviceMonitor:
         scheme: https
