@@ -37,8 +37,6 @@ spec:
       serviceMonitor:
         https: true
         insecureSkipVerify: true
-    prometheusOperator:
-      hostNetwork: true
     kubeEtcd:
       serviceMonitor:
         scheme: https
