@@ -30,6 +30,13 @@ spec:
         https: true
         insecureSkipVerify: true
         serverName: 127.0.0.1
+    kubeControllerManager:
+      service:
+        port: 10257
+        targetPort: 10257
+      serviceMonitor:
+        https: true
+        insecureSkipVerify: true
     prometheusOperator:
       hostNetwork: true
     kubeEtcd:
@@ -106,11 +113,5 @@ spec:
               resources:
                 requests:
                   storage: 64Gi
-    kubeControllerManager:
-      service:
-        port: 10257
-        targetPort: 10257
-      serviceMonitor:
-        https: true
-        insecureSkipVerify: true
+    
                 
