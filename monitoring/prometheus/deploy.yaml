@@ -35,6 +35,10 @@ spec:
         dashboards:
           searchNamespace: ALL
     prometheus:
+      service:
+        type: LoadBalancer
+        annotations:
+          metallb.universe.tf/allow-shared-ip: prometheus
       prometheusSpec:
         secrets: ['etcd-client-cert']
         additionalScrapeConfigs:
@@ -91,4 +95,12 @@ spec:
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
-                  storage: 32Gi
+                  storage: 64Gi
+    kubeControllerManager:
+      service:
+        port: 10257
+        targetPort: 10257
+      serviceMonitor:
+        https: true
+        insecureSkipVerify: true
+                
