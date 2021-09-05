@@ -27,3 +27,7 @@ metricsBindAddress: 0.0.0.0:10249
 ...
 
 $ kubectl delete pod -l k8s-app=kube-proxy -n kube-system
+
+----
+sudo vi /etc/kubernetes/manifests/kube-scheduler.yaml
+    - --bind-address=0.0.0.0
