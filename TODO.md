@@ -44,3 +44,9 @@ $ kubectl delete pod -l k8s-app=kube-proxy -n kube-system
 ----
 sudo vi /etc/kubernetes/manifests/kube-scheduler.yaml
     - --bind-address=0.0.0.0
+
+-- SOPS SECRETS ---
+gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=istio-operator --from-file=sops.asc=/dev/stdin
+gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=istio --from-file=sops.asc=/dev/stdin
+gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=apps --from-file=sops.asc=/dev/stdin
+
