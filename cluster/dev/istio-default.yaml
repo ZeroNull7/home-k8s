@@ -7,6 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: istio-operator
+      namespace: istio-operator
   decryption:
     provider: sops
     secretRef:
