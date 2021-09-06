@@ -6,7 +6,7 @@ metadata:
   namespace: apps
 spec:
   dependsOn:
-    - name: istio-default
+    - name: istio
       namespace: istio-system
     - name: cert-manager
       namespace: infra

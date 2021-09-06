@@ -19,7 +19,7 @@ spec:
       namespace: infra
     - name: neo4j
       namespace: infra
-    - name: istio-default
+    - name: istio
       namespace: istio-system
     - name: cert-manager
       namespace: infra
