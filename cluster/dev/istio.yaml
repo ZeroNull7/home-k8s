@@ -7,7 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: istio-operator
-      namespace:
+      namespace: istio-operator
     - name: metallb
       namespace: metallb-system
   decryption:
