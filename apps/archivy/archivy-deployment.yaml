@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: archivy
+      annotations:
+        backup.velero.io/backup-volumes: archivy-claim0,archivy-config
     spec:
       containers:
         - env:

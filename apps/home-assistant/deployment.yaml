@@ -19,6 +19,8 @@ spec:
       labels:
         app.instance: home-assistant
         app.name: home-assistant
+      annotations:
+        backup.velero.io/backup-volumes: config,media,backup
     spec:
       containers:
       - env:

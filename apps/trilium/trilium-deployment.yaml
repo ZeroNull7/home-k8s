@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: trilium
+      annotations:
+        backup.velero.io/backup-volumes: trilium
     spec:
       containers:
         - env:

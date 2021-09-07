@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: archivy-elasticsearch
+      annotations:
+        backup.velero.io/backup-volumes: elasticsearch-data
     spec:
       containers:
         - env:
