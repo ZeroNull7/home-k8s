@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: unifi-unifi
+    app: unifi-controller
   name: unifi-unifi
   namespace: infra
 spec:
@@ -17,7 +17,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: unifi-data
+    app: unifi-controller
   name: unifi-data
   namespace: infra
 spec:
@@ -32,7 +32,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: unifi-backup
+    app: unifi-controller
   name: unifi-backup
   namespace: infra
 spec:
