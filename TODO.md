@@ -24,6 +24,20 @@ kubectl apply -f - -n kube-system
 https://stackoverflow.com/questions/65901186/kube-prometheus-stack-issue-scraping-metrics/66276144#66276144
 
 prometheus needs etc secrets
+kubectl --kubeconfig /etc/kubernetes/admin.conf -n monitoring create secret generic etcd-client-cert --from-file=/etc/kubernetes/pki/etcd/ca.crt --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.crt --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.key
+
+controller manager 
+$ sudo vi /etc/kubernetes/manifests/kube-controller-manager.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  ...
+spec:
+  containers:
+  - command:
+    - kube-controller-manager
+    ...
+    - --bind-address=<your control-plane IP or 0.0.0.0>
 
 ----x
 restore from velero
