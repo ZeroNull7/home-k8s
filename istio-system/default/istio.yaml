@@ -5,7 +5,7 @@ metadata:
   name: default-istiocontrolplane
 spec:
   hub: gcr.io/istio-release
-  revision: 1-10-0
+  revision: 1-9-5
 
   # You may override parts of meshconfig by uncommenting the following lines.
   meshConfig:
