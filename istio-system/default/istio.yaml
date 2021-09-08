@@ -27,11 +27,6 @@ spec:
     ingressGateways:
     - name: istio-ingressgateway
       enabled: true
-    - name: knative-ingressgateway
-      namespace: knative-serving
-      enabled: true
-      label:
-          istio: knative-gateway
     egressGateways:
     - name: istio-egressgateway
       enabled: false
@@ -55,7 +50,7 @@ spec:
         level: "default:info"
       logAsJson: false
       pilotCertProvider: istiod
-      jwtPolicy: third-party-jwt
+      jwtPolicy: first-party-jwt
       proxy:
         image: proxyv2
         clusterDomain: "cluster.local"
@@ -80,6 +75,7 @@ spec:
         excludeInboundPorts: ""
         autoInject: enabled
         tracer: "zipkin"
+        autoInject: disabled
       proxy_init:
         image: proxyv2
         resources:
@@ -121,9 +117,13 @@ spec:
         servicePort: 0
       meshNetworks: {}
       mountMtlsCerts: false
+      useMCP: false
     base:
       enableCRDTemplates: false
       validationURL: ""
+    addonComponents:
+      pilot:
+        enabled: true
     pilot:
       autoscaleEnabled: true
       autoscaleMin: 1
