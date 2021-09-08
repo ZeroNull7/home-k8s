@@ -17,11 +17,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-namespace-wildcard-certs
   labels:
-    serving.knative.dev/release: "v0.25.0"
+    serving.knative.dev/release: "v0.25.1"
     serving.knative.dev/controller: "true"
     networking.knative.dev/wildcard-certificate-provider: nscert
     app.kubernetes.io/name: networking-ns-cert
-    app.kubernetes.io/version: "0.25.0"
+    app.kubernetes.io/version: "0.25.1"
     app.kubernetes.io/part-of: knative-serving
 rules:
   - apiGroups: [""]
@@ -50,10 +50,10 @@ metadata:
   namespace: knative-serving
   labels:
     app.kubernetes.io/name: net-nscert-controller
-    app.kubernetes.io/version: "0.25.0"
+    app.kubernetes.io/version: "0.25.1"
     app.kubernetes.io/part-of: knative-serving
     networking.knative.dev/wildcard-certificate-provider: nscert
-    serving.knative.dev/release: "v0.25.0"
+    serving.knative.dev/release: "v0.25.1"
 spec:
   selector:
     matchLabels:
@@ -65,9 +65,9 @@ spec:
       labels:
         app: net-nscert-controller
         app.kubernetes.io/name: net-nscert-controller
-        app.kubernetes.io/version: "0.25.0"
+        app.kubernetes.io/version: "0.25.1"
         app.kubernetes.io/part-of: knative-serving
-        serving.knative.dev/release: "v0.25.0"
+        serving.knative.dev/release: "v0.25.1"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -122,10 +122,10 @@ kind: Service
 metadata:
   labels:
     app: net-nscert-controller
-    serving.knative.dev/release: "v0.25.0"
+    serving.knative.dev/release: "v0.25.1"
     networking.knative.dev/wildcard-certificate-provider: nscert
     app.kubernetes.io/name: net-nscert-controller
-    app.kubernetes.io/version: "0.25.0"
+    app.kubernetes.io/version: "0.25.1"
     app.kubernetes.io/part-of: knative-serving
   name: net-nscert-controller
   namespace: knative-serving

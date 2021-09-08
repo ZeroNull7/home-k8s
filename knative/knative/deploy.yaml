@@ -9,7 +9,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 spec:
-  version: 0.25.0
+  version: 0.25.1
   manifests:
     - URL: https://github.com/knative/serving/releases/download/v${VERSION}/serving-core.yaml
     - URL: https://github.com/knative/serving/releases/download/v${VERSION}/serving-hpa.yaml
@@ -41,7 +41,7 @@ metadata:
   name: knative-eventing
   namespace: knative-eventing
 spec:
-  version: 0.25.0
+  version: 0.25.1
   manifests:
     - URL: https://github.com/knative/eventing/releases/download/v${VERSION}/eventing.yaml
     - URL: https://github.com/knative/eventing/releases/download/v${VERSION}/eventing-post-install-jobs.yaml
