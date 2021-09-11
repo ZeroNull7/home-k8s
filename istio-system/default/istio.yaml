@@ -119,9 +119,6 @@ spec:
     base:
       enableCRDTemplates: false
       validationURL: ""
-    addonComponents:
-      pilot:
-        enabled: true
     pilot:
       autoscaleEnabled: true
       autoscaleMin: 1
