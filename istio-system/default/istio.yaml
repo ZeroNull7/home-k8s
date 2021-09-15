@@ -27,6 +27,9 @@ spec:
     ingressGateways:
     - name: istio-ingressgateway
       enabled: true
+    - name: knative-istio-gateway
+      enabled: true
+      namespace: knative-serving
     egressGateways:
     - name: istio-egressgateway
       enabled: false
