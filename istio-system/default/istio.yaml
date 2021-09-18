@@ -31,7 +31,7 @@ spec:
       enabled: true
       namespace: knative-serving
       label:
-          istio: custom-gateway
+          istio: knative-gateway
     egressGateways:
     - name: istio-egressgateway
       enabled: false
