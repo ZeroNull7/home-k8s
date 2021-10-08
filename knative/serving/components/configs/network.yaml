@@ -23,9 +23,8 @@ metadata:
   annotations:
     knative.dev/example-checksum: "d38faef1"
 data:
-  network:
-    autoTLS: Enabled
-    httpProtocol: Redirected
+  autoTLS: Enabled
+  httpProtocol: Redirected
   _example: |
     ################################
     #                              #
