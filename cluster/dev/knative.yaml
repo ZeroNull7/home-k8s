@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: knative-operator
   interval: 10m0s
-  path: ./knative/knative
+  path: ./knative/serving
   prune: true
   sourceRef:
     kind: GitRepository

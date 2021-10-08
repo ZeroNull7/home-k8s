@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- autoscaler.yaml
+- cert-manager.yaml
+- defaults.yaml
+- deployment.yaml
+- domain.yaml
+- features.yaml
+- gc.yaml
+- istio.yaml
+- leader-election.yaml
+- logging.yaml
+- network.yaml
+- observability.yaml
+- sidecar-injector.yaml
+- tracing.yaml
