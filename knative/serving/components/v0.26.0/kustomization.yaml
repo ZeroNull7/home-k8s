@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
 - serving-crds.yaml
 - serving-core.yaml 
+- net-istio.yaml
 - serving-nscert.yaml 
 
