@@ -134,7 +134,7 @@ spec:
     matchLabels:
       app: webhook
   portLevelMtls:
-    8443:
+    "8443":
       mode: PERMISSIVE
 ---
 apiVersion: "security.istio.io/v1beta1"
@@ -150,7 +150,7 @@ spec:
     matchLabels:
       app: domainmapping-webhook
   portLevelMtls:
-    8443:
+    "8443":
       mode: PERMISSIVE
 ---
 apiVersion: "security.istio.io/v1beta1"
@@ -166,7 +166,7 @@ spec:
     matchLabels:
       app: net-istio-webhook
   portLevelMtls:
-    8443:
+    "8443":
       mode: PERMISSIVE
 
 ---
