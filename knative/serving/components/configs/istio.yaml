@@ -22,7 +22,6 @@ metadata:
     serving.knative.dev/release: "v0.25.1"
     networking.knative.dev/ingress-provider: istio
 data:
-  gateway.knative-serving.knative-ingress-gateway: "knative-istio-gateway.knative-serving.svc.cluster.local"
   _example: |
     ################################
     #                              #
