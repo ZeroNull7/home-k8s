@@ -38,9 +38,9 @@ spec:
   http:
   - route:
     - destination:
-        host: node-red-node-red-server.apps.svc.cluster.local
+        host: node-red.apps.svc.cluster.local
         port:
-          number: 7777
+          number: 1880
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -48,7 +48,7 @@ metadata:
   name: node-red
   namespace: istio-system
 spec:
-  host: node-red-node-red-server.apps.svc.cluster.local
+  host: node-red.apps.svc.cluster.local
   trafficPolicy:
     tls:
       mode: DISABLE
