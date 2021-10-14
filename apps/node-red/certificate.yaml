@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: node-red.simplefxn.com
+  namespace: istio-system
+spec:
+  secretName: node-red.simplefxn.com
+  subject:
+    organizations:
+    - SimpleFxn
+  commonName: node-red.simplefxn.com
+  dnsNames:
+  - node-red.simplefxn.com
+  issuerRef:
+    name: simplefxn-issuer
+    kind: ClusterIssuer
