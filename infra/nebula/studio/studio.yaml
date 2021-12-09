@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: nebula-studio
@@ -16,10 +16,6 @@ spec:
     git: git@github.com:vesoft-inc/nebula-studio.git
     ref: master
     path: deployment/helm
-    spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: nebula-studio
-      version: v3.0.0
   values:
     replicaCount: 1
 
