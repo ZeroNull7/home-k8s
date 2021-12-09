@@ -53,7 +53,7 @@ spec:
     scheduler:
       create: true
       schedulerName: nebula-scheduler
-      replicas: 2
+      replicas: 1
       env: []
       resources:
         limits:
