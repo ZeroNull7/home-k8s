@@ -1,0 +1,91 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nebula-operator
+  namespace: infra  
+spec:
+  interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: nebula-operator
+      version: 0.9.0
+      sourceRef:
+        kind: HelmRepository
+        name: nebula-operator
+        namespace: flux-system
+  values:
+    image:
+      nebulaOperator:
+        image: vesoft/nebula-operator:v0.9.0
+        imagePullPolicy: Always
+      kubeRBACProxy:
+        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
+        imagePullPolicy: Always
+      kubeScheduler:
+        image: k8s.gcr.io/kube-scheduler:v1.18.8
+        imagePullPolicy: Always
+
+    imagePullSecrets: []
+    kubernetesClusterDomain: ""
+
+    controllerManager:
+      create: true
+      replicas: 2
+      env: []
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+
+    admissionWebhook:
+      create: true
+
+    scheduler:
+      create: true
+      schedulerName: nebula-scheduler
+      replicas: 2
+      env: []
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+
+    # Enable openkruise scheme for controller manager. (default false)
+    enableKruise: false
+
+    # Period at which the controller forces the repopulation of its local object stores. (default 1h0m0s)
+    syncPeriod:
+
+    # Namespace the controller watches for updates to Kubernetes objects, If empty, all namespaces are watched.
+    watchNamespace:
+
+    # The address the metric endpoint binds to. (default ":8080")
+    metricsBindAddr: ":8080"
+
+    # The address the probe endpoint binds to. (default: ":8081")
+    healthProbeBindAddr: ":8081"
+
+    # The TCP port the Webhook server binds to. (default 9443)
+    webhookBindPort: 9443
+
+    # Maximum number of concurrently running reconcile loops for nebula cluster (default 3)
+    maxConcurrentReconciles: 3
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
