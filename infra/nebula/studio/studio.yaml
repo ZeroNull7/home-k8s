@@ -13,10 +13,10 @@ spec:
     remediation:
       retries: 3
   chart:
+    git: git@github.com:vesoft-inc/nebula-studio.git
+    ref: master
+    path: deployment/helm
     spec:
-      git: git@github.com:vesoft-inc/nebula-studio.git
-      ref: master
-      path: deployment/helm
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: nebula-studio
       version: v3.0.0
