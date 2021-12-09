@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  url: https://github.com/vesoft-inc/nebula-studio.git
+  url: https://github.com/vesoft-inc/nebula-studio/tree/master/deployment/helm
   timeout: 2m
