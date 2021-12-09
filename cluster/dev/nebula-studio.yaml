@@ -13,7 +13,7 @@ spec:
     - name: cert-manager
       namespace: infra
     - name: nebula
-      namespace: infra
+      namespace: nebula
   interval: 10m0s
   path: "./infra/nebula/studio"
   prune: true
