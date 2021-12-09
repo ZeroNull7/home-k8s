@@ -15,12 +15,11 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: nebula-studio
+      chart:
+        git: git@github.com:vesoft-inc/nebula-studio.git
+        ref: master
+        path: deployment/helm
       version: v3.0.0
-      sourceRef:
-        kind: HelmRepository
-        name: nebula-studio
-        namespace: nebula
   values:
     replicaCount: 1
 
