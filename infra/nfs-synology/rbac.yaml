@@ -52,13 +52,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: leader-locking-nfs-synology-provisioner
-  namespace: infra
+  namepsace: infra
 subjects:
   - kind: ServiceAccount
     name: nfs-synology-provisioner
-    namespace: infra
 roleRef:
   kind: Role
   name: leader-locking-nfs-synology-provisioner
-  namespace: infra
   apiGroup: rbac.authorization.k8s.io
