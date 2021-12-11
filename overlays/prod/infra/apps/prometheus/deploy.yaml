@@ -8,10 +8,10 @@ spec:
   interval: 5m
   install:
     remediation:
-      retries: 3
+      retries: 5
   upgrade:
     remediation:
-      retries: 3
+      retries: 5
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
