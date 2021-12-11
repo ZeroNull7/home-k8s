@@ -18,7 +18,7 @@ spec:
   - port:
       number: 443
       name: grafana-https-port
-      protocol: HTTPS
+      protocol: HTTP2
     tls:
       mode: SIMPLE
       credentialName: grafana.simplefxn.com
