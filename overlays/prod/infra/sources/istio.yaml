@@ -15,7 +15,7 @@ spec:
     secretRef:
       name: sops-gpg
   interval: 10m0s
-  path: ./overlay/prod/infra/apps/istio-system/default
+  path: ./overlays/prod/infra/apps/istio-system/default
   prune: true
   sourceRef:
     kind: GitRepository

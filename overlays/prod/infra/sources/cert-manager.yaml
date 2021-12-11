@@ -10,7 +10,7 @@ spec:
     secretRef:
       name: sops-gpg
   interval: 10m0s
-  path: ./overlay/prod/infra/apps/cert-manager
+  path: ./overlays/prod/infra/apps/cert-manager
   prune: true
   sourceRef:
     kind: GitRepository
