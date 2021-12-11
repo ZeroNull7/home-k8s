@@ -7,9 +7,9 @@ metadata:
 spec:
   dependsOn:
     - name: metallb
-      namespace: metallb-system
+      namespace: infra
   interval: 10m0s
-  path: ./overlays/prod/infra/apps/nfs-local
+  path: ./overlays/prod/base/apps/nfs-local
   prune: true
   sourceRef:
     kind: GitRepository

@@ -6,7 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   interval: 10m0s
-  path: ./overlays/prod/infra/apps/metallb-system
+  path: ./overlays/prod/base/apps/metallb
   prune: true
   sourceRef:
     kind: GitRepository
