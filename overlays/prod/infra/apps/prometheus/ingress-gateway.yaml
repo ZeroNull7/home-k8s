@@ -8,22 +8,14 @@ spec:
     istio: ingressgateway
   servers:
   - port:
-      number: 80
-      name: grafana-http-port
-      protocol: HTTP
-    hosts:
-      - grafana.simplefxn.com
-    tls:
-      httpsRedirect: true
-  - port:
       number: 443
-      name: grafana-https-port
-      protocol: HTTP2
+      name: https-grafana
+      protocol: HTTPS
     tls:
       mode: SIMPLE
       credentialName: grafana.simplefxn.com
     hosts:
-      - grafana.simplefxn.com
+    - grafana.simplefxn.com
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -32,7 +24,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "grafana.simplefxn.com"
+  - grafana.simplefxn.com
   gateways:
   - grafana-gateway
   http:
@@ -52,3 +44,4 @@ spec:
   trafficPolicy:
     tls:
       mode: DISABLE
+---
