@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - istio.yaml
+spec:
   dependsOn:
     - name: istio-operator
       namespace: infra

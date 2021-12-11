@@ -4,6 +4,7 @@ resources:
 - class.yaml
 - rbac.yaml
 - deployment.yaml
-dependsOn:
+spec:
+  dependsOn:
     - name: metallb-system
       namespace: infra

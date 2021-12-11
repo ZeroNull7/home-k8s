@@ -5,7 +5,8 @@ resources:
 - secret.yaml
 - deploy.yaml
 - certIssuer.yaml
-dependsOn:
+spec:
+  dependsOn:
     - name: nfs-synology
       namespace: infra
     - name: nfs-local
