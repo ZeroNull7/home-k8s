@@ -51,7 +51,7 @@ spec:
           searchNamespace: ALL
     prometheus:
       service:
-        type: ClusterIp
+        type: LoadBalancer
         annotations:
           metallb.universe.tf/allow-shared-ip: prometheus
       prometheusSpec:
