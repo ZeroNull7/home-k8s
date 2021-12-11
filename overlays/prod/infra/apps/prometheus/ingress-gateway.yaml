@@ -18,7 +18,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: grafana-vts
+  name: grafana-vs
   namespace: istio-system
 spec:
   hosts:
