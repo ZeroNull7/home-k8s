@@ -9,7 +9,7 @@ spec:
     - name: nfs-local
       namespace: infra
   interval: 10m0s
-  path: ./overlays/prod/base/infra/prometheus
+  path: ..overlays/prod/infra/apps/prometheus
   prune: true
   sourceRef:
     kind: GitRepository
