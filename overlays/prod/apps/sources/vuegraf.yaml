@@ -9,9 +9,10 @@ spec:
     - name: influxdb
       namespace: infra
   interval: 10m0s
-  path: ./apps/vuegraf
+  path: ./overlays/prod/apps/vuegraf
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system
+  validation: client

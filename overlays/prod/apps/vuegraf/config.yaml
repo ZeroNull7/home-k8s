@@ -13,7 +13,7 @@ data:
             "url": "http://influxdb.infra.svc.cluster.local:8086",
             "org": "simplefxn",
             "bucket": "vuegraf",
-            "token": "lfgmnUbyo29RQIDsBrmeRnfcZ1EHbpACs-FVEVXdGdfHfDlqfSxBxjTc0mhvpQzMR_omHlXmkQPbXOnwxwk1KQ==",
+            "token": "uR__5eyTd20zJh_nFzE3-Zer5noyNXiY96AHQEEZKvwt2BReTV59JvZ502_lM8GZZF9Q2vLp07zT06KdzdhCDw==",
             "reset": false
           },
           "accounts": [
