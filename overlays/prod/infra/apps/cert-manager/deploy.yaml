@@ -14,7 +14,6 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: cert-manager
       version: v1.6.1
       sourceRef:
