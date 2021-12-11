@@ -26,7 +26,7 @@ spec:
     ## Global Docker image parameters
     ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
     ## Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
-    
+
     ## @param global.imageRegistry Global Docker image registry
     ## @param global.imagePullSecrets Global Docker registry secret names as an array
     ## @param global.storageClass Global storage class for dynamic provisioning
@@ -38,10 +38,10 @@ spec:
       ##   - myRegistryKeySecretName
       ##
       imagePullSecrets: []
-      storageClass: "local"
-    
+      storageClass: ""
+
     ## @section Common parameters
-    
+
     ## @param kubeVersion Force target Kubernetes version (using Helm capabilities if not set)
     ##
     kubeVersion: ""
@@ -63,7 +63,7 @@ spec:
     ## @param extraDeploy Array of extra objects to deploy with the release
     ##
     extraDeploy: []
-    
+
     ## Enable diagnostic mode in the deployment
     ##
     diagnosticMode:
@@ -78,9 +78,9 @@ spec:
       ##
       args:
         - infinity
-    
+
     ## @section InfluxDB&trade; parameters
-    
+
     ## Bitnami InfluxDB&trade; image
     ## ref: https://hub.docker.com/r/bitnami/influxdb/tags/
     ## @param image.registry InfluxDB&trade; image registry
@@ -95,7 +95,7 @@ spec:
       repository: bitnami/influxdb
       tag: 2.1.1-debian-10-r0
       ## Specify a imagePullPolicy. Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-      ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+      ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
       ##
       pullPolicy: IfNotPresent
       ## Optionally specify an array of imagePullSecrets.
@@ -284,7 +284,7 @@ spec:
         fsGroup: 1001
         runAsUser: 1001
       ## InfluxDB&trade; pods' resource requests and limits
-      ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+      ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
       ## We usually recommend not to specify default resources and to leave this as a conscious
       ## choice for the user. This also increases chances charts run on environments with little
       ## resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -351,7 +351,7 @@ spec:
       service:
         ## @param influxdb.service.type Kubernetes service type (`ClusterIP`, `NodePort` or `LoadBalancer`)
         ##
-        type: ClusterIP
+        type: LoadBalancer
         ## @param influxdb.service.port InfluxDB&trade; HTTP port
         ##
         port: 8086
@@ -391,9 +391,9 @@ spec:
         ##   clientIP:
         ##     timeoutSeconds: 300
         sessionAffinityConfig: {}
-    
+
     ## @section InfluxDB Relay&trade; parameters
-    
+
     relay:
       ## Bitnami InfluxDB Relay&trade; image
       ## ref: https://hub.docker.com/r/bitnami/influxdb-relay/tags/
@@ -406,9 +406,9 @@ spec:
       image:
         registry: docker.io
         repository: bitnami/influxdb-relay
-        tag: 0.20200717.0-scratch-r12
+        tag: 0.20200717.0-scratch-r14
         ## Specify a imagePullPolicy. Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-        ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+        ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
         ##
         pullPolicy: IfNotPresent
         ## Optionally specify an array of imagePullSecrets.
@@ -426,8 +426,10 @@ spec:
         [[http]]
         # Name of the HTTP server, used for display purposes only.
         name = "relay-server"
+
         # TCP address to bind to, for HTTP server.
         bind-addr = "0.0.0.0:9096"
+
         # Array of InfluxDB&trade; instances to use as backends for Relay.
         output = [
             {{- $influxdbReplicaCount := int .Values.influxdb.replicaCount }}
@@ -506,7 +508,7 @@ spec:
         fsGroup: 1001
         runAsUser: 1001
       ## InfluxDB Relay&trade; pods' resource requests and limits
-      ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+      ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
       ## We usually recommend not to specify default resources and to leave this as a conscious
       ## choice for the user. This also increases chances charts run on environments with little
       ## resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -599,9 +601,9 @@ spec:
         ## @param relay.service.annotations Annotations for InfluxDB Relay&trade; service
         ##
         annotations: {}
-    
+
     ## @section InfluxDB Collectd&trade; parameters
-    
+
     collectd:
       ## @param collectd.enabled InfluxDB Collectd&trade; service enable
       ##
@@ -639,12 +641,12 @@ spec:
         ##   metallb.universe.tf/allow-shared-ip: "true"
         ##
         annotations: {}
-    
+
     ## @section Exposing parameters
-    
+
     ## Configure the ingress resource that allows you to access the
     ## influxdb installation. Set up the URL
-    ## ref: http://kubernetes.io/docs/user-guide/ingress/
+    ## ref: https://kubernetes.io/docs/user-guide/ingress/
     ##
     ingress:
       ## @param ingress.enabled Enable ingress controller resource
@@ -655,9 +657,10 @@ spec:
       ## You can use the ingress.secrets parameter to create this TLS secret or relay on cert-manager to create it
       ##
       tls: false
-      ## @param ingress.certManager Add annotations for cert-manager
+      ## DEPRECATED: Use ingress.annotations instead of ingress.certManager
+      ## certManager: false
       ##
-      certManager: false
+
       ## @param ingress.pathType Ingress path type
       ##
       pathType: ImplementationSpecific
@@ -671,11 +674,16 @@ spec:
       ## with ALB ingress controllers.
       ##
       path: /
-      ## @param ingress.annotations Ingress annotations
+      ## @param ingress.annotations Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
       ## For a full list of possible ingress annotations, please see
       ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md
+      ## Use this parameter to set the required annotations for cert-manager, see
+      ## ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
       ##
-      ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
+      ## e.g:
+      ## annotations:
+      ##   kubernetes.io/ingress.class: nginx
+      ##   cert-manager.io/cluster-issuer: cluster-issuer-name
       ##
       annotations: {}
       ## @param ingress.extraHosts The list of additional hostnames to be covered with this ingress record.
@@ -716,16 +724,16 @@ spec:
       ##   certificate:
       ##
       secrets: []
-    
+
     ## @section Metrics parameters
-    
+
     ## Prometheus metrics
     ## ref: https://docs.influxdata.com/influxdb/v1.7/administration/server_monitoring/#influxdb-metrics-http-endpoint
     ##
     metrics:
       ## @param metrics.enabled Enable the export of Prometheus metrics
       ##
-      enabled: false
+      enabled: true
       service:
         ## @param metrics.service.type Kubernetes service type (`ClusterIP`, `NodePort` or `LoadBalancer`)
         ##
@@ -818,7 +826,7 @@ spec:
       ## If undefined (the default) or set to null, no storageClassName spec is
       ## set, choosing the default provisioner.
       ##
-      storageClass: "local"
+      storageClass: ""
       ## @param persistence.accessModes Access mode of data volume
       ##
       accessModes:
@@ -826,9 +834,34 @@ spec:
       ## @param persistence.size Size of data volume
       ##
       size: 8Gi
-    
+
+    ## Pod Service Account
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+    ##
+    serviceAccount:
+      ## @param serviceAccount.enabled Enable service account (Note: Service Account will only be automatically created if `serviceAccount.name` is not set)
+      ##
+      enabled: false
+      ## @param serviceAccount.name Name of an already existing service account. Setting this value disables the automatic service account creation
+      ##
+      name: ""
+
+    ## Pod Security Policy
+    ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+    ## @param psp.create Whether to create a PodSecurityPolicy. WARNING: PodSecurityPolicy is deprecated in Kubernetes v1.21 or later, unavailable in v1.25 or later
+    ##
+    psp:
+      create: false
+
+    ## Role Based Access
+    ## Ref: https://kubernetes.io/docs/admin/authorization/rbac/
+    ## @param rbac.create Create Role and RoleBinding (required for PSP to work)
+    ##
+    rbac:
+      create: false
+
     ## @section Volume permissions parameters
-    
+
     ## Init Container parameters
     ## Change the owner and group of the persistent volume mountpoint to 'runAsUser:fsGroup'
     ## values from the securityContext section.
@@ -846,11 +879,11 @@ spec:
       image:
         registry: docker.io
         repository: bitnami/bitnami-shell
-        tag: 10-debian-10-r173
+        tag: 10-debian-10-r264
         ## Specify a imagePullPolicy. Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-        ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+        ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
         ##
-        pullPolicy: Always
+        pullPolicy: IfNotPresent
         ## Optionally specify an array of imagePullSecrets.
         ## Secrets must be manually created in the namespace.
         ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -871,9 +904,9 @@ spec:
       ##
       securityContext:
         runAsUser: 0
-    
+
     ## @section InfluxDB&trade; backup parameters
-    
+
     backup:
       ## @param backup.enabled Enable InfluxDB&trade; backup
       ##
@@ -975,9 +1008,9 @@ spec:
           image:
             registry: docker.io
             repository: bitnami/google-cloud-sdk
-            tag: 0.354.0-debian-10-r1
+            tag: 0.365.0-debian-10-r11
             ## Specify a imagePullPolicy. Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-            ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+            ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
             ##
             pullPolicy: IfNotPresent
             ## Optionally specify an array of imagePullSecrets.
@@ -1012,9 +1045,9 @@ spec:
           image:
             registry: docker.io
             repository: bitnami/azure-cli
-            tag: 2.27.2-debian-10-r2
+            tag: 2.30.0-debian-10-r25
             ## Specify a imagePullPolicy. Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-            ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+            ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
             ##
             pullPolicy: IfNotPresent
             ## Optionally specify an array of imagePullSecrets.
