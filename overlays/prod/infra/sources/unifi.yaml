@@ -8,6 +8,8 @@ spec:
   dependsOn:
     - name: metallb
       namespace: metallb-system
+    - name: nfs-synology
+      namespace: infra
   interval: 10m0s
   path: ./overlays/prod/infra/apps/unifi
   prune: true
