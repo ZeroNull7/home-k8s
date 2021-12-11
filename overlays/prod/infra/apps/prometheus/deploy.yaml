@@ -20,7 +20,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
-        namespace: infra
+        namespace: flux-system
   values:
     kubeScheduler:
       service:
