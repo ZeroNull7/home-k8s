@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - deploy.yaml
   - ./grafana-dashboards
+  - certificate.yaml
+  - ingress-gateway.yaml
