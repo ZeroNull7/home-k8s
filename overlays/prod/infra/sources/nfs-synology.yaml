@@ -5,10 +5,13 @@ metadata:
   name: nfs-synology
   namespace: infra
 spec:
+  dependsOn:
+    - name: nfs-local 
+      namespace: infra
   interval: 10m0s
-  path: "./infra/nfs-synology"
+  path: ./overlays/prod/infra/apps/nfs-synology"
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system

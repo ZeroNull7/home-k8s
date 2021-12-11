@@ -5,6 +5,9 @@ metadata:
   name: istio-operator
   namespace: istio-operator
 spec:
+  dependsOn:
+    - name: metallb
+      namespace: infra
   decryption:
     provider: sops
     secretRef:

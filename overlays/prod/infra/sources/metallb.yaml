@@ -1,14 +1,14 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: metallb
   namespace: metallb-system
 spec:
   interval: 10m0s
-  path: ./metallb-system
+  path: ./overlays/prod/infra/apps/metallb-system
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system

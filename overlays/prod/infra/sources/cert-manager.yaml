@@ -5,6 +5,9 @@ metadata:
   name: cert-manager
   namespace: infra
 spec:
+  dependsOn:
+    - name: metallb
+      namespace: infra
   decryption:
     provider: sops
     secretRef:
