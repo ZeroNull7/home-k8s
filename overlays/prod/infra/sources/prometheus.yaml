@@ -9,9 +9,9 @@ spec:
     - name: nfs-local
       namespace: infra
   interval: 10m0s
-  path: ./monitoring/prometheus
+  path: ./overlays/prod/base/infra/prometheus
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system

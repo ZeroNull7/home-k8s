@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: prometheus
-  namespace: monitoring
+  namespace: infra
 spec:
   interval: 5m
   install:
@@ -16,11 +16,11 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: kube-prometheus-stack
-      version: 16.2.0
+      version: 23.2.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
-        namespace: monitoring
+        namespace: infra
   values:
     kubeScheduler:
       service:
