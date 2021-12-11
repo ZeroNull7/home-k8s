@@ -1,5 +1,5 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: istio
@@ -15,7 +15,7 @@ spec:
     secretRef:
       name: sops-gpg
   interval: 10m0s
-  path: ./istio-system/default
+  path: ./overlay/prod/infra/apps/istio-system/default
   prune: true
   sourceRef:
     kind: GitRepository

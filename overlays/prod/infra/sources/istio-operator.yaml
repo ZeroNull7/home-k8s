@@ -1,16 +1,16 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: cert-manager
-  namespace: infra
+  name: istio-operator
+  namespace: istio-operator
 spec:
   decryption:
     provider: sops
     secretRef:
       name: sops-gpg
   interval: 10m0s
-  path: ./infra/cert-manager
+  path: ./overlay/prod/infra/apps/istio-system/operator
   prune: true
   sourceRef:
     kind: GitRepository
