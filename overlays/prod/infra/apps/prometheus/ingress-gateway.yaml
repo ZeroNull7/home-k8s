@@ -1,4 +1,3 @@
----
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -6,12 +5,15 @@ metadata:
   namespace: istio-system
 spec:
   selector:
-    istio: ingressgateway # use istio default controller
+    istio: ingressgateway
   servers:
   - port:
-      number: 80
-      name: http
-      protocol: HTTP
+      number: 443
+      name: https-grafana
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: grafana.simplefxn.com
     hosts:
     - grafana.simplefxn.com
 ---
@@ -26,13 +28,20 @@ spec:
   gateways:
   - grafana-gateway
   http:
-  - match:
-    - uri:
-        prefix: /
-    route:
+  - route:
     - destination:
         host: prometheus-grafana.infra.svc.cluster.local
-        port: 
+        port:
           number: 80
-
-
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: grafana
+  namespace: istio-system
+spec:
+  host: prometheus-grafana.infra.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
