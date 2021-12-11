@@ -19,5 +19,5 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system
