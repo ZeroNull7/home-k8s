@@ -6,13 +6,13 @@ metadata:
   namespace: infra
 spec:
   dependsOn:
-    - name: nfs-local
+    - name: nfs-synology
   interval: 1m0s
-  path: ./infra/postgres
+  path: ./overlays/prod/infra/apps/postgres
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system
   validation: client
   force: true
