@@ -167,6 +167,9 @@ spec:
     # Optional additional labels to add to the controller Service
     # serviceLabels: {}
 
+    # Optional additional annotations to add to the controller service
+    # serviceAnnotations: {}
+
     # Optional DNS settings, useful if you have a public and private DNS zone for
     # the same domain on Route 53. What follows is an example of ensuring
     # cert-manager can access an ingress or DNS TXT records at all times.
@@ -258,6 +261,9 @@ spec:
 
       # Optional additional annotations to add to the webhook ValidatingWebhookConfiguration
       # validatingWebhookConfigurationAnnotations: {}
+
+      # Optional additional annotations to add to the webhook service
+      # serviceAnnotations: {}
 
       # Optional additional arguments for webhook
       extraArgs: []
@@ -426,6 +432,11 @@ spec:
 
     # This startupapicheck is a Helm post-install hook that waits for the webhook
     # endpoints to become available.
+    # The check is implemented using a Kubernetes Job- if you are injecting mesh
+    # sidecar proxies into cert-manager pods, you probably want to ensure that they
+    # are not injected into this Job's pod. Otherwise the installation may time out
+    # due to the Job never being completed because the sidecar proxy does not exit.
+    # See https://github.com/jetstack/cert-manager/pull/4414 for context.
     startupapicheck:
       enabled: true
 
@@ -444,7 +455,7 @@ spec:
       jobAnnotations:
         helm.sh/hook: post-install
         helm.sh/hook-weight: "1"
-        helm.sh/hook-delete-policy: hook-succeeded
+        helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 
       # Optional additional annotations to add to the startupapicheck Pods
       # podAnnotations: {}
@@ -482,10 +493,11 @@ spec:
         pullPolicy: IfNotPresent
 
       rbac:
+        # annotations for the startup API Check job RBAC and PSP resources
         annotations:
           helm.sh/hook: post-install
           helm.sh/hook-weight: "-5"
-          helm.sh/hook-delete-policy: hook-succeeded
+          helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 
       serviceAccount:
         # Specifies whether a service account should be created
@@ -499,7 +511,7 @@ spec:
         annotations:
           helm.sh/hook: post-install
           helm.sh/hook-weight: "-5"
-          helm.sh/hook-delete-policy: hook-succeeded
+          helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 
         # Automount API credentials for a Service Account.
         automountServiceAccountToken: true
