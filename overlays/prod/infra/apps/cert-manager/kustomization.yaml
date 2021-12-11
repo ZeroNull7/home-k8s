@@ -4,5 +4,4 @@ resources:
 - helmrepository.yaml
 - secret.yaml
 - deploy.yaml
-- certIssuer.yaml
     
