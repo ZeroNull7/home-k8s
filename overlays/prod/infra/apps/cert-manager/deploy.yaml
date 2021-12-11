@@ -16,7 +16,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: cert-manager
-      version: v1.5.1
+      version: v1.6.1
       sourceRef:
         kind: HelmRepository
         name: cert-manager
