@@ -15,7 +15,6 @@ spec:
   chart:
     git: git@github.com:vesoft-inc/nebula-studio.git
     ref: master
-    path: deployment/helm
   values:
     replicaCount: 1
 
