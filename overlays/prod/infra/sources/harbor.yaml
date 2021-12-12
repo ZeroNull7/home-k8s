@@ -9,9 +9,9 @@ spec:
     - name: nfs-synology
       namespace: infra
   interval: 10m0s
-  path: ./harbor
+  path: ./overlays/prod/infra/apps/harbor
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system
