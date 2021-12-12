@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: harbor.simplefxn.com
-  namespace: harbor
+  namespace: infra
 spec:
   secretName: harbor.simplefxn.com
   subject:
