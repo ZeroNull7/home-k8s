@@ -33,6 +33,8 @@ spec:
         name: nginx
         version: alpine
     imagePullSecrets: []
+    auth:
+      existingSecret: influx-auth
     nameOverride: ""
     fullnameOverride: ""
     service:

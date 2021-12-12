@@ -14,7 +14,6 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: influxdb
       version: 2.4.4
       sourceRef:
