@@ -5,6 +5,6 @@ metadata:
   namespace: infra
 spec:
   interval: 1m
-  url: git@github.com:vesoft-inc/nebula-studio.git
+  url: https://github.com/vesoft-inc/nebula-studio.git
   ref:
     branch: master
