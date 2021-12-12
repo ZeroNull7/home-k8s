@@ -40,7 +40,7 @@ spec:
     - destination:
         host: cryptpad.apps.svc.cluster.local
         port:
-          number: 8123
+          number: 3000
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
