@@ -1,0 +1,47 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: nebula-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https-nebula
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: nebula.simplefxn.com
+    hosts:
+    - nebula.simplefxn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nebula-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - nebula.simplefxn.com
+  gateways:
+  - nebula-gateway
+  http:
+  - route:
+    - destination:
+        host: nebula-studio-web.infra.svc.cluster.local
+        port:
+          number: 7001
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: nebula
+  namespace: istio-system
+spec:
+  host: nebula-studio-web.infra.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
