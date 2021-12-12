@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: cryptpad-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: cryptpad-http-port
+      protocol: HTTP
+    hosts:
+      - cryptpad.simplefxn.com
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: cryptpad-https-port
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: cryptpad.simplefxn.com
+    hosts:
+      - cryptpad.simplefxn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: cryptpad-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - "cryptpad.simplefxn.com"
+  gateways:
+  - cryptpad-gateway
+  http:
+  - route:
+    - destination:
+        host: cryptpad.apps.svc.cluster.local
+        port:
+          number: 8123
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: cryptpad
+  namespace: istio-system
+spec:
+  host: cryptpad.apps.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
