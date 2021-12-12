@@ -14,7 +14,7 @@ spec:
   chart:
     spec:
       chart: cryptpad
-      version: 0.1.13
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: nicholaswilde
