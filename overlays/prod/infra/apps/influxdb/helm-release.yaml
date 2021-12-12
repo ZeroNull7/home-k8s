@@ -177,7 +177,7 @@ spec:
         password: ""
       ## @param auth.existingSecret Name of existing Secret object with InfluxDB&trade; credentials (`auth.admin.password`, `auth.user.password`, `auth.readUser.password`, and `auth.writeUser.password` will be ignored and picked up from this secret)
       ##
-      existingSecret: ""
+      existingSecret: "influx-auth"
     ## InfluxDB&trade; backend parameters
     ##
     influxdb:
