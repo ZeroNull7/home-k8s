@@ -38,7 +38,7 @@ spec:
     nameOverride: ""
     fullnameOverride: ""
     service:
-      type: ClusterIp
+      type: ClusterIP
       port: 7001
     resources:
       httpGateway:
