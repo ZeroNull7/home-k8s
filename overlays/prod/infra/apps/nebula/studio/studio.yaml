@@ -21,7 +21,6 @@ spec:
         namespace: infra
   values:
     replicaCount: 1
-
     image:
       pullPolicy: IfNotPresent
       httpGateway:
@@ -33,29 +32,20 @@ spec:
       nginx:
         name: nginx
         version: alpine
-
     imagePullSecrets: []
-
     nameOverride: ""
     fullnameOverride: ""
-
     service:
       type: ClusterIp
       port: 7001
-
     resources:
       httpGateway:
       nebulaStudio:
       nginx:
-
     persistent:
       storageClassName: ""
       size: 5Gi
-
     podAnnotations: {}
-
     nodeSelector: {}
-
     tolerations: []
-
     affinity: {}
