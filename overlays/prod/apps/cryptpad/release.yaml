@@ -20,56 +20,56 @@ spec:
         name: nicholaswilde
         namespace: flux-system  
   values:
-    ---
-image:
-  repository: ghcr.io/nicholaswilde/cryptpad
-  pullPolicy: IfNotPresent
-  tag: "version-4.10.0"
-
-env: {}
-  TZ: "America/Chicago"
-  # PUID: "1000"
-  # PGID: "1000"
-
-service:
-  port:
-    port: 3000
-
-ingress:
-  enabled: false
-
-persistence:
-  config:
-    enabled: false
-    emptyDir: false
-    mountPath: /config
-  blob:
-    enabled: false
-    emptyDir: false
-    mountPath: /blob
-    accessMode: ReadWriteOnce
-    size: 4Gi
-  block:
-    enabled: false
-    emptyDir: false
-    mountPath: /block
-    accessMode: ReadWriteOnce
-    size: 4Gi
-  customize:
-    enabled: false
-    emptyDir: false
-    mountPath: /customize
-    accessMode: ReadWriteOnce
-    size: 4Gi
-  data:
-    enabled: false
-    emptyDir: false
-    mountPath: /data
-    accessMode: ReadWriteOnce
-    size: 4Gi
-  datasource:
-    enabled: false
-    emptyDir: false
-    mountPath: /datasource
-    accessMode: ReadWriteOnce
-    size: 4Gi
+    image:
+      repository: ghcr.io/nicholaswilde/cryptpad
+      pullPolicy: IfNotPresent
+      tag: "version-4.10.0"
+    
+    env: {}
+      TZ: "America/Chicago"
+      # PUID: "1000"
+      # PGID: "1000"
+    
+    service:
+      port:
+        port: 3000
+    
+    ingress:
+      enabled: false
+    
+    persistence:
+      config:
+        enabled: false
+        emptyDir: false
+        mountPath: /config
+      blob:
+        enabled: false
+        emptyDir: false
+        mountPath: /blob
+        accessMode: ReadWriteOnce
+        size: 4Gi
+      block:
+        enabled: false
+        emptyDir: false
+        mountPath: /block
+        accessMode: ReadWriteOnce
+        size: 4Gi
+      customize:
+        enabled: false
+        emptyDir: false
+        mountPath: /customize
+        accessMode: ReadWriteOnce
+        size: 4Gi
+      data:
+        enabled: false
+        emptyDir: false
+        mountPath: /data
+        accessMode: ReadWriteOnce
+        size: 4Gi
+      datasource:
+        enabled: false
+        emptyDir: false
+        mountPath: /datasource
+        accessMode: ReadWriteOnce
+        size: 4Gi
+    
