@@ -13,8 +13,12 @@ spec:
     remediation:
       retries: 3
   chart:
-    git: git@github.com:vesoft-inc/nebula-studio.git
-    ref: master
+    spec:
+      chart: ./deployment/helm
+      sourceRef:
+        kind: GitRepository
+        name: nebula-studio-git
+        namespace: infra
   values:
     replicaCount: 1
 

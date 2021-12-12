@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: nebula-studio-git
+  namespace: infra
+spec:
+  interval: 1m
+  url: git@github.com:vesoft-inc/nebula-studio.git
+  ref:
+    branch: master
