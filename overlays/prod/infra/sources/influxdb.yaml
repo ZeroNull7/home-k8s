@@ -8,6 +8,10 @@ spec:
   dependsOn: 
     - name: nfs-local
       namespace: infra
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
   interval: 10m0s
   path: ./overlays/prod/infra/apps/influxdb
   prune: true
