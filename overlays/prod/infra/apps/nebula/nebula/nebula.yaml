@@ -2,7 +2,7 @@ apiVersion: apps.nebula-graph.io/v1alpha1
 kind: NebulaCluster
 metadata:
   name: nebula
-  namespace: nebula
+  namespace: infra
 spec:
   graphd:
     resources:

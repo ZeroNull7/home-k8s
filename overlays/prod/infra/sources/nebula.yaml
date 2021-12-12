@@ -15,9 +15,9 @@ spec:
     - name: nebula-operator
       namespace: infra
   interval: 10m0s
-  path: "./infra/nebula/nebula"
+  path: ./overlays/prod/infra/apps/nebula/nebula
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: home-k8s
     namespace: flux-system
