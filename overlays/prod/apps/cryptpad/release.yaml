@@ -24,19 +24,15 @@ spec:
       repository: ghcr.io/nicholaswilde/cryptpad
       pullPolicy: IfNotPresent
       tag: "version-4.10.0"
-    
-    env: {}
+    env: 
       TZ: "America/Chicago"
       # PUID: "1000"
       # PGID: "1000"
-    
     service:
       port:
         port: 3000
-    
     ingress:
       enabled: false
-    
     persistence:
       config:
         enabled: false
@@ -72,4 +68,3 @@ spec:
         mountPath: /datasource
         accessMode: ReadWriteOnce
         size: 4Gi
-    
