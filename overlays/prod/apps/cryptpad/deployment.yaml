@@ -49,6 +49,15 @@ spec:
         - name: cryptpad-block
           persistentVolumeClaim:
             claimName: cryptpad-block
+        - name: cryptpad-customize
+          persistentVolumeClaim:
+            claimName: cryptpad-customize
+        - name: cryptpad-data
+          persistentVolumeClaim:
+            claimName: cryptpad-data
+        - name: cryptpad-datastore
+          persistentVolumeClaim:
+            claimName: cryptpad-datastore
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
