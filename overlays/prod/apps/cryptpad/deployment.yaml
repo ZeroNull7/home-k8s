@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cryptpad
+  name: cryptpad
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cryptpad
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cryptpad
+      annotations:
+        backup.velero.io/backup-volumes: cryptpad
+    spec:
+      containers:
+        - env:
+            - name: CPAD_MAIN_DOMAIN
+              value: cryptpad.simplefxn.com
+            - name: CPAD_SANDBOX_DOMAIN
+              value: cryptpad-sandbox.simplefxn.com
+          image: promasu/cryptpad:nginx
+          name: cryptpad
+          ports:
+            - containerPort: 80
+          resources: {}
+          volumeMounts:
+            - mountPath: /blob
+              name: cryptpad-blob
+            - mountPath: /block
+              name: cryptpad-block
+            - mountPath: /customize
+              name: cryptpad-customize
+            - mountPath: /data
+              name: cryptpad-data
+            - mountPath: /datastore
+              name: cryptpad-datastore
+      restartPolicy: Always
+      volumes:
+        - name: cryptpad-blob
+          persistentVolumeClaim:
+            claimName: cryptpad-blob
+        - name: cryptpad-block
+          persistentVolumeClaim:
+            claimName: cryptpad-block
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: cryptopad
+  name: cryptpad-blob
+  namespace: apps
+spec:
+  storageClassName: synology
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: cryptopad
+  name: cryptpad-block
+  namespace: apps
+spec:
+  storageClassName: synology
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: cryptopad
+  name: cryptpad-customize
+  namespace: apps
+spec:
+  storageClassName: synology
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: cryptopad
+  name: cryptpad-data
+  namespace: apps
+spec:
+  storageClassName: synology
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: cryptopad
+  name: cryptpad-datastore
+  namespace: apps
+spec:
+  storageClassName: synology
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: cryptpad
+  name: cryptpad
+  namespace: apps
+spec:
+  ports:
+    - name: "cryptopad_80"
+      port: 80
+      targetPort: 80
+  selector:
+    app: cryptpad
