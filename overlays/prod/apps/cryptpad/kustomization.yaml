@@ -4,4 +4,3 @@ resources:
 - certificate.yaml
 - ingress-gateway.yaml
 - ingress-gateway-sandbox.yaml
-- release.yaml

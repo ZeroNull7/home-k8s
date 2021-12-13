@@ -14,20 +14,3 @@ spec:
   issuerRef:
     name: simplefxn-issuer
     kind: ClusterIssuer
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: cryptpad-sandbox.simplefxn.com
-  namespace: istio-system
-spec:
-  secretName: cryptpad-sandbox.simplefxn.com
-  subject:
-    organizations:
-    - SimpleFxn
-  commonName: cryptpad-sandbox.simplefxn.com
-  dnsNames:
-  - cryptpad-sandbox.simplefxn.com
-  issuerRef:
-    name: simplefxn-issuer
-    kind: ClusterIssuer
