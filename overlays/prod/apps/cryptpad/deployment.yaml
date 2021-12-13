@@ -29,6 +29,10 @@ spec:
               value: "true"
             - name: CPAD_TRUSTED_PROXY
               value: 10.0.0.0/8
+            - name: CPAD_REALIP_RECURSIVE
+              value: "on"
+            - name: CPAD_REALIP_HEADER
+              value: X-Forwarded-For
           image: promasu/cryptpad:nginx-alpine
           name: cryptpad
           ports:
