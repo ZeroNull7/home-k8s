@@ -61,7 +61,7 @@ data:
      *  and it may have unintended consequences in practice.
      *
      */
-        httpUnsafeOrigin: 'http://localhost:3000',
+        httpUnsafeOrigin: 'https://cryptpad.simplefxn.com',
 
     /*  httpSafeOrigin is the URL that is used for the 'sandbox' described above.
      *  If you're testing or developing with CryptPad on your local machine then
@@ -79,7 +79,7 @@ data:
      *
      *  CUSTOMIZE AND UNCOMMENT THIS FOR PRODUCTION INSTALLATIONS.
      */
-        // httpSafeOrigin: "https://some-other-domain.xyz",
+        // httpSafeOrigin: "https://sandbox.simplefxn.com",
 
     /*  httpAddress specifies the address on which the nodejs server
      *  should be accessible. By default it will listen on 127.0.0.1
@@ -265,7 +265,7 @@ data:
          *
          * This will affect both logging to the console and the disk.
          */
-        logLevel: 'info',
+        logLevel: 'debug',
 
         /*  clients can use the /settings/ app to opt out of usage feedback
          *  which informs the server of things like how much each app is being
