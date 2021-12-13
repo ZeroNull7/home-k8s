@@ -135,7 +135,7 @@ metadata:
   namespace: apps
 spec:
   ports:
-    - name: "cryptopad_80"
+    - name: "cryptopad-80"
       port: 80
       targetPort: 80
   selector:
