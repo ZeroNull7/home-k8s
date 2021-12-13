@@ -27,6 +27,8 @@ spec:
               value: sandbox.simplefxn.com
             - name: CPAD_HTTP2_DISABLE
               value: "true"
+            - name: CPAD_TRUSTED_PROXY
+              value: 10.0.0.0/8
           image: promasu/cryptpad:nginx-alpine
           name: cryptpad
           ports:
