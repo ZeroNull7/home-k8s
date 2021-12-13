@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
 - certificate.yaml
 - ingress-gateway.yaml
-- ingress-gateway-sandbox.yaml
