@@ -31,7 +31,7 @@ metadata:
   name: cryptpad-sandbox
   namespace: istio-system
 spec:
-  host: cryptpad-sandbox.apps.svc.cluster.local
+  host: cryptpad.apps.svc.cluster.local
   trafficPolicy:
     tls:
       mode: DISABLE
@@ -49,7 +49,7 @@ spec:
   http:
   - route:
     - destination:
-        host: cryptpad-sandbox.apps.svc.cluster.local
+        host: cryptpad.apps.svc.cluster.local
         port:
           number: 80
 
