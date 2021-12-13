@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: cryptpad-sandbox-gateway
+  name: sandbox-gateway
   namespace: istio-system
 spec:
   selector:
@@ -9,26 +9,26 @@ spec:
   servers:
   - port:
       number: 80
-      name: cryptpad-sandbox-http-port
+      name: sandbox-http-port
       protocol: HTTP
     hosts:
-      - cryptpad-sandbox.simplefxn.com
+      - sandbox.simplefxn.com
     tls:
       httpsRedirect: true
   - port:
       number: 443
-      name: cryptpad-sandbox-https-port
+      name: sandbox-https-port
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: cryptpad-sandbox.simplefxn.com
+      credentialName: sandbox.simplefxn.com
     hosts:
-      - cryptpad-sandbox.simplefxn.com
+      - sandbox.simplefxn.com
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: cryptpad-sandbox
+  name: sandbox
   namespace: istio-system
 spec:
   host: cryptpad.apps.svc.cluster.local
@@ -39,13 +39,13 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: cryptpad-sandbox-vs
+  name: sandbox-vs
   namespace: istio-system
 spec:
   hosts:
-  - "cryptpad-sandbox.simplefxn.com"
+  - "sandbox.simplefxn.com"
   gateways:
-  - cryptpad-sandbox-gateway
+  - sandbox-gateway
   http:
   - route:
     - destination:
