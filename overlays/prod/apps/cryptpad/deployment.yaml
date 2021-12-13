@@ -25,6 +25,8 @@ spec:
               value: cryptpad.simplefxn.com
             - name: CPAD_SANDBOX_DOMAIN
               value: cryptpad-sandbox.simplefxn.com
+            - name: CPAD_HTTP2_DISABLE
+              value: "true"
           image: promasu/cryptpad:nginx
           name: cryptpad
           ports:
