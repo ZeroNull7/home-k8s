@@ -79,7 +79,7 @@ data:
      *
      *  CUSTOMIZE AND UNCOMMENT THIS FOR PRODUCTION INSTALLATIONS.
      */
-        // httpSafeOrigin: "https://sandbox.simplefxn.com",
+        httpSafeOrigin: "https://sandbox.simplefxn.com",
 
     /*  httpAddress specifies the address on which the nodejs server
      *  should be accessible. By default it will listen on 127.0.0.1
