@@ -35,35 +35,35 @@ spec:
       enabled: false
     persistence:
       config:
-        enabled: false
+        enabled: true
         emptyDir: false
         mountPath: /config
       blob:
-        enabled: false
+        enabled: true
         emptyDir: false
         mountPath: /blob
         accessMode: ReadWriteOnce
         size: 4Gi
       block:
-        enabled: false
+        enabled: true
         emptyDir: false
         mountPath: /block
         accessMode: ReadWriteOnce
         size: 4Gi
       customize:
-        enabled: false
+        enabled: true
         emptyDir: false
         mountPath: /customize
         accessMode: ReadWriteOnce
-        size: 4Gi
+        size: 1Gi
       data:
-        enabled: false
+        enabled: true
         emptyDir: false
         mountPath: /data
         accessMode: ReadWriteOnce
         size: 4Gi
       datasource:
-        enabled: false
+        enabled: true
         emptyDir: false
         mountPath: /datasource
         accessMode: ReadWriteOnce
