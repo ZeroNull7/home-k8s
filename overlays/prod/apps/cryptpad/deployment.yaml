@@ -39,15 +39,15 @@ spec:
             - containerPort: 80
           resources: {}
           volumeMounts:
-            - mountPath: /cryptopad/blob
+            - mountPath: /cryptpad/blob
               name: cryptpad-blob
-            - mountPath: /cryptopad/block
+            - mountPath: /cryptpad/block
               name: cryptpad-block
-            - mountPath: /cryptopad/customize
+            - mountPath: /cryptpad/customize
               name: cryptpad-customize
-            - mountPath: /cryptopad/data
+            - mountPath: /cryptpad/data
               name: cryptpad-data
-            - mountPath: /cryptopad/datastore
+            - mountPath: /cryptpad/datastore
               name: cryptpad-datastore
             - mountPath: /cryptpad/config
               name: cryptpad-config
