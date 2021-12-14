@@ -123,11 +123,9 @@ data:
          *  key, which can be found on the settings page for registered users.
          *  Entries should be strings separated by a comma.
          */
-
         adminKeys: [
-            "[[marcelo@cryptpad.simplefxn.com/UlvEtc+Cxf1of2xish+R7RCqAx1qhwGU-dSI-pgYMHw=]]",
+            "[marcelo@cryptpad.simplefxn.com/sryhWRxSiK4mQzx9dyB4A3N-7TJF9EDxrlnvSd1gr1k=]",
         ],
-
 
         /* =====================
          *        STORAGE
