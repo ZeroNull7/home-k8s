@@ -113,7 +113,7 @@ stringData:
       # Pick which logs you want per-controller in the [unifi.controller] section.
       # This is a new feature. Feedback welcome!
       [loki]
-        url = ""
+        url = "http://loki.infra.svc.cluster.local:3100"
         # The rest of this is advanced & optional. See wiki.
         user       = ""
         pass       = ""
