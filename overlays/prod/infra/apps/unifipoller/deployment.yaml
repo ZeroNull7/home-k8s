@@ -208,13 +208,13 @@ stringData:
         # There are no dashboards to display this data. It can be used for annotations.
         # This is a new (June, 2020) feature. Please provide feedback if you try it out!
         # Enable this only if using InfluxDB or Loki. This will leak PII data!
-        save_alarms = false
+        save_alarms = true
       
         # Enable collection of UniFi Anomalies (InfluxDB/Loki only).
         # There are no dashboards to display this data. It can be used for annotations.
         # This is a new (June, 2020) feature. Please provide feedback if you try it out!
         # Enable this only if using InfluxDB or Loki.
-        save_anomalies = false
+        save_anomalies = true
       
         # Enable collection of Deep Packet Inspection data. This data breaks down traffic
         # types for each client and site, it powers a dedicated DPI dashboard.
@@ -222,11 +222,11 @@ stringData:
         # 40 clients.  This adds a little bit of poller run time per interval and causes
         # more API requests to your controller(s). Don't let these "cons" sway you:
         # it's cool data. Please provide feedback on your experience with this feature.
-        save_dpi = false
+        save_dpi = true
       
         ## Enabling save_rogue stores even more data in your time series databases.
         ## This saves neighboring access point metrics in a dedicated table or namespace.
-        save_rogue = false
+        save_rogue = true
       
         # If your UniFi controller has a valid SSL certificate (like lets encrypt),
         # you can enable this option to validate it. Otherwise, any SSL certificate is
