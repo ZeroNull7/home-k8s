@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: loki
+  name: promtail
   namespace: infra
 spec:
   dependsOn:
