@@ -46,6 +46,10 @@ spec:
         certFile: /etc/prometheus/secrets/etcd-client-cert/healthcheck-client.crt
         keyFile: /etc/prometheus/secrets/etcd-client-cert/healthcheck-client.key
     grafana:
+      plugins: 
+        - grafana-clock-panel
+        - natel-discrete-panel
+        - grafana-piechart-panel
       sidecar:
         dashboards:
           searchNamespace: ALL
