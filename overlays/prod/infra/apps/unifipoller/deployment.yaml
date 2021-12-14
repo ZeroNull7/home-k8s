@@ -1,0 +1,112 @@
+# Create UniFi Poller
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unifi-poller
+  namespace: infra
+  labels:
+    app: unifi-poller
+    type: poller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unifi-poller
+      type: poller
+  template:
+    metadata:
+      labels:
+        app: unifi-poller
+        type: poller
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "9130"
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+      - name: unifi-poller
+        image: golift/unifi-poller:latest
+        ports:
+        - containerPort: 9130
+          name: tcp
+          protocol: TCP
+        - containerPort: 9130
+          name: udp
+          protocol: UDP
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config/unifi-poller.conf
+          subPath: unifi-poller.conf
+      volumes:
+      - name: config-volume
+        secret:
+          secretName: unifi-poller
+
+
+# Add Config Map for Unifi Poller
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: unifi-poller
+  namespace: infra
+  labels:
+    app: unifi-poller
+    type: poller
+stringData:
+  unifi-poller.conf: |
+      ##############################################
+      # UniFi Poller primary configuration file.   #
+      # YAML FORMAT. Provided values are defaults. #
+      # See up.conf.example!        v2             #
+      ##############################################
+      ---
+
+      poller:
+        debug: false
+        quiet: false
+        plugins: []
+
+      prometheus:
+        disable:       false
+        http_listen:   "0.0.0.0:9130"
+        ssl_cert_path: ""
+        ssl_key_path:  ""
+        report_errors: false
+
+      influxdb:
+        disable: true
+        interval: "30s"
+        url:  "http://influxdb-v1.infra.svc.cluster.local:8086"
+        user: "admin"
+        pass: "pass123!"
+        db:   "maindb"
+        verify_ssl: false
+
+      webserver:
+        enable:        false
+        port:          37288
+        html_path:     "/usr/lib/unifi-poller/web"
+        ssl_cert_path: ""
+        ssl_key_path:  ""
+        max_events:    200
+        accounts:
+          captain: "$2a$04$mxw6i0LKH6u46oaLK2cq5eCTAAFkfNiRpzNbz.EyvJZZWNa2FzIlS"
+
+      unifi:
+        dynamic: false
+        defaults:
+          url:  "http://192.168.69.4:8080"
+          user: "poller"
+          pass: "poller123!"
+          sites:
+            - all
+          save_ids:    true
+          save_events: true
+          save_alarms: true
+          save_anomalies: true
+          save_dpi:    false
+          save_sites:  true
+          hash_pii:    false
+          verify_ssl:  false
