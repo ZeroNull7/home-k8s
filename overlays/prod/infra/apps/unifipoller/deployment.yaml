@@ -62,19 +62,16 @@ stringData:
       # See up.conf.example!        v2             #
       ##############################################
       ---
-
       poller:
         debug: false
         quiet: false
         plugins: []
-
       prometheus:
         disable:       false
         http_listen:   "0.0.0.0:9130"
         ssl_cert_path: ""
         ssl_key_path:  ""
         report_errors: false
-
       influxdb:
         disable: true
         interval: "30s"
@@ -83,7 +80,6 @@ stringData:
         pass: "pass123!"
         db:   "maindb"
         verify_ssl: false
-
       webserver:
         enable:        false
         port:          37288
@@ -93,7 +89,6 @@ stringData:
         max_events:    200
         accounts:
           captain: "$2a$04$mxw6i0LKH6u46oaLK2cq5eCTAAFkfNiRpzNbz.EyvJZZWNa2FzIlS"
-
       unifi:
         dynamic: false
         defaults:
