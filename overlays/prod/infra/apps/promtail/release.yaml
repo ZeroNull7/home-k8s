@@ -151,6 +151,9 @@ spec:
       - name: pods
         hostPath:
           path: /var/log/pods
+      - name: varlog
+        hostPath:
+          path: /var/log
     
     # -- Default volume mounts. Corresponds to `volumes`.
     # @default -- See `values.yaml`
@@ -160,6 +163,9 @@ spec:
         readOnly: true
       - name: pods
         mountPath: /var/log/pods
+        readOnly: true
+      - name: varlog
+        mountPath: /var/log
         readOnly: true
     
     # Extra volumes to be added in addition to those specified under `defaultVolumes`.
