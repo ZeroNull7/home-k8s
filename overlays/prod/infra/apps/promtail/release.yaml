@@ -320,6 +320,7 @@ spec:
         extraRelabelConfigs: []
     
         scrapeConfigs: |
+          # See also https://github.com/grafana/loki/blob/master/production/ksonnet/promtail/scrape_config.libsonnet for reference
           - job_name: syslog
             syslog:
               listen_address: 0.0.0.0:1514
@@ -329,8 +330,7 @@ spec:
                 job: "syslog"
             relabel_configs:
               - source_labels: ['__syslog_message_hostname']
-              target_label: 'host'
-          # See also https://github.com/grafana/loki/blob/master/production/ksonnet/promtail/scrape_config.libsonnet for reference
+                target_label: 'host'
           - job_name: kubernetes-pods
             pipeline_stages:
               {{- toYaml .Values.config.snippets.pipelineStages | nindent 4 }}
