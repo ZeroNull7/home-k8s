@@ -27,11 +27,11 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: STRIMZI_LABELS
-              value: "strimzi.io/cluster=my-cluster"
+              value: "strimzi.io/cluster=kafka-cluster"
             - name: STRIMZI_CA_CERT_NAME
-              value: my-cluster-clients-ca-cert
+              value: kafka-cluster-clients-ca-cert
             - name: STRIMZI_CA_KEY_NAME
-              value: my-cluster-clients-ca
+              value: kafka-cluster-clients-ca
             - name: STRIMZI_FULL_RECONCILIATION_INTERVAL_MS
               value: "120000"
             - name: STRIMZI_LOG_LEVEL
