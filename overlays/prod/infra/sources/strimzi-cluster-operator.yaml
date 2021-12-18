@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: nebula-operator
+  namespace: infra
+spec:
+  dependsOn: 
+    - name: nfs-synology
+      namespace: infra
+    - name: istio
+      namespace: istio-system
+    - name: cert-manager
+      namespace: infra
+  interval: 10m0s
+  path: ./overlays/prod/infra/apps/strimzi-0.26.1/install/cluster-operator
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-k8s
+    namespace: flux-system
