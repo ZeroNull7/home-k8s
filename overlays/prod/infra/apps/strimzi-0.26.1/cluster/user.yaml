@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1alpha1
 kind: KafkaUser
 metadata:
   name: ripe-user
@@ -11,41 +11,18 @@ spec:
   authorization:
     type: simple
     acls:
-      # Example consumer Acls for topic ripe using consumer group ripe-group
       - resource:
           type: topic
           name: ripe
           patternType: literal
         operation: Read
-        host: "*"
       - resource:
           type: topic
           name: ripe
           patternType: literal
         operation: Describe
-        host: "*"
       - resource:
           type: group
           name: ripe-group
           patternType: literal
         operation: Read
-        host: "*"
-      # Example Producer Acls for topic ripe
-      - resource:
-          type: topic
-          name: ripe
-          patternType: literal
-        operation: Write
-        host: "*"
-      - resource:
-          type: topic
-          name: ripe
-          patternType: literal
-        operation: Create
-        host: "*"
-      - resource:
-          type: topic
-          name: ripe
-          patternType: literal
-        operation: Describe
-        host: "*"
