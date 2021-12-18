@@ -10,10 +10,6 @@ spec:
       namespace: istio-operator
     - name: metallb
       namespace: metallb-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
   interval: 10m0s
   path: ./overlays/prod/infra/apps/strimzi-0.26.1/cluster
   prune: true
