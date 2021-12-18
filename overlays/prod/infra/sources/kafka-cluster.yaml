@@ -12,6 +12,10 @@ spec:
       namespace: metallb-system
     - name: strimzi-cluster-operator
       namespace: kafka
+    - name: strimzi-topic-operator
+      namespace: kafka
+    - name: strimzi-user-operator
+      namespace: kafka
   interval: 10m0s
   path: ./overlays/prod/infra/apps/strimzi-0.26.1/cluster
   prune: true
