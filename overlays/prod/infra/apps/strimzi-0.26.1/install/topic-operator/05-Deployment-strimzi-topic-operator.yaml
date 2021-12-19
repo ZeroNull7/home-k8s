@@ -35,7 +35,7 @@ spec:
             - name: STRIMZI_TOPIC_METADATA_MAX_ATTEMPTS
               value: "6"
             - name: STRIMZI_LOG_LEVEL
-              value: INFO
+              value: DEBUG
             - name: STRIMZI_TLS_ENABLED
               value: "false"
             - name: STRIMZI_NAMESPACE
