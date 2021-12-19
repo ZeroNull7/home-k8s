@@ -39,9 +39,7 @@ spec:
             - name: STRIMZI_TLS_ENABLED
               value: "false"
             - name: STRIMZI_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
+              value: kafka
           livenessProbe:
             httpGet:
               path: /healthy
