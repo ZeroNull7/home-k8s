@@ -42,6 +42,8 @@ spec:
               value: "false"
             - name: STRIMZI_NAMESPACE
               value: kafka
+            - name: STRIMZI_JAVA_SYSTEM_PROPERTIES
+              value: "-Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty -Dzookeeper.client.secure=true"
           livenessProbe:
             httpGet:
               path: /healthy
