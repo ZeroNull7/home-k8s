@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: kafka
+  name: cluster
   namespace: kafka
 spec:
   interval: 5m
@@ -14,7 +14,7 @@ spec:
       retries: 3
   chart:
     spec:
-      chart: bitnami/kafka
+      chart: kafka
       version: 14.7.1
       sourceRef:
         kind: HelmRepository
