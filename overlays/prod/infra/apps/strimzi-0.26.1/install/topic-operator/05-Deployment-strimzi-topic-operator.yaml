@@ -38,6 +38,8 @@ spec:
               value: INFO
             - name: STRIMZI_TLS_ENABLED
               value: "true"
+            - name: STRIMZI_TLS_AUTH_ENABLED
+              value: "true"
             - name: STRIMZI_NAMESPACE
               value: kafka
           livenessProbe:
