@@ -115,8 +115,6 @@ spec:
               resources:
                 requests:
                   storage: 64Gi
-        podMonitorSelector:
-          matchLabels:
-            app.kubernetes.io/part-of: flux
+
     
                 
