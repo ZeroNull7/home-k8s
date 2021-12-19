@@ -62,8 +62,7 @@ spec:
         podMonitorNamespaceSelector: {}
         podMonitorSelector: {}
         podMonitorSelectorNilUsesHelmValues: false
-        ruleNamespaceSelector:
-          any: true
+        ruleNamespaceSelector: {}
         ruleSelector: {}
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorNamespaceSelector: {}
