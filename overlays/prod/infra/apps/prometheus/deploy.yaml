@@ -66,8 +66,7 @@ spec:
           any: true
         ruleSelector: {}
         ruleSelectorNilUsesHelmValues: false
-        serviceMonitorNamespaceSelector:
-          any: true
+        serviceMonitorNamespaceSelector: {}
         serviceMonitorSelector: {}
         serviceMonitorSelectorNilUsesHelmValues: false
         secrets: ['etcd-client-cert']
