@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ris_update_announcement
+  name: ris-update-announcement
   namespace: kafka
   labels:
     strimzi.io/cluster: kafka-cluster
@@ -15,7 +15,7 @@ spec:
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ris_update_withdrawal
+  name: ris-update-withdrawal
   namespace: kafka
   labels:
     strimzi.io/cluster: kafka-cluster
@@ -29,7 +29,7 @@ spec:
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ris_peer_state
+  name: ris-peer-state
   namespace: kafka
   labels:
     strimzi.io/cluster: kafka-cluster
@@ -43,7 +43,7 @@ spec:
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ris_open
+  name: ris-open
   namespace: kafka
   labels:
     strimzi.io/cluster: kafka-cluster
@@ -57,7 +57,7 @@ spec:
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ris_notification
+  name: ris-notification
   namespace: kafka
   labels:
     strimzi.io/cluster: kafka-cluster
@@ -71,7 +71,7 @@ spec:
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ris_unknowns
+  name: ris-unknowns
   namespace: kafka
   labels:
     strimzi.io/cluster: kafka-cluster
