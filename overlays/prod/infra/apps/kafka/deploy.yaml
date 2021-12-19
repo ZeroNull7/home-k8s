@@ -94,7 +94,7 @@ spec:
       ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
       ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
       ##
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
       ## Optionally specify an array of imagePullSecrets (secrets must be manually created in the namespace)
       ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
       ## Example:
@@ -154,7 +154,7 @@ spec:
     existingLog4jConfigMap: ""
     ## @param heapOpts Kafka's Java Heap size
     ##
-    heapOpts: -Xmx2G -Xms2G
+    heapOpts: -Xmx1024m -Xms1024m
     ## @param deleteTopicEnable Switch to enable topic deletion or not
     ##
     deleteTopicEnable: false
@@ -715,7 +715,7 @@ spec:
     externalAccess:
       ## @param externalAccess.enabled Enable Kubernetes external cluster access to Kafka brokers
       ##
-      enabled: true
+      enabled: false
       ## External IPs auto-discovery configuration
       ## An init container is used to auto-detect LB IPs or node ports by querying the K8s API
       ## Note: RBAC might be required
@@ -1314,7 +1314,7 @@ spec:
       ##
       enabled: true
       ## @param provisioning.numPartitions Default number of partitions for topics when unspecified.
-      numPartitions: 3
+      numPartitions: 1
       ## @param provisioning.replicationFactor Default replication factor for topics when unspecified.
       replicationFactor: 1
       ## @param provisioning.schedulerName Name of the k8s scheduler (other than default) for kafka provisioning
@@ -1357,7 +1357,7 @@ spec:
       ##     max.message.bytes: 64000
       ##     flush.messages: 1
       ##
-      topics:
+      topics: 
         - name: ris-update-announcement
           partitions: 3
           replicationFactor: 1
