@@ -59,6 +59,18 @@ spec:
         annotations:
           metallb.universe.tf/allow-shared-ip: prometheus
       prometheusSpec:
+        podMonitorNamespaceSelector:
+          any: true
+        podMonitorSelector: {}
+        podMonitorSelectorNilUsesHelmValues: false
+        ruleNamespaceSelector:
+          any: true
+        ruleSelector: {}
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorNamespaceSelector:
+          any: true
+        serviceMonitorSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
         secrets: ['etcd-client-cert']
         additionalScrapeConfigs:
           - job_name: kubernetes-apiserver
