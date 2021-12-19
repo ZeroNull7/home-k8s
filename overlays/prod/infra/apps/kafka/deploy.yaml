@@ -277,8 +277,8 @@ spec:
       ## @param auth.clientProtocol Authentication protocol for communications with clients. Allowed protocols: `plaintext`, `tls`, `mtls`, `sasl` and `sasl_tls`
       ## @param auth.interBrokerProtocol Authentication protocol for inter-broker communications. Allowed protocols: `plaintext`, `tls`, `mtls`, `sasl` and `sasl_tls`
       ##
-      clientProtocol: tls
-      interBrokerProtocol: tls
+      clientProtocol: plaintext
+      interBrokerProtocol: plaintext
       ## SASL configuration
       ##
       sasl:
