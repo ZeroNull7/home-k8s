@@ -37,9 +37,9 @@ spec:
             - name: STRIMZI_LOG_LEVEL
               value: INFO
             - name: STRIMZI_TLS_ENABLED
-              value: "true"
+              value: "false"
             - name: STRIMZI_TLS_AUTH_ENABLED
-              value: "true"
+              value: "false"
             - name: STRIMZI_NAMESPACE
               value: kafka
           livenessProbe:
