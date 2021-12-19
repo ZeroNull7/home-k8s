@@ -346,7 +346,7 @@ spec:
       tls:
         ## @param auth.tls.type Format to use for TLS certificates. Allowed types: `jks` and `pem`
         ##
-        type: pem
+        type: jks
         ## @param auth.tls.existingSecrets Array existing secrets containing the TLS certificates for the Kafka brokers
         ## When using 'jks' format for certificates, each secret should contain a truststore and a keystore.
         ## Create these secrets following the steps below:
