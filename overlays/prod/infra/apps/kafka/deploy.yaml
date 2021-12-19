@@ -1392,6 +1392,7 @@ spec:
       ## @param zookeeper.enabled Switch to enable or disable the Zookeeper helm chart
       ##
       enabled: true
+      replicaCount: 2
       auth:
         ## @param zookeeper.auth.enabled Enable Zookeeper auth
         ##
