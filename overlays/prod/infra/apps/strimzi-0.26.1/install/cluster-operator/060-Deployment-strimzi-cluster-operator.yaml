@@ -89,9 +89,7 @@ spec:
             - name: STRIMZI_DEFAULT_MAVEN_BUILDER
               value: quay.io/strimzi/maven-builder:0.26.1
             - name: STRIMZI_OPERATOR_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
+              value: kafka
             - name: STRIMZI_FEATURE_GATES
               value: ""
           livenessProbe:
