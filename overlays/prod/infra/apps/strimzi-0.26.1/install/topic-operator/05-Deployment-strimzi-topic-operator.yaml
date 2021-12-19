@@ -18,7 +18,7 @@ spec:
       serviceAccountName: strimzi-topic-operator
       containers:
         - name: strimzi-topic-operator
-          image: quay.io/strimzi/operator:0.26.1
+          image: quay.io/strimzi/operator:0.26.0
           args:
           - /opt/strimzi/bin/topic_operator_run.sh
           env:
@@ -38,12 +38,8 @@ spec:
               value: INFO
             - name: STRIMZI_TLS_ENABLED
               value: "false"
-            - name: STRIMZI_TLS_AUTH_ENABLED
-              value: "false"
             - name: STRIMZI_NAMESPACE
               value: kafka
-            - name: STRIMZI_JAVA_SYSTEM_PROPERTIES
-              value: "-Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty -Dzookeeper.client.secure=true"
           livenessProbe:
             httpGet:
               path: /healthy
