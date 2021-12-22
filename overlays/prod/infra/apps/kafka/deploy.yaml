@@ -154,10 +154,10 @@ spec:
     existingLog4jConfigMap: ""
     ## @param heapOpts Kafka's Java Heap size
     ##
-    heapOpts: -Xmx1024m -Xms1024m
+    heapOpts: -Xmx2048m -Xms2048m
     ## @param deleteTopicEnable Switch to enable topic deletion or not
     ##
-    deleteTopicEnable: false
+    deleteTopicEnable: true
     ## @param autoCreateTopicsEnable Switch to enable auto creation of topics. Enabling auto creation of topics not recommended for production or similar environments
     ##
     autoCreateTopicsEnable: true
@@ -205,7 +205,7 @@ spec:
     numNetworkThreads: 3
     ## @param numPartitions The default number of log partitions per topic
     ##
-    numPartitions: 1
+    numPartitions: 3
     ## @param numRecoveryThreadsPerDataDir The number of threads per data directory to be used for log recovery at startup and flushing at shutdown
     ##
     numRecoveryThreadsPerDataDir: 1
