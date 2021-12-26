@@ -680,7 +680,7 @@ spec:
     service:
       ## @param service.type Kubernetes Service type
       ##
-      type: ClusterIP
+      type: LoadBalancer
       ## @param service.port Kafka port for client connections
       ##
       port: 9092
