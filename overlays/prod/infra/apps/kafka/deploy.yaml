@@ -1398,7 +1398,7 @@ spec:
       service:
       ## @param service.type Kubernetes Service type
       ##
-        type: Loadbalancer
+        type: LoadBalancer
       ## Zookeeper Prometheus Exporter configuration
       ##
       metrics:
