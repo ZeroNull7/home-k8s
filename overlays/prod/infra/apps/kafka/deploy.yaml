@@ -1393,6 +1393,36 @@ spec:
       ##
       enabled: true
       replicaCount: 2
+      logLevel: ERROR
+      updateStrategy: RollingUpdate
+      service:
+      ## @param service.type Kubernetes Service type
+      ##
+        type: Loadbalancer
+      ## Zookeeper Prometheus Exporter configuration
+      ##
+      metrics:
+      ## @param metrics.enabled Enable prometheus to access zookeeper metrics endpoint
+      ##
+        enabled: false
+        ## @param metrics.containerPort Zookeeper Prometheus Exporter container port
+        ##
+        containerPort: 9141
+        ## Service configuration
+        ##
+        service:
+        ## @param metrics.service.type Zookeeper Prometheus Exporter service type
+        ##
+        type: ClusterIP
+        ## @param metrics.service.port Prometheus metrics service port
+        ##
+        port: 9141
+        ## @param metrics.service.annotations [object] Annotations for the Zookeeper to auto-discover the metrics endpoint
+        ##
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "{{ .Values.metrics.service.port }}"
+          prometheus.io/path: "/metrics"
       auth:
         ## @param zookeeper.auth.enabled Enable Zookeeper auth
         ##
