@@ -202,7 +202,7 @@ spec:
     numIoThreads: 8
     ## @param numNetworkThreads The number of threads handling network requests
     ##
-    numNetworkThreads: 3
+    numNetworkThreads: 6
     ## @param numPartitions The default number of log partitions per topic
     ##
     numPartitions: 3
@@ -444,7 +444,7 @@ spec:
 
     ## @param replicaCount Number of Kafka nodes
     ##
-    replicaCount: 3
+    replicaCount: 8
     ## @param minBrokerId Minimal broker.id value, nodes increment their `broker.id` respectively
     ## Brokers increment their ID starting at this minimal value.
     ## E.g., with `minBrokerId=100` and 3 nodes, IDs will be 100, 101, 102 for brokers 0, 1, and 2, respectively.
@@ -1359,27 +1359,27 @@ spec:
       ##
       topics: 
         - name: ris-update-announcement
-          partitions: 3
+          partitions: 6
           replicationFactor: 1
           config:
         - name: ris-update-withdrawal
-          partitions: 3
+          partitions: 6
           replicationFactor: 1
           config:
         - name: ris-peer-state
-          partitions: 3
+          partitions: 6
           replicationFactor: 1
           config:
         - name: ris-open
-          partitions: 3
+          partitions: 6
           replicationFactor: 1
           config:
         - name: ris-notification
-          partitions: 3
+          partitions: 6
           replicationFactor: 1
           config:
         - name: ris-unknowns
-          partitions: 3
+          partitions: 6
           replicationFactor: 1
           config:
 
