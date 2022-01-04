@@ -250,7 +250,7 @@ spec:
       ## Setting this to LoadBalancer may require corresponding service annotations for loadbalancer creation to succeed.
       ## Currently supported types are ClusterIP (default) and LoadBalancer
       ##
-      type: LoadBalancer
+      type: ClusterIP
       ## @param service.loadBalancerIP Load balancer IP if `service.type` is `LoadBalancer`
       ## If service.type is LoadBalancer, request a specific static IP address if supported by the cloud provider, otherwise leave blank
       loadBalancerIP: ""
@@ -669,7 +669,7 @@ spec:
       externalAccess:
         ## @param cluster.externalAccess.enabled Enable access to the Redis
         ##
-        enabled: false
+        enabled: true
         service:
           ## @param cluster.externalAccess.service.type Type for the services used to expose every Pod
           ## At this moment only LoadBalancer is supported
