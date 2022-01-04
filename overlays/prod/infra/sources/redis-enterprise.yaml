@@ -9,7 +9,7 @@ spec:
     - name: nfs-local
       namespace: infra
   interval: 10m0s
-  path: ./overlays/prod/infra/apps/redis-enterpise
+  path: ./overlays/prod/infra/apps/redis-enterprise
   prune: true
   sourceRef:
     kind: GitRepository
