@@ -3,4 +3,4 @@ kind: Kustomization
 metadata:
   name: redis-enterprise
 resources:
-  - github.com/RedisLabs/redis-enterprise-k8s-docs/6.2.8-2/bundle.yaml
+  - https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/6.2.8-2/bundle.yaml
