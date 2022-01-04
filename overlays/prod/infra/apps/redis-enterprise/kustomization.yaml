@@ -4,7 +4,7 @@ resources:
   - role.yaml
   - role_binding.yaml
   - service_account.yaml
-  - crds/v1/rec_crd.yaml
-  - crds/v1alpha1/redb_crd.yaml
+  - rec_crd.yaml
+  - redb_crd.yaml
   - admission-service.yaml
   - operator.yaml
