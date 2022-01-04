@@ -669,7 +669,7 @@ spec:
       externalAccess:
         ## @param cluster.externalAccess.enabled Enable access to the Redis
         ##
-        enabled: false
+        enabled: true
         service:
           ## @param cluster.externalAccess.service.type Type for the services used to expose every Pod
           ## At this moment only LoadBalancer is supported
