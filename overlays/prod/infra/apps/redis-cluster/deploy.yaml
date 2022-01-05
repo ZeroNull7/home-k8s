@@ -207,13 +207,13 @@ spec:
     password: ""
     ## @param existingSecret Name of existing secret object (for password authentication)
     ##
-    existingSecret: ""
+    existingSecret: "redis-password"
     ## @param existingSecretPasswordKey Name of key containing password to be retrieved from the existing secret
     ##
-    existingSecretPasswordKey: ""
+    existingSecretPasswordKey: "password"
     ## @param usePasswordFile Mount passwords as files instead of environment variables
     ##
-    usePasswordFile: false
+    usePasswordFile: true
     ##
     ## TLS configuration
     ##
