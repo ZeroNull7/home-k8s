@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: sabzbd-gateway
+  name: sabnzbd-gateway
   namespace: istio-system
 spec:
   selector:
@@ -9,46 +9,46 @@ spec:
   servers:
   - port:
       number: 80
-      name: sabzbd-http-port
+      name: sabnzbd-http-port
       protocol: HTTP
     hosts:
-      - sabzbd.simplefxn.com
+      - sabnzbd.simplefxn.com
     tls:
       httpsRedirect: true
   - port:
       number: 443
-      name: sabzbd-https-port
+      name: sabnzbd-https-port
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: sabzbd.simplefxn.com
+      credentialName: sabnzbd.simplefxn.com
     hosts:
-      - sabzbd.simplefxn.com
+      - sabnzbd.simplefxn.com
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: sabzbd-vs
+  name: sabnzbd-vs
   namespace: istio-system
 spec:
   hosts:
-  - "sabzbd.simplefxn.com"
+  - "sabnzbd.simplefxn.com"
   gateways:
-  - sabzbd-gateway
+  - sabnzbd-gateway
   http:
   - route:
     - destination:
-        host: sabzbd.apps.svc.cluster.local
+        host: sabnzbd.apps.svc.cluster.local
         port:
           number: 8080
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: sabzbd
+  name: sabnzbd
   namespace: istio-system
 spec:
-  host: sabzbd.apps.svc.cluster.local
+  host: sabnzbd.apps.svc.cluster.local
   trafficPolicy:
     tls:
       mode: DISABLE

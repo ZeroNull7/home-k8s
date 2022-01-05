@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: sabzbd
+  name: sabnzbd
   namespace: apps  
 spec:
   interval: 5m
@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: sabzbd
+      chart: sabnzbd
       version: 4.2.0
       sourceRef:
         kind: HelmRepository
