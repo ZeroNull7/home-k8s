@@ -40,7 +40,7 @@ spec:
       imagePullSecrets: []
       storageClass: ""
       redis:
-        password: "ds1QcJaEy3"
+        password: ""
 
     ## @section Redis&trade; Cluster Common parameters
 
