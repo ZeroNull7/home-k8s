@@ -749,7 +749,13 @@ spec:
           port: 6379
           ## @param cluster.externalAccess.service.loadBalancerIP Array of load balancer IPs for each Redis&trade; node. Length must be the same as cluster.nodes
           ##
-          loadBalancerIP: []
+          loadBalancerIP: 
+            - 192.168.69.20
+            - 192.168.69.21
+            - 192.168.69.22
+            - 192.168.69.23
+            - 192.168.69.24
+            - 192.168.69.25
           ## @param cluster.externalAccess.service.annotations Annotations to add to the services used to expose every Pod of the Redis&trade; Cluster
           ##
           annotations: {}
