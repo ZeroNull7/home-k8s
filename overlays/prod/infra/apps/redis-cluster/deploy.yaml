@@ -273,7 +273,7 @@ spec:
       ## Setting this to LoadBalancer may require corresponding service annotations for loadbalancer creation to succeed.
       ## Currently supported types are ClusterIP (default) and LoadBalancer
       ##
-      type: ClusterIP
+      type: LoadBalancer
       ## @param service.clusterIP Service Cluster IP
       ## e.g.:
       ## clusterIP: None
@@ -323,7 +323,7 @@ spec:
         - ReadWriteOnce
       ## @param persistence.size Size of data volume
       ##
-      size: 8Gi
+      size: 16Gi
       ## @param persistence.matchLabels Persistent Volume selectors
       ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector
       ##
@@ -738,7 +738,7 @@ spec:
       externalAccess:
         ## @param cluster.externalAccess.enabled Enable access to the Redis
         ##
-        enabled: false
+        enabled: true
         service:
           ## @param cluster.externalAccess.service.type Type for the services used to expose every Pod
           ## At this moment only LoadBalancer is supported
