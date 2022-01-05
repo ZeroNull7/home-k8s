@@ -738,7 +738,7 @@ spec:
       externalAccess:
         ## @param cluster.externalAccess.enabled Enable access to the Redis
         ##
-        enabled: true
+        enabled: false
         service:
           ## @param cluster.externalAccess.service.type Type for the services used to expose every Pod
           ## At this moment only LoadBalancer is supported
@@ -749,13 +749,7 @@ spec:
           port: 6379
           ## @param cluster.externalAccess.service.loadBalancerIP Array of load balancer IPs for each Redis&trade; node. Length must be the same as cluster.nodes
           ##
-          loadBalancerIP:
-            - 192.168.69.19
-            - 192.168.69.20
-            - 192.168.69.21
-            - 192.168.69.22
-            - 192.168.69.23
-            - 192.168.69.24
+          loadBalancerIP: []
           ## @param cluster.externalAccess.service.annotations Annotations to add to the services used to expose every Pod of the Redis&trade; Cluster
           ##
           annotations: {}
@@ -765,7 +759,7 @@ spec:
         ## @param cluster.update.addNodes Boolean to specify if you want to add nodes after the upgrade
         ## Setting this to true a hook will add nodes to the Redis&trade; cluster after the upgrade. currentNumberOfNodes is required
         ##
-        addNodes: true
+        addNodes: false
         ## @param cluster.update.currentNumberOfNodes Number of currently deployed Redis&trade; nodes
         ##
         currentNumberOfNodes: 6
