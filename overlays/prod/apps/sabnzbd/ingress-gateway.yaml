@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: homer-gateway
+  name: sabzbd-gateway
   namespace: istio-system
 spec:
   selector:
@@ -9,46 +9,46 @@ spec:
   servers:
   - port:
       number: 80
-      name: homer-http-port
+      name: sabzbd-http-port
       protocol: HTTP
     hosts:
-      - homer.simplefxn.com
+      - sabzbd.simplefxn.com
     tls:
       httpsRedirect: true
   - port:
       number: 443
-      name: homer-https-port
+      name: sabzbd-https-port
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: homer.simplefxn.com
+      credentialName: sabzbd.simplefxn.com
     hosts:
-      - homer.simplefxn.com
+      - sabzbd.simplefxn.com
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: homer-vs
+  name: sabzbd-vs
   namespace: istio-system
 spec:
   hosts:
-  - "homer.simplefxn.com"
+  - "sabzbd.simplefxn.com"
   gateways:
-  - homer-gateway
+  - sabzbd-gateway
   http:
   - route:
     - destination:
-        host: homer.apps.svc.cluster.local
+        host: sabzbd.apps.svc.cluster.local
         port:
           number: 8080
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: homer
+  name: sabzbd
   namespace: istio-system
 spec:
-  host: homer.apps.svc.cluster.local
+  host: sabzbd.apps.svc.cluster.local
   trafficPolicy:
     tls:
       mode: DISABLE
