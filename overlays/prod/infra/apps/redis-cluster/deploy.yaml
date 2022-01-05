@@ -765,7 +765,13 @@ spec:
         currentNumberOfNodes: 6
         ## @param cluster.update.newExternalIPs External IPs obtained from the services for the new nodes to add to the cluster
         ##
-        newExternalIPs: []
+        newExternalIPs: 
+          - redis-cluster-0-svc
+          - redis-cluster-1-svc
+          - redis-cluster-2-svc
+          - redis-cluster-3-svc
+          - redis-cluster-4-svc
+          - redis-cluster-5-svc
 
     ## @section Metrics sidecar parameters
 
