@@ -723,7 +723,7 @@ spec:
       autoDiscovery:
         ## @param externalAccess.autoDiscovery.enabled Enable using an init container to auto-detect external IPs/ports by querying the K8s API
         ##
-        enabled: true
+        enabled: false
         ## Bitnami Kubectl image
         ## ref: https://hub.docker.com/r/bitnami/kubectl/tags/
         ## @param externalAccess.autoDiscovery.image.registry Init container auto-discovery image registry
