@@ -1362,26 +1362,32 @@ spec:
           partitions: 64
           replicationFactor: 3
           config:
+            retention.ms: 600000
         - name: ris-update-withdrawal
           partitions: 64
           replicationFactor: 3
           config:
+            retention.ms: 600000
         - name: ris-peer-state
           partitions: 64
           replicationFactor: 3
           config:
+            retention.ms: 600000
         - name: ris-open
           partitions: 64
           replicationFactor: 3
           config:
+            retention.ms: 600000
         - name: ris-notification
           partitions: 64
           replicationFactor: 3
           config:
+            retention.ms: 600000
         - name: ris-unknowns
           partitions: 64
           replicationFactor: 3
           config:
+            retention.ms: 600000
 
     ## @section Zookeeper chart parameters
 
