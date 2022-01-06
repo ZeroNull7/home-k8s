@@ -715,7 +715,7 @@ spec:
     externalAccess:
       ## @param externalAccess.enabled Enable Kubernetes external cluster access to Kafka brokers
       ##
-      enabled: true
+      enabled: false
       ## External IPs auto-discovery configuration
       ## An init container is used to auto-detect LB IPs or node ports by querying the K8s API
       ## Note: RBAC might be required
