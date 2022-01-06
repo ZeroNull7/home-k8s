@@ -1359,27 +1359,27 @@ spec:
       ##
       topics: 
         - name: ris-update-announcement
-          partitions: 6
+          partitions: 64
           replicationFactor: 1
           config:
         - name: ris-update-withdrawal
-          partitions: 6
+          partitions: 64
           replicationFactor: 1
           config:
         - name: ris-peer-state
-          partitions: 6
+          partitions: 64
           replicationFactor: 1
           config:
         - name: ris-open
-          partitions: 6
+          partitions: 64
           replicationFactor: 1
           config:
         - name: ris-notification
-          partitions: 6
+          partitions: 64
           replicationFactor: 1
           config:
         - name: ris-unknowns
-          partitions: 6
+          partitions: 64
           replicationFactor: 1
           config:
 
