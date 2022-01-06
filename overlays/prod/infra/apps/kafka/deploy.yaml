@@ -1404,7 +1404,7 @@ spec:
       metrics:
       ## @param metrics.enabled Enable prometheus to access zookeeper metrics endpoint
       ##
-        enabled: false
+        enabled: true
         ## @param metrics.containerPort Zookeeper Prometheus Exporter container port
         ##
         containerPort: 9141
