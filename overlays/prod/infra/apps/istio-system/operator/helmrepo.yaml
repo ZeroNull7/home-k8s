@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: istio-operator
+  name: operator
   namespace: istio-operator
 spec:
   interval: 30m

@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: istio-operator
-      version: 1.7.0
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: istio-operator
