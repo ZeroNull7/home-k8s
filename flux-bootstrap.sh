@@ -1,6 +1,6 @@
 #!/bin/bash
 kubectl create namespace flux-system
-#kubectl create secret generic flux-git-deploy --from-file=identity=/Users/marcelo/.ssh/flux
+kubectl create secret generic flux-git-deploy --from-file=identity=/Users/marcelo/.ssh/flux
 kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
 
 kubectl create namespace infra
