@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: istio-base
+  namespace: istio-system  
+spec:
+  interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: istio/base
+      version: 1.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: istio-system
+  values:
+    global:
+
+      # ImagePullSecrets for control plane ServiceAccount, list of secrets in the same namespace
+      # to use for pulling any images in pods that reference this ServiceAccount.
+      # Must be set for any cluster configured with private docker registry.
+      imagePullSecrets: []    
+
+      # Used to locate istiod.
+      istioNamespace: istio-system    
+
+      istiod:
+        enableAnalysis: false   
+
+      configValidation: true
+      externalIstiod: false
+      remotePilotAddress: ""    
+
+    base:
+      # Used for helm2 to add the CRDs to templates.
+      enableCRDTemplates: false   
+
+      # Validation webhook configuration url
+      # For example: https://$remotePilotAddress:15017/validate
+      validationURL: ""   
+
+      # For istioctl usage to disable istio config crds in base
+      enableIstioConfigCRDs: true   
+
+    defaultRevision: "default"
