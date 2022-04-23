@@ -24,7 +24,7 @@ spec:
     ##
     ## Configuration settings that directly affect the Velero deployment YAML.
     ##
-    
+
     # Details of the container image to use in the Velero deployment & daemonset (if
     # enabling restic). Required.
     image:
@@ -37,27 +37,27 @@ spec:
       # One or more secrets to be used when pulling images
       imagePullSecrets: []
       # - registrySecretName
-    
+
     # Annotations to add to the Velero deployment's. Optional.
     #
     # If you are using reloader use the following annotation with your VELERO_SECRET_NAME
     annotations: {}
     # secret.reloader.stakater.com/reload: "<VELERO_SECRET_NAME>"
-    
+
     # Labels to add to the Velero deployment's. Optional.
     labels: {}
-    
+
     # Annotations to add to the Velero deployment's pod template. Optional.
     #
     # If using kube2iam or kiam, use the following annotation with your AWS_ACCOUNT_ID
     # and VELERO_ROLE_NAME filled in:
     podAnnotations: {}
       #  iam.amazonaws.com/role: "arn:aws:iam::<AWS_ACCOUNT_ID>:role/<VELERO_ROLE_NAME>"
-    
+
     # Additional pod labels for Velero deployment's template. Optional
     # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
     podLabels: {}
-    
+
     # Resource requests/limits to specify for the Velero deployment.
     # https://velero.io/docs/v1.6/customize-installation/#customize-resource-requests-and-limits
     resources:
@@ -67,11 +67,11 @@ spec:
       limits:
         cpu: 1000m
         memory: 512Mi
-    
+
     # Configure the dnsPolicy of the Velero deployment
     # See: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
     dnsPolicy: ClusterFirst
-    
+
     # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
     # If the value is a string then it is evaluated as a template.
     initContainers:
@@ -87,13 +87,13 @@ spec:
       #   volumeMounts:
       #     - mountPath: /target
       #       name: plugins
-    
+
     # SecurityContext to use for the Velero deployment. Optional.
     # Set fsGroup for `AWS IAM Roles for Service Accounts`
     # see more informations at: https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
     podSecurityContext: {}
       # fsGroup: 1337
-    
+
     # Container Level Security Context for the 'velero' container of the Velero deployment. Optional.
     # See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
     containerSecurityContext: {}
@@ -102,25 +102,25 @@ spec:
       #   drop: ["ALL"]
       #   add: []
       # readOnlyRootFilesystem: true
-    
+
     # Pod priority class name to use for the Velero deployment. Optional.
     priorityClassName: ""
-    
+
     # Tolerations to use for the Velero deployment. Optional.
     tolerations: []
-    
+
     # Affinity to use for the Velero deployment. Optional.
     affinity: {}
-    
+
     # Node selector to use for the Velero deployment. Optional.
     nodeSelector: {}
-    
+
     # Extra volumes for the Velero deployment. Optional.
     extraVolumes: []
-    
+
     # Extra volumeMounts for the Velero deployment. Optional.
     extraVolumeMounts: []
-    
+
     # Extra K8s manifests to deploy
     extraObjects: []
       # - apiVersion: secrets-store.csi.x-k8s.io/v1
@@ -146,30 +146,30 @@ spec:
       #           objectName: client-secret
       #         secretName: velero-secrets-store
       #         type: Opaque
-    
+
     # Settings for Velero's prometheus metrics. Enabled by default.
     metrics:
       enabled: true
       scrapeInterval: 30s
       scrapeTimeout: 10s
-    
+
       # service metdata if metrics are enabled
       service:
         annotations: {}
         labels: {}
-    
+
       # Pod annotations for Prometheus
       podAnnotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8085"
         prometheus.io/path: "/metrics"
-    
+
       serviceMonitor:
         enabled: false
         additionalLabels: {}
         # ServiceMonitor namespace. Default to Velero namespace.
         # namespace:
-    
+
     kubectl:
       image:
         repository: docker.io/bitnami/kubectl
@@ -187,19 +187,19 @@ spec:
       annotations: {}
       # Labels to set for the upgrade/cleanup job. Optional.
       labels: {}
-    
+
     # This job upgrades the CRDs.
     upgradeCRDs: true
-    
+
     # This job is meant primarily for cleaning up CRDs on CI systems.
     # Using this on production systems, especially those that have multiple releases of Velero, will be destructive.
     cleanUpCRDs: false
-    
+
     ##
     ## End of deployment-related settings.
     ##
-    
-    
+
+
     ##
     ## Parameters for the `default` BackupStorageLocation and VolumeSnapshotLocation,
     ## and additional server settings.
@@ -207,7 +207,7 @@ spec:
     configuration:
       # Cloud provider being used (e.g. aws, azure, gcp).
       provider:
-    
+
       # Parameters for the `default` BackupStorageLocation. See
       # https://velero.io/docs/v1.6/api-types/backupstoragelocation/
       backupStorageLocation:
@@ -232,22 +232,22 @@ spec:
           #
           # Required.
           resourceGroup: home
-      
+
           # Name of the storage account for this backup storage location.
           #
           # Required.
           storageAccount: store811d48e4fca8
-      
+
           # Name of the environment variable in $AZURE_CREDENTIALS_FILE that contains storage account key for this backup storage location.
           #
           # Required if using a storage account access key to authenticate rather than a service principal.
           # storageAccountKeyEnvVar: MY_BACKUP_STORAGE_ACCOUNT_KEY_ENV_VAR
-      
+
           # ID of the subscription for this backup storage location.
           #
           # Optional.
           subscriptionId: 4f581ec4-a0a0-4a9b-8e53-f001db85a611
-      
+
           # The block size, in bytes, to use when uploading objects to Azure blob storage.
           # See https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs#about-block-blobs
           # for more information on block blobs.
@@ -266,18 +266,44 @@ spec:
         #  Name of the GCP service account to use for this backup storage location. Specify the
         #  service account here if you want to use workload identity instead of providing the key file.(GCP only)
         #  serviceAccount:
-    
+
       # Parameters for the `default` VolumeSnapshotLocation. See
       # https://velero.io/docs/v1.6/api-types/volumesnapshotlocation/
       volumeSnapshotLocation:
         # name is the name of the volume snapshot location where snapshots are being taken. Required.
-        name:
+        name: 
         # provider is the name for the volume snapshot provider. If omitted
         # `configuration.provider` will be used instead.
-        provider:
+        provider: velero.io/azure 
         # Additional provider-specific configuration. See link above
         # for details of required/optional fields for your provider.
-        config: {}
+        config: 
+          # Name of the resource group containing the storage account for this backup storage location.
+          #
+          # Required.
+          resourceGroup: home
+
+          # Name of the storage account for this backup storage location.
+          #
+          # Required.
+          storageAccount: store811d48e4fca8
+
+          # Name of the environment variable in $AZURE_CREDENTIALS_FILE that contains storage account key for this backup storage location.
+          #
+          # Required if using a storage account access key to authenticate rather than a service principal.
+          # storageAccountKeyEnvVar: MY_BACKUP_STORAGE_ACCOUNT_KEY_ENV_VAR
+
+          # ID of the subscription for this backup storage location.
+          #
+          # Optional.
+          subscriptionId: 4f581ec4-a0a0-4a9b-8e53-f001db85a611
+
+          # The block size, in bytes, to use when uploading objects to Azure blob storage.
+          # See https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs#about-block-blobs
+          # for more information on block blobs.
+          #
+          # Optional (defaults to 104857600, i.e. 100MB).
+          blockSizeInBytes: "104857600"
       #    region:
       #    apiTimeout:
       #    resourceGroup:
@@ -286,7 +312,7 @@ spec:
       #    incremental:
       #    snapshotLocation:
       #    project:
-    
+
       # These are server-level settings passed as CLI flags to the `velero server` command. Velero
       # uses default values if they're not passed in, so they only need to be explicitly specified
       # here if using a non-default value. The `velero server` default values are shown in the
@@ -307,35 +333,35 @@ spec:
       # `velero server` default: empty
       disableControllers:
       #
-    
+
       # additional key/value pairs to be used as environment variables such as "AWS_CLUSTER_NAME: 'yourcluster.domain.tld'"
       extraEnvVars: {}
-    
+
       # Comma separated list of velero feature flags. default: empty
       # features: EnableCSI
       features:
-    
+
       # Set log-level for Velero pod. Default: info. Other options: debug, warning, error, fatal, panic.
       logLevel:
-    
+
       # Set log-format for Velero pod. Default: text. Other option: json.
       logFormat:
-    
+
       # Set true for backup all pod volumes without having to apply annotation on the pod when used restic Default: false. Other option: false.
       defaultVolumesToRestic:
-    
+
       # How often 'restic prune' is run for restic repositories by default. Default: 168h. Optional.
       defaultResticPruneFrequency:
-    
+
     ##
     ## End of backup/snapshot location settings.
     ##
-    
-    
+
+
     ##
     ## Settings for additional Velero resources.
     ##
-    
+
     rbac:
       # Whether to create the Velero role and role binding to give all permissions to the namespace to Velero.
       create: true
@@ -343,7 +369,7 @@ spec:
       clusterAdministrator: true
       # Name of the ClusterRole.
       clusterAdministratorName: cluster-admin
-    
+
     # Information about the Kubernetes service account Velero uses.
     serviceAccount:
       server:
@@ -351,7 +377,7 @@ spec:
         name:
         annotations:
         labels:
-    
+
     # Info about the secret to be used by the Velero deployment, which
     # should contain credentials for the cloud provider IAM account you've
     # set up for Velero.
@@ -384,15 +410,15 @@ spec:
       # that will be used to load environment variables into velero and restic.
       # Secret should be in format - https://kubernetes.io/docs/concepts/configuration/secret/#use-case-as-container-environment-variables
       extraSecretRef: ""
-    
+
     # Whether to create backupstoragelocation crd, if false => do not create a default backup location
     backupsEnabled: true
     # Whether to create volumesnapshotlocation crd, if false => disable snapshot feature
     snapshotsEnabled: true
-    
+
     # Whether to deploy the restic daemonset.
     deployRestic: false
-    
+
     restic:
       podVolumePath: /var/lib/kubelet/pods
       privileged: false
@@ -407,45 +433,45 @@ spec:
         limits:
           cpu: 1000m
           memory: 1024Mi
-    
+
       # Tolerations to use for the Restic daemonset. Optional.
       tolerations: []
-    
+
       # Annotations to set for the Restic daemonset. Optional.
       annotations: {}
-    
+
       # labels to set for the Restic daemonset. Optional.
       labels: {}
-    
+
       # will map /scratch to emptyDir. Set to false and specify your own volume
       # via extraVolumes and extraVolumeMounts that maps to /scratch
       # if you don't want to use emptyDir.
       useScratchEmptyDir: true
-    
+
       # Extra volumes for the Restic daemonset. Optional.
       extraVolumes: []
-    
+
       # Extra volumeMounts for the Restic daemonset. Optional.
       extraVolumeMounts: []
-    
+
       # Configure the dnsPolicy of the Restic daemonset
       # See: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
       dnsPolicy: ClusterFirst
-    
+
       # SecurityContext to use for the Velero deployment. Optional.
       # Set fsGroup for `AWS IAM Roles for Service Accounts`
       # see more informations at: https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
       podSecurityContext:
         runAsUser: 0
         # fsGroup: 1337
-    
+
       # Container Level Security Context for the 'restic' container of the restic DaemonSet. Optional.
       # See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
       containerSecurityContext: {}
-    
+
       # Node selector to use for the Restic daemonset. Optional.
       nodeSelector: {}
-    
+
     # Backup schedules to create.
     # Eg:
     # schedules:
@@ -462,7 +488,7 @@ spec:
     #       includedNamespaces:
     #       - foo
     schedules: {}
-    
+
     # Velero ConfigMaps.
     # Eg:
     # configMaps:
@@ -473,9 +499,8 @@ spec:
     #     data:
     #       image: velero/velero-restic-restore-helper:v1.8.1
     configMaps: {}
-    
+
     ##
     ## End of additional Velero resource settings.
     ##
-    
-    
+
