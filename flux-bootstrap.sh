@@ -21,7 +21,7 @@ flux create source git home-k8s \
 
 flux create kustomization repos \
         --source=GitRepository/home-k8s \
-        --path="./overlays/prod/base/repos" \
+        --path="./overlays/prod/repos" \
         --prune=true \
         --interval=5m
 
