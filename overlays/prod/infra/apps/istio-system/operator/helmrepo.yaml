@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: istio-operator
+  namespace: istio-operator
+spec:
+  interval: 30m
+  url: https://istio-release.storage.googleapis.com/charts
+  timeout: 2m
