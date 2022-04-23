@@ -19,12 +19,17 @@ flux create source git home-k8s \
     --private-key-file=/Users/marcelo/.ssh/flux \
     --silent
 
+flux create kustomization repos \
+        --source=GitRepository/home-k8s \
+        --path="./overlays/prod/base/repos" \
+        --prune=true \
+        --interval=5m
+
 flux create kustomization base \
         --source=GitRepository/home-k8s \
         --path="./overlays/prod/base/sources" \
         --prune=true \
         --interval=5m
-
 
 flux create kustomization infra \
       --source=GitRepository/home-k8s \
