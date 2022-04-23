@@ -6,10 +6,8 @@ kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/instal
 kubectl create namespace infra
 kubectl create namespace apps
 kubectl create namespace istio-system
-kubectl create namespace istio-operator
 
 gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=flux-system --from-file=sops.asc=/dev/stdin
-gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=istio-operator --from-file=sops.asc=/dev/stdin
 gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=istio-system --from-file=sops.asc=/dev/stdin
 gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=infra --from-file=sops.asc=/dev/stdin
 gpg --export-secret-keys --armor "9DC11809DD7D102342B09932C40921F65EFEF866" | kubectl create secret generic sops-gpg --namespace=apps --from-file=sops.asc=/dev/stdin
