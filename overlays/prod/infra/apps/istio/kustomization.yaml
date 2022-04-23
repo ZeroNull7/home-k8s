@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - helmrepo.yaml
   - base.yaml
-
+  - istiod.yaml
 
     
