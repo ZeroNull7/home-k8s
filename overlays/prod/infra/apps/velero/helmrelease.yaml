@@ -14,8 +14,8 @@ spec:
       retries: 3
   chart:
     spec:
-      chart: vmware-tanzu
-      version: 1.8.1
+      chart: velero
+      version: 2.29.4
       sourceRef:
         kind: HelmRepository
         name: vmware-tanzu
