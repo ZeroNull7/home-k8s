@@ -1,0 +1,6 @@
+sudo kubeadm init \
+--apiserver-advertise-address=172.20.20.15 \
+--apiserver-cert-extra-sans=108.210.132.101,108.210.132.100,108.210.132.99,108.210.132.98,172.20.20.15,k8s.simplefxn.com \
+--pod-network-cidr=10.200.0.0/16 \
+--control-plane-endpoint=cluster-endpoint
+
