@@ -36,3 +36,9 @@ flux create kustomization infra \
       --path="./overlays/prod/infra/sources" \
       --prune=true \
       --interval=5m
+
+flux create kustomization apps \
+      --source=GitRepository/home-k8s \
+      --path="./overlays/prod/apps" \
+      --prune=true \
+      --interval=5m
