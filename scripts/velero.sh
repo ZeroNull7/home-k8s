@@ -9,5 +9,5 @@ velero install --provider azure \
     --use-restic \
     --wait
 
-velero schedule create unifi-controller --ttl 3600h0m0s --schedule="@every 24h" -l app=unifi-controller
-velero schedule create postgres --ttl 3600h0m0s --schedule="@every 24h" -l app=postgres
+#velero schedule create unifi-controller --ttl 3600h0m0s --schedule="@every 24h" -l app=unifi-controller
+#velero schedule create postgres --ttl 3600h0m0s --schedule="@every 24h" -l app=postgres

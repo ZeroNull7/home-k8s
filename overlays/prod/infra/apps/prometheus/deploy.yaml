@@ -14,9 +14,8 @@ spec:
       retries: 5
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: kube-prometheus-stack
-      version: 23.2.0
+      version: 35.4.2
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
