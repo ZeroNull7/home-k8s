@@ -6,10 +6,8 @@ metadata:
   namespace: apps
 spec:
   dependsOn:
-    - name: nfs-synology
+    - name: nfs-local
       namespace: infra
-    - name: istio
-      namespace: istio-system
     - name: cert-manager
       namespace: infra
   interval: 1m0s

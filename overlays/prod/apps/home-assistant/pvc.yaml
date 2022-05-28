@@ -6,7 +6,7 @@ metadata:
   namespace: apps
   name: home-assistant-config
 spec:
-  storageClassName: synology
+  storageClassName: local
   accessModes:
     - ReadWriteOnce
   resources:
@@ -21,7 +21,7 @@ metadata:
   namespace: apps
   name: home-assistant-backup
 spec:
-  storageClassName: synology
+  storageClassName: local
   accessModes:
     - ReadWriteOnce
   resources:
@@ -36,7 +36,7 @@ metadata:
   namespace: apps
   name: home-assistant-media
 spec:
-  storageClassName: synology
+  storageClassName: local
   accessModes:
     - ReadWriteOnce
   resources:
