@@ -9,11 +9,11 @@ data:
     vuegraf.json: |
         {
           "influxDb": {
-            "version": 2,
-            "url": "http://influxdb.infra.svc.cluster.local:8086",
-            "org": "simplefxn",
-            "bucket": "vuegraf",
-            "token": "t_7eeTwVsp2MvBX7bUGo7xZa59WxZUiqbN_VJiP4JJGvxMGcc7whC1jYxgT5Ze4831VHoRafz-H0jy1pVajkfQ==",
+            "host": "influxdb-v1.infra.svc.cluster.local",
+            "port": 8086,
+            "user": "admin",
+            "pass": "pass123!",
+            "database": "vue",
             "reset": false
           },
           "accounts": [
