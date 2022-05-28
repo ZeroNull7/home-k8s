@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: promtail
+  namespace: infra
+spec:
+  dependsOn:
+    - name: metallb
+      namespace: metallb-system
+    - name: nfs-local
+      namespace: infra
+  interval: 10m0s
+  path: ./overlays/prod/infra/apps/promtail
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-k8s
+    namespace: flux-system
