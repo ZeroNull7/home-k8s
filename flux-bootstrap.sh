@@ -1,6 +1,6 @@
 #!/bin/bash
 kubectl create namespace flux-system
-kubectl create secret generic flux-git-deploy --from-file=identity=/Users/marcelo/.ssh/flux
+kubectl create secret generic flux-git-deploy --from-file=identity=/home/crodriguezde/.ssh/flux
 kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
 
 kubectl create namespace infra
@@ -16,7 +16,7 @@ flux create source git home-k8s \
     --url=ssh://git@github.com/ZeroNull7/home-k8s.git \
     --branch=main \
     --interval=1m \
-    --private-key-file=/Users/marcelo/.ssh/flux \
+    --private-key-file=/home/crodriguezde/.ssh/flux \
     --silent
 
 flux create kustomization repos \
