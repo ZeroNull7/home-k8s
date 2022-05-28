@@ -195,14 +195,14 @@ stringData:
         # a lot of information. Only recommended for testing and debugging. There
         # may not be any dashboards to display this data. It can be used for annotations.
         # Enable this only if using InfluxDB or Loki. This will leak PII data!
-        save_ids = false
+        save_ids = true
       
         # Enable collection of UniFi Events (InfluxDB/Loki only).
         # This may store a lot of information. Only recommended for testing and debugging.
         # There are no dashboards to display this data. It can be used for annotations.
         # This is a new (June, 2020) feature. Please provide feedback if you try it out!
         # Enable this only if using InfluxDB or Loki. This will leak PII data!
-        save_events = false
+        save_events = true
       
         # Enable collection of UniFi Alarms (InfluxDB/Loki only).
         # There are no dashboards to display this data. It can be used for annotations.
@@ -222,7 +222,7 @@ stringData:
         # 40 clients.  This adds a little bit of poller run time per interval and causes
         # more API requests to your controller(s). Don't let these "cons" sway you:
         # it's cool data. Please provide feedback on your experience with this feature.
-        save_dpi = false
+        save_dpi = true
       
         ## Enabling save_rogue stores even more data in your time series databases.
         ## This saves neighboring access point metrics in a dedicated table or namespace.
@@ -245,11 +245,10 @@ stringData:
       # You may repeat the following [[unifi.controller]] section as many times as needed to
       # poll multiple controllers. Uncomment the entire section including [[unifi.controller]].
       # Omitted variables will have their values taken from the defaults, above.
-      #
-      #[[unifi.controller]]
-      #  url         = "https://127.0.0.1:8443"
-      #  user        = "unifipoller"
-      #  pass        = "unifipoller"
+      # [[unifi.controller]]
+      #  url         = "http://192.168.69.4:8080"
+      #  user        = "marcelo"
+      #  pass        = "Ike0cuso"
       #  sites       = ["all"]
       #  save_sites  = true
       #  hash_pii    = false
