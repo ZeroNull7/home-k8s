@@ -38,7 +38,7 @@ spec:
         insecureSkipVerify: true
     kubeEtcd:
       endpoints:
-        172.20.20.19
+        - 172.20.20.19
       serviceMonitor:
         scheme: https
         insecureSkipVerify: false
