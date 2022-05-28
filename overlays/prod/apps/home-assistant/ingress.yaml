@@ -20,6 +20,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: home-assistant
+            name: home-assistant.apps.svc.cluster.local
             port:
               number: 8123
