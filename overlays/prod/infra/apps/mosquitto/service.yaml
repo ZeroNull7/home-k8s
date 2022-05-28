@@ -8,9 +8,11 @@ spec:
   selector:
     name: mosquitto
   ports:
-    - protocol: TCP
+    - name: mqtt_1883
+      protocol: TCP
       port: 1883
       targetPort: 1883
-    - protocol: TCP
+    - name: mqtt_9001
+      protocol: TCP
       port: 9001
       targetPort: 9001
