@@ -8,8 +8,6 @@ spec:
   dependsOn: 
     - name: nfs-synology
       namespace: infra
-    - name: istio
-      namespace: istio-system
     - name: cert-manager
       namespace: infra
   interval: 10m0s
