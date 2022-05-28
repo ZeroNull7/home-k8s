@@ -24,7 +24,15 @@ kubectl apply -f - -n kube-system
 https://stackoverflow.com/questions/65901186/kube-prometheus-stack-issue-scraping-metrics/66276144#66276144
 
 prometheus needs etc secrets
-kubectl --kubeconfig /etc/kubernetes/admin.conf -n monitoring create secret generic etcd-client-cert --from-file=/etc/kubernetes/pki/etcd/ca.crt --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.crt --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.key
+kubectl --kubeconfig /etc/kubernetes/admin.conf -n infra create secret generic etcd-client-cert --from-file=/etc/kubernetes/pki/etcd/ca.crt --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.crt --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.key
+
+---- 5/29/22 
+podname=$(kubectl get pods -l component=kube-apiserver -n kube-system -o=jsonpath='{.items[0].metadata.name}')
+kubectl create secret generic etcd-certs -n infra\
+  --from-literal=ca.crt="$(kubectl exec $podname -nkube-system -- cat /etc/kubernetes/pki/kube-apiserver/etcd-ca.crt)" \
+  --from-literal=client.crt="$(kubectl exec $podname -nkube-system -- cat /etc/kubernetes/pki/kube-apiserver/etcd-client.crt)" \
+--from-literal=client.key="$(kubectl exec $podname -nkube-system -- cat /etc/kubernetes/pki/kube-apiserver/etcd-client.key)"
+
 
 controller manager 
 $ sudo vi /etc/kubernetes/manifests/kube-controller-manager.yaml
