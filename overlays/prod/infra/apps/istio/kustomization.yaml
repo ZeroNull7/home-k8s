@@ -4,5 +4,6 @@ resources:
   - helmrepo.yaml
   - base.yaml
   - istiod.yaml
+  - gateway.yaml
 
     
