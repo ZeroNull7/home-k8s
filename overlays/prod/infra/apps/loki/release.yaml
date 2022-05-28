@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: loki
-      version: 2.8.1
+      version: 2.11.1
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: grafana/loki
-      tag: 2.4.1
+      tag: 2.5.0
       pullPolicy: IfNotPresent
 
       ## Optionally specify an array of imagePullSecrets.
