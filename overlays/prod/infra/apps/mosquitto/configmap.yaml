@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mosquitto-configmap
-  namespace: mosquitto
+  namespace: infra
 data:
   mosquitto.conf: |-
     listener 1883
