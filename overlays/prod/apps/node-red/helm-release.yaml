@@ -45,15 +45,6 @@ spec:
       # If you set `FLOWS: ""` then the flow file can be set via the `flowFile` property in the `settings.js` file.
       FLOWS: flows.json
 
-    # -- Configures service settings for the chart.
-    # @default -- See values.yaml
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          http:
-            port: 1880
-
     ingress:
       # -- Enable and configure ingress settings for the chart under this key.
       # @default -- See values.yaml
