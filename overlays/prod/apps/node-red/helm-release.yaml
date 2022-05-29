@@ -39,7 +39,6 @@ spec:
             for val in $modules; do
               echo "Installing ${val}"
               npm install $val
-              /usr/src/node-red/node_modules/.bin/node-red-admin install $val
             done        
         workingDir: /data
         volumeMounts:
