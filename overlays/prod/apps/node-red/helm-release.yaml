@@ -58,10 +58,10 @@ spec:
           paths:
           - path: /
             pathType: Prefix
-          tls:
-            - hosts:
-              - "node-red.simplefxn.com"
-              secretName: node-red-simplefxn-tls
+        tls:
+          - hosts:
+            - "node-red.simplefxn.com"
+            secretName: node-red-simplefxn-tls
          
     # -- Configure persistence settings for the chart under this key.
     # @default -- See values.yaml
