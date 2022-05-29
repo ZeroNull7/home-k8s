@@ -24,11 +24,11 @@ spec:
   values:
     image:
     # -- image repository
-    repository: nodered/node-red
+    # repository: nodered/node-red
     # -- image tag
-    tag: 2.1.4
+    # tag: 2.1.4
     # -- image pull policy
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
     # -- environment variables. See [image docs](https://nodered.org/docs/getting-started/docker) for more details.
     # @default -- See below
