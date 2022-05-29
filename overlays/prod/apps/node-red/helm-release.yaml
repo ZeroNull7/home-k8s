@@ -71,12 +71,18 @@ spec:
     # -- Configure persistence settings for the chart under this key.
     # @default -- See values.yaml
     persistence:
-      type: pvc
-      storageClass: local
-      size: 16Gi
-      accessMode: ReadWriteOnce
+      config:
+        enabled: true
+        type: pvc
+        storageClass: local
+        size: 8Gi
+        accessMode: ReadWriteOnce
       data:
         enabled: true
+        type: pvc
+        storageClass: local
+        size: 8Gi
+        accessMode: ReadWriteOnce
         mountPath: /data
     
     codeserver:
