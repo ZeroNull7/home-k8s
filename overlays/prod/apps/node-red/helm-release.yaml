@@ -34,12 +34,7 @@ spec:
                 npm install --save $(npm outdated | cut -d' ' -f 1 | sed '1d' | xargs -I '$' echo '$@latest' | xargs echo);
             else
                 echo "Skipping npm updates, no package.json found.";
-            fi
-            modules="node-red-node-watson node-red-contrib-web-worldmap node-red-node-google node-red-node-geofence node-red-contrib-traffic node-red-contrib-timecheck node-red-contrib-time-range-switch node-red-contrib-state-machine node-red-contrib-state-machine node-red-contrib-statistics node-red-contrib-sunevents node-red-contrib-python3-function node-red-contrib-owntracks node-red-contrib-owntracks node-red-contrib-moment node-red-contrib-looptimer node-red-contrib-stoptimer node-red-contrib-interval-length node-red-contrib-home-assistant node-red-contrib-actionflows node-red-dashboard"
-            for val in $modules; do
-              echo "Installing ${val}"
-              npm install $val
-            done        
+            fi  
         workingDir: /data
         volumeMounts:
           - name: data
