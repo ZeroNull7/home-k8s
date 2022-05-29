@@ -16,7 +16,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: node-red
-      version: 10.1.2
+      version: 10.1.1
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -24,9 +24,9 @@ spec:
   values:
     image:
     # -- image repository
-    # repository: nodered/node-red
+      repository: nodered/node-red
     # -- image tag
-    # tag: 2.1.4
+      tag: 2.1.4
     # -- image pull policy
     pullPolicy: Always
 
