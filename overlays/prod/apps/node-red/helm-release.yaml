@@ -62,7 +62,6 @@ spec:
         annotations: 
           kubernetes.io/ingress.class: "nginx"    
           cert-manager.io/cluster-issuer: "simplefxn-issuer"
-        ingressClassName: "nginx"
         tls:
           - secretName: home-assistant-simplefxn-tls
             hosts:
