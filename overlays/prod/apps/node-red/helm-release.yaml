@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: node-red
+  namespace: apps  
+spec:
+  interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: node-red
+      version: 10.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    image:
+    # -- image repository
+    repository: nodered/node-red
+    # -- image tag
+    tag: 2.1.4
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+
+    # -- environment variables. See [image docs](https://nodered.org/docs/getting-started/docker) for more details.
+    # @default -- See below
+    env:
+      # -- Set the container timezone
+      TZ: "America/Chicago"
+      # -- Node.js runtime arguments
+      NODE_OPTIONS:
+      # -- Setting to `true` starts Node-RED with the projects feature enabled
+      NODE_RED_ENABLE_PROJECTS: "true"
+      # -- Setting to `true` starts Node-RED in safe (not running) mode
+      NODE_RED_ENABLE_SAFE_MODE:
+      # -- Location of the flows configuration file.
+      # If you set `FLOWS: ""` then the flow file can be set via the `flowFile` property in the `settings.js` file.
+      FLOWS: flows.json
+
+    # -- Configures service settings for the chart.
+    # @default -- See values.yaml
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            port: 1880
+
+    ingress:
+      # -- Enable and configure ingress settings for the chart under this key.
+      # @default -- See values.yaml
+      main:
+        enabled: true
+        annotations: 
+          kubernetes.io/ingress.class: "nginx"    
+          cert-manager.io/cluster-issuer: "simplefxn-issuer"
+        ingressClassName: "nginx"
+        tls:
+          - secretName: home-assistant-simplefxn-tls
+            hosts:
+              - home-assistant.simplefxn.com
+            
+    # -- Configure persistence settings for the chart under this key.
+    # @default -- See values.yaml
+    persistence:
+      type: pvc
+      storageClass: local
+      size: 16Gi
+      data:
+        enabled: true
+        mountPath: /data
+    
+    codeserver:
+      enable: true
