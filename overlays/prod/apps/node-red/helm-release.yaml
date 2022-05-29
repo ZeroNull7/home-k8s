@@ -35,6 +35,26 @@ spec:
             else
                 echo "Skipping npm updates, no package.json found.";
             fi
+            npm install node-red-contrib-home-assistant
+            npm install node-red-contrib-actionflows
+            npm install node-red-dashboard
+            npm install node-red-contrib-interval-length
+            npm install node-red-contrib-stoptimer
+            npm install node-red-contrib-looptimer
+            npm install node-red-contrib-moment
+            npm install node-red-contrib-owntracks
+            npm install node-red-contrib-python3-function
+            npm install node-red-contrib-simple-message-queue
+            npm install node-red-contrib-sunevents
+            npm install node-red-contrib-statistics
+            npm install node-red-contrib-state-machine
+            npm install node-red-contrib-time-range-switch
+            npm install node-red-contrib-timecheck
+            npm install node-red-contrib-traffic
+            npm install node-red-node-geofence
+            npm install node-red-node-google
+            npm install node-red-contrib-web-worldmap
+            npm install node-red-node-watson
         workingDir: /data
         volumeMounts:
           - name: data
