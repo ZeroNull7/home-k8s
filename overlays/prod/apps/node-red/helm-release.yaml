@@ -36,25 +36,45 @@ spec:
                 echo "Skipping npm updates, no package.json found.";
             fi
             npm install node-red-contrib-home-assistant
+            node-red-admin install node-red-contrib-home-assistant
             npm install node-red-contrib-actionflows
+            node-red-admin install node-red-contrib-actionflows
             npm install node-red-dashboard
+            node-red-admin install node-red-dashboard
             npm install node-red-contrib-interval-length
+            node-red-admin install node-red-contrib-interval-length
             npm install node-red-contrib-stoptimer
+            node-red-admin install node-red-contrib-stoptimer
             npm install node-red-contrib-looptimer
+            node-red-admin install node-red-contrib-looptimer
             npm install node-red-contrib-moment
+            node-red-admin install node-red-contrib-moment
             npm install node-red-contrib-owntracks
+            node-red-admin install node-red-contrib-owntracks
             npm install node-red-contrib-python3-function
-            npm install node-red-contrib-simple-message-queue
+            node-red-admin install node-red-contrib-python3-function
             npm install node-red-contrib-sunevents
+            node-red-admin install node-red-contrib-sunevents
+            npm install node-red-contrib-sunevents
+            node-red-admin install node-red-contrib-sunevents
             npm install node-red-contrib-statistics
+            node-red-admin install node-red-contrib-statistics
             npm install node-red-contrib-state-machine
+            node-red-admin install node-red-contrib-state-machine
             npm install node-red-contrib-time-range-switch
+            node-red-admin install node-red-contrib-time-range-switch
             npm install node-red-contrib-timecheck
+            node-red-admin install node-red-contrib-timecheck
             npm install node-red-contrib-traffic
+            node-red-admin install node-red-contrib-traffic
             npm install node-red-node-geofence
+            node-red-admin install node-red-node-geofence
             npm install node-red-node-google
+            node-red-admin install node-red-node-google
             npm install node-red-contrib-web-worldmap
+            node-red-admin install node-red-contrib-web-worldmap
             npm install node-red-node-watson
+            node-red-admin install node-red-node-watson
         workingDir: /data
         volumeMounts:
           - name: data
