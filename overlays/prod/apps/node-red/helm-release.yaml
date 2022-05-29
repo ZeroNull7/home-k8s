@@ -74,6 +74,7 @@ spec:
       type: pvc
       storageClass: local
       size: 16Gi
+      accessMode: ReadWriteOnce
       data:
         enabled: true
         mountPath: /data
