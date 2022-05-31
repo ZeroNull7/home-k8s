@@ -41,6 +41,7 @@ spec:
     env:
       VISION-SCENE: 'True'
       VISION-FACE: 'True'
+      VISION-DETECTION: 'True'
       # -- Protect detection and recognition APIs with a key
       # API-KEY: changeMe
       # -- Protect admin APIs (such as managing models) with a key
