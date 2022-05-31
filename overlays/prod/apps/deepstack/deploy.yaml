@@ -63,7 +63,7 @@ spec:
       # - name: DEEPSTACK_CUSTOM_MODEL
       #  value: the name of a custom model, if you wish to use one
         - name: DEEPSTACK_UI_DEBUG_MODE
-          value: True  # options `True` or `False` (default). Lowers the minimum confidence threshold to 1%
+          value: "True"  # options `True` or `False` (default). Lowers the minimum confidence threshold to 1%
       ingress:
         # -- Enable and configure ingress settings for the chart under this key.
         # @default -- See values.yaml
