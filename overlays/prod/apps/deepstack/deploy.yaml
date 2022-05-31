@@ -28,7 +28,6 @@ spec:
     # This chart inherits from our common library chart. You can check the default values/options here:
     # https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
     #
-
     image:
       # -- image repository
       repository: deepquestai/deepstack
@@ -40,6 +39,7 @@ spec:
     # -- environment variables. See more environment variables in the [deepstack documentation](https://docs.deepstack.cc).
     # @default -- See below
     env:
+      VISION-SCENE: True
       # -- Protect detection and recognition APIs with a key
       # API-KEY: changeMe
       # -- Protect admin APIs (such as managing models) with a key
