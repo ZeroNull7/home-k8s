@@ -41,11 +41,11 @@ spec:
     # @default -- See below
     env:
       # -- Enable scene recognition
-      VISION-SCENE: "True"
+      VISION-SCENE: true
       # -- Enable face detection
-      VISION-FACE: "True"
+      VISION-FACE: true
       # -- Enable object detection
-      VISION-DETECTION: "True"
+      VISION-DETECTION: true
       # -- Protect detection and recognition APIs with a key
       # API-KEY: changeMe
       # -- Protect admin APIs (such as managing models) with a key
