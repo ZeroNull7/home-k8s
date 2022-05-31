@@ -41,11 +41,11 @@ spec:
     # @default -- See below
     env:
       # -- Enable scene recognition
-      VISION-SCENE: True
+      VISION-SCENE: "True"
       # -- Enable face detection
-      VISION-FACE: True
+      VISION-FACE: "True"
       # -- Enable object detection
-      VISION-DETECTION: True
+      VISION-DETECTION: "True"
       # -- Protect detection and recognition APIs with a key
       # API-KEY: changeMe
       # -- Protect admin APIs (such as managing models) with a key
@@ -67,15 +67,15 @@ spec:
       # - name: DEEPSTACK_TIMEOUT
       #   value: the timeout to wait for deepstack, default 30 seconds
       # - name: DEEPSTACK_CUSTOM_MODEL
-      #   value: the name of a custom model, if you wish to use one
-      # - name: DEEPSTACK_UI_DEBUG_MODE
-      #   value: options `True` or `False` (default). Lowers the minimum confidence threshold to 1%
+      #  value: the name of a custom model, if you wish to use one
+        - name: DEEPSTACK_UI_DEBUG_MODE
+          value: True  # options `True` or `False` (default). Lowers the minimum confidence threshold to 1%
       ingress:
         # -- Enable and configure ingress settings for the chart under this key.
         # @default -- See values.yaml
         ui:
           enabled: true
-          primary: false
+          primary: true
 
     # -- Configures service settings for the chart.
     # @default -- See values.yaml
