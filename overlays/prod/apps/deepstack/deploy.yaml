@@ -39,11 +39,11 @@ spec:
     # -- environment variables. See more environment variables in the [deepstack documentation](https://docs.deepstack.cc).
     # @default -- See below
     env:
+      VISION-DETECTION: 'True'
       VISION-SCENE: 'True'
       VISION-FACE: 'True'
-      VISION-DETECTION: 'True'
       # -- Protect detection and recognition APIs with a key
-      # API-KEY: changeMe
+      # API-KEY: changeMe:
       # -- Protect admin APIs (such as managing models) with a key
       # ADMIN-KEY: changeMe
 
