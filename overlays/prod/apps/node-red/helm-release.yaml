@@ -76,15 +76,15 @@ spec:
           - path: /
             pathType: Prefix
         - host: webhook1.simplefxn.com
-          paths;
+          paths:
           - path: /webhook1
             pathType: Prefix
         - host: webhook2.simplefxn.com
-          paths;
+          paths:
           - path: /webhook2
             pathType: Prefix
         - host: webhook3.simplefxn.com
-          paths;
+          paths:
           - path: /webhook3
             pathType: Prefix
         tls:
