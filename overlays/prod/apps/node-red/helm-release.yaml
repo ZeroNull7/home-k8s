@@ -77,14 +77,7 @@ spec:
             pathType: Prefix
             service:
               name: node-red
-              port: 1880
-        - host: webhook1.simplefxn.com
-          paths:
-          - path: /webhook1
-            pathType: Prefix
-            service:
-              name: node-red
-              port: 1880      
+              port: 1880    
         tls:
           - hosts:
             - "node-red.simplefxn.com"
