@@ -79,14 +79,6 @@ spec:
           paths:
           - path: /webhook1
             pathType: Prefix
-        - host: webhook2.simplefxn.com
-          paths:
-          - path: /webhook2
-            pathType: Prefix
-        - host: webhook3.simplefxn.com
-          paths:
-          - path: /webhook3
-            pathType: Prefix
         tls:
           - hosts:
             - "node-red.simplefxn.com"
