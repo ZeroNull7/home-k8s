@@ -79,12 +79,6 @@ spec:
           - hosts:
             - "node-red.simplefxn.com"
             secretName: node-red-simplefxn-tls
-            - "webhook1.simplefxn.com"
-            secretName: webhook1-simplefxn-tls
-            - "webhook2.simplefxn.com"
-            secretName: webhook2-simplefxn-tls
-            - "webhook3.simplefxn.com"
-            secretName: webhook3-simplefxn-tls
          
     # -- Configure persistence settings for the chart under this key.
     # @default -- See values.yaml
