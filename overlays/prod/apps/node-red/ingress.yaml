@@ -1,0 +1,74 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: apps
+  name: webhook1
+  annotations:
+    kubernetes.io/ingress.class: "nginx"    
+    cert-manager.io/cluster-issuer: "simplefxn-issuer"
+spec:
+  tls:
+  - hosts:
+    - webhook1.simplefxn.com
+    secretName: webhook1-simplefxn-tls
+  rules:
+  - host: webhook1.simplefxn.com
+    http:
+      paths:
+      - path: /webhook1
+        pathType: Prefix
+        backend:
+          service:
+            name: node-red
+            port:
+              number: 1880
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: apps
+  name: webhook2
+  annotations:
+    kubernetes.io/ingress.class: "nginx"    
+    cert-manager.io/cluster-issuer: "simplefxn-issuer"
+spec:
+  tls:
+  - hosts:
+    - webhook2.simplefxn.com
+    secretName: webhook2-simplefxn-tls
+  rules:
+  - host: webhook2.simplefxn.com
+    http:
+      paths:
+      - path: /webhook2
+        pathType: Prefix
+        backend:
+          service:
+            name: node-red
+            port:
+              number: 1880
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: apps
+  name: webhook3
+  annotations:
+    kubernetes.io/ingress.class: "nginx"    
+    cert-manager.io/cluster-issuer: "simplefxn-issuer"
+spec:
+  tls:
+  - hosts:
+    - webhook3.simplefxn.com
+    secretName: webhook3-simplefxn-tls
+  rules:
+  - host: webhook3.simplefxn.com
+    http:
+      paths:
+      - path: /webhook3
+        pathType: Prefix
+        backend:
+          service:
+            name: node-red
+            port:
+              number: 1880
