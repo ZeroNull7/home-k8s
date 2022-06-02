@@ -6,6 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"    
     cert-manager.io/cluster-issuer: "simplefxn-issuer"
+    nginx.ingress.kubernetes.io/rewrite-target: "/webhook1"
 spec:
   tls:
   - hosts:
@@ -15,7 +16,7 @@ spec:
   - host: webhook1.simplefxn.com
     http:
       paths:
-      - path: /webhook1
+      - path: /
         pathType: Prefix
         backend:
           service:
@@ -31,6 +32,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"    
     cert-manager.io/cluster-issuer: "simplefxn-issuer"
+    nginx.ingress.kubernetes.io/rewrite-target: "/webhook2"
 spec:
   tls:
   - hosts:
@@ -40,7 +42,7 @@ spec:
   - host: webhook2.simplefxn.com
     http:
       paths:
-      - path: /webhook2
+      - path: /
         pathType: Prefix
         backend:
           service:
@@ -56,6 +58,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"    
     cert-manager.io/cluster-issuer: "simplefxn-issuer"
+    nginx.ingress.kubernetes.io/rewrite-target: "/webhook3"
 spec:
   tls:
   - hosts:
@@ -65,7 +68,7 @@ spec:
   - host: webhook3.simplefxn.com
     http:
       paths:
-      - path: /webhook3
+      - path: /
         pathType: Prefix
         backend:
           service:
