@@ -75,10 +75,28 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+        - host: webhook1.simplefxn.com
+          paths;
+          - path: /webhook1
+            pathType: Prefix
+        - host: webhook2.simplefxn.com
+          paths;
+          - path: /webhook2
+            pathType: Prefix
+        - host: webhook3.simplefxn.com
+          paths;
+          - path: /webhook3
+            pathType: Prefix
         tls:
           - hosts:
             - "node-red.simplefxn.com"
             secretName: node-red-simplefxn-tls
+            - "webhook1.simplefxn.com"
+            secretName: webhook1-simplefxn-tls
+            - "webhook2.simplefxn.com"
+            secretName: webhook2-simplefxn-tls
+            - "webhook3.simplefxn.com"
+            secretName: webhook3-simplefxn-tls
          
     # -- Configure persistence settings for the chart under this key.
     # @default -- See values.yaml
