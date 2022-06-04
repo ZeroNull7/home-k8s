@@ -60,6 +60,9 @@ spec:
         volumeMounts:
         - mountPath: /config
           name: config
+        - name: tls
+          mountPath: /etc/letsencrypt/
+          readOnly: true
       - name: vscode
         image: codercom/code-server:3.11.1
         imagePullPolicy: IfNotPresent
@@ -105,3 +108,6 @@ spec:
       - name: backup
         persistentVolumeClaim:
           claimName: home-assistant-backup
+      - name: tls 
+        secret:
+          secretName: home-assistant-simplefxn-tls
