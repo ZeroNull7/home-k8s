@@ -4,7 +4,7 @@ metadata:
   name: home-assistant-tls
   namespace: apps
 spec:
-  secretName: home-assistant.simplefxn.com
+  secretName: home-assistant-tls
   subject:
     organizations:
     - SimpleFxn
