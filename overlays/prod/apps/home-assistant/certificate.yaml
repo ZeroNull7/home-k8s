@@ -12,8 +12,6 @@ spec:
   dnsNames:
   - home-assistant.simplefxn.com
   - hass.simplefxn.com
-  ipAddresses:
-  - 172.20.20.19
   issuerRef:
     name: simplefxn-issuer
     kind: ClusterIssuer
