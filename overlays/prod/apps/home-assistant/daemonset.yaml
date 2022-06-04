@@ -65,12 +65,12 @@ spec:
         imagePullPolicy: IfNotPresent
         workingDir: /config
         args:
-          - --port=8080
+          - --port=8124
           - --extensions-dir=/config/.vscode
           - --user-data-dir=/config/.vscode
         ports:
           - name: vscode
-            containerPort: 8080
+            containerPort: 8124
             protocol: TCP
         env:
           - name: PASSWORD
