@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: home-assistant-tls
+  namespace: apps
+spec:
+  secretName: home-assistant.simplefxn.com
+  subject:
+    organizations:
+    - SimpleFxn
+  commonName: home-assistant.simplefxn.com
+  dnsNames:
+  - home-assistant.simplefxn.com
+  - hass.simplefxn.com
+  ipAddresses:
+  - 172.20.20.19
+  - 108.210.132.101
+  issuerRef:
+    name: simplefxn-issuer
+    kind: ClusterIssuer

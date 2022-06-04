@@ -110,4 +110,4 @@ spec:
           claimName: home-assistant-backup
       - name: tls 
         secret:
-          secretName: home-assistant-simplefxn-tls
+          secretName: home-assistant-tls
