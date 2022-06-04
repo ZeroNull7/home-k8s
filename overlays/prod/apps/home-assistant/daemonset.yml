@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: home-assistant
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+spec:
+  selector:
+    matchLabels:
+      name: home-assistant
+  template:
+    metadata:
+      labels:
+        name: home-assistant
+    spec:
+      hostNetwork: true
+      tolerations:
+      # these tolerations are to have the daemonset runnable on control plane nodes
+      # remove them if your control plane nodes should not run pods
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: home-assistant
+        env:
+        - name: TZ
+          value: America/Chicago
+        image: homeassistant/home-assistant:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 8123
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 8123
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 8123
+          timeoutSeconds: 1
+        resources: {}
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 8123
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /config
+          name: config
+      - name: vscode
+        image: codercom/code-server:3.11.1
+        imagePullPolicy: IfNotPresent
+        workingDir: /config
+        args:
+          - --port=8080
+          - --extensions-dir=/config/.vscode
+          - --user-data-dir=/config/.vscode
+        ports:
+          - name: vscode
+            containerPort: 8080
+            protocol: TCP
+        env:
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: vscode-secret
+                key: password
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        - mountPath: /backup
+          name: backup
+        - mountPath: /media
+          name: media
+        securityContext:
+            runAsUser: 0
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: home-assistant-config
+      - name: media
+        persistentVolumeClaim:
+          claimName: home-assistant-media
+      - name: backup
+        persistentVolumeClaim:
+          claimName: home-assistant-backup
