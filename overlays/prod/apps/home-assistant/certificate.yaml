@@ -14,7 +14,6 @@ spec:
   - hass.simplefxn.com
   ipAddresses:
   - 172.20.20.19
-  - 108.210.132.101
   issuerRef:
     name: simplefxn-issuer
     kind: ClusterIssuer
