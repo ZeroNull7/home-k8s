@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- archivy-claim0-persistentvolumeclaim.yaml
+- archivy-config-persistentvolumeclaim.yaml
+- archivy-configmap.yaml
+- archivy-deployment.yaml
+- archivy-service.yaml
+- elasticsearch-data-persistentvolumeclaim.yaml
+- elasticsearch-deployment.yaml
+- elasticsearch-service.yaml
+- certificate.yaml
+- ingress-gateway.yaml

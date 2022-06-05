@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: haste.simplefxn.com
+  namespace: istio-system
+spec:
+  secretName: haste.simplefxn.com
+  subject:
+    organizations:
+    - SimpleFxn
+  commonName: haste.simplefxn.com
+  dnsNames:
+  - haste.simplefxn.com
+  issuerRef:
+    name: simplefxn-issuer
+    kind: ClusterIssuer

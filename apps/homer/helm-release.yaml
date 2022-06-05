@@ -1,0 +1,204 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: homer
+  namespace: apps  
+spec:
+  interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: homer
+      version: 4.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: b4bz/homer
+      tag: 21.03.2
+      pullPolicy: IfNotPresent
+    service:
+      main:
+        enabled: true
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 80
+    podLabels: 
+      app: homer
+    env:
+      TZ: "America/Chicago"
+    configmap:
+      enabled: true
+      config: |
+        ---
+        # Homepage configuration
+        # See https://fontawesome.com/icons for icons options
+
+        title: "Simple Fxn dashboard"
+        subtitle: "Homer"
+        logo: "logo.png"
+        # icon: "fas fa-skull-crossbones" # Optional icon
+
+        header: true
+        footer: '<p></p>'
+
+        # Optional theme customization
+        theme: default
+        colors:
+          light:
+            highlight-primary: "#3367d6"
+            highlight-secondary: "#4285f4"
+            highlight-hover: "#5a95f5"
+            background: "#f5f5f5"
+            card-background: "#ffffff"
+            text: "#363636"
+            text-header: "#ffffff"
+            text-title: "#303030"
+            text-subtitle: "#424242"
+            card-shadow: rgba(0, 0, 0, 0.1)
+            link-hover: "#363636"
+          dark:
+            highlight-primary: "#3367d6"
+            highlight-secondary: "#4285f4"
+            highlight-hover: "#5a95f5"
+            background: "#131313"
+            card-background: "#2b2b2b"
+            text: "#eaeaea"
+            text-header: "#ffffff"
+            text-title: "#fafafa"
+            text-subtitle: "#f5f5f5"
+            card-shadow: rgba(0, 0, 0, 0.4)
+            link-hover: "#ffdd57"
+
+        # Optional message
+        # message:
+          # #url: https://b4bz.io
+          # style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
+          # title: "Demo !"
+          # icon: "fa fa-grin"
+          # content: "This is a dummy homepage demo. <br /> Find more information on <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>"
+
+        # Optional navbar
+        # links: [] # Allows for navbar (dark mode, layout, and search) without any links
+        links:
+          - name: "Contribute"
+            icon: "fab fa-github"
+            url: "https://github.com/bastienwirtz/homer"
+            target: "_blank" # optional html a tag target attribute
+          - name: "Wiki"
+            icon: "fas fa-book"
+            url: "https://www.wikipedia.org/"
+          # this will link to a second homer page that will load config from additionnal-page.yml and keep default config values as in config.yml file
+          # see url field and assets/additionnal-page.yml.dist used in this example:
+          # - name: "another page!"
+          #   icon: "fas fa-file-alt"
+          #  url: "#additionnal-page" 
+
+        # Services
+        # First level array represent a group.
+        # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+        services:
+          - name: "Infrastructure"
+            icon: "fa fa-bus"
+            items:
+              - name: "Gateway"
+                subtitle: "Gateway"
+                tag: "infra"
+                url: "http://172.23.0.254"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Unifi Controller"
+                logo: "assets/tools/sample2.png"
+                subtitle: "Wireless and switch controller"
+                tag: "infra"
+                url: "https://unifi.simplefxn.com:8443"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Grafana"
+                subtitle: "Part of the ELK stack"
+                tag: "infra"
+                url: "http://10.103.22.35"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Kibana"
+                logo: "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5a54f1ac0a58f1a1/5ea8c80f4d8c1963bdceefef/brand-elastic-glyph-220x130.svg"
+                subtitle: "Part of the ELK stack"
+                tag: "infra"
+                url: "https://kibana.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Synology garage"
+                logo: "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5a54f1ac0a58f1a1/5ea8c80f4d8c1963bdceefef/brand-elastic-glyph-220x130.svg"
+                subtitle: "K8s stuff and other related storage"
+                tag: "infra"
+                url: "http://172.23.0.2:5000"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Synology archive"
+                logo: "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5a54f1ac0a58f1a1/5ea8c80f4d8c1963bdceefef/brand-elastic-glyph-220x130.svg"
+                subtitle: "Personal stuff storage"
+                tag: "infra"
+                url: "http://172.23.0.3:5000"
+                target: "_blank" # optional html a tag target attribute
+          - name: "Applications"
+            icon: "fas fa-cloud"
+            items:
+              - name: "Home Assistant"
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Home_Assistant_Logo.svg/519px-Home_Assistant_Logo.svg.png"
+                subtitle: "Open source home automation"
+                tag: "app"
+                url: "https://home-assistant.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Grocy"
+                logo: "https://github.com/grocy/grocy/raw/master/public/img/appicons/mstile-150x150.png"
+                subtitle: "Shopping list"
+                tag: "app"
+                url: "https://grocy.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Haste"
+                subtitle: "Pastebin"
+                tag: "app"
+                logo: "https://raw.githubusercontent.com/nicholaswilde/helm-charts/main/images/haste.png"
+                url: "https://haste.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Kanboard"
+                subtitle: "Kanban project management"
+                logo: "https://raw.githubusercontent.com/kanboard/website/master/assets/img/icon.svg"
+                tag: "app"
+                url: "https://kanboard.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Paperless"
+                subtitle: "Index scanned documents"
+                tag: "app"
+                url: "https://paperless.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Trilium"
+                subtitle: "Personal Knowledge base"
+                tag: "app"
+                url: "https://trilium.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Archivy"
+                subtitle: "Personal Knowledge base"
+                tag: "app"
+                url: "https://archivy.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Cotoami"
+                subtitle: "Personal Knowledge base"
+                tag: "app"
+                url: "https://cotoami.simplefxn.com"
+                target: "_blank" # optional html a tag target attribute
+          - name: "Development"
+            icon: "fa fa-star"
+            items:
+              - name: "harbor"
+                logo: "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5a54f1ac0a58f1a1/5ea8c80f4d8c1963bdceefef/brand-elastic-glyph-220x130.svg"
+                subtitle: "Personal stuff storage"
+                tag: "infra"
+                url: "http://172.23.0.3:5000"
+                target: "_blank" # optional html a tag target attribute

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: home-assistant
+  name: node-red
   namespace: apps
   labels:
-    k8s-app: home-assistant
+    k8s-app: node-red
 spec:
   selector:
     matchLabels:
-      name: home-assistant
+      name: node-red
   template:
     metadata:
       labels:
-        name: home-assistant
+        name: node-red
     spec:
       hostNetwork: true
       tolerations:
@@ -25,11 +25,11 @@ spec:
         operator: Exists
         effect: NoSchedule
       containers:
-      - name: home-assistant
+      - name: node-red
         env:
         - name: TZ
           value: America/Chicago
-        image: homeassistant/home-assistant:latest
+        image: nodered/node-red
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
@@ -58,38 +58,11 @@ spec:
             port: 8123
           timeoutSeconds: 1
         volumeMounts:
-        - mountPath: /config
-          name: config
+        - mountPath: /data
+          name: data
         - name: tls
           mountPath: /etc/letsencrypt/
           readOnly: true
-      - name: vscode
-        image: codercom/code-server:3.11.1
-        imagePullPolicy: IfNotPresent
-        workingDir: /config
-        args:
-          - --port=8124
-          - --extensions-dir=/config/.vscode
-          - --user-data-dir=/config/.vscode
-        ports:
-          - name: vscode
-            containerPort: 8124
-            protocol: TCP
-        env:
-          - name: PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: vscode-secret
-                key: password
-        volumeMounts:
-        - mountPath: /config
-          name: config
-        - mountPath: /backup
-          name: backup
-        - mountPath: /media
-          name: media
-        securityContext:
-            runAsUser: 0
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       restartPolicy: Always
@@ -99,15 +72,9 @@ spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: config
+      - name: data
         persistentVolumeClaim:
-          claimName: home-assistant-config
-      - name: media
-        persistentVolumeClaim:
-          claimName: home-assistant-media
-      - name: backup
-        persistentVolumeClaim:
-          claimName: home-assistant-backup
+          claimName: node-red-data
       - name: tls 
         secret:
-          secretName: home-assistant-tls
+          secretName: node-red-tls

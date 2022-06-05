@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: paperless-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: paperless-http-port
+      protocol: HTTP
+    hosts:
+      - paperless.simplefxn.com
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: paperless-https-port
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: paperless.simplefxn.com
+    hosts:
+      - paperless.simplefxn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: paperless-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - "paperless.simplefxn.com"
+  gateways:
+  - paperless-gateway
+  http:
+  - route:
+    - destination:
+        host: paperless.apps.svc.cluster.local
+        port:
+          number: 8000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: paperless
+  namespace: istio-system
+spec:
+  host: paperless.apps.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE

@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: archivy-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: archivy-http-port
+      protocol: HTTP
+    hosts:
+      - archivy.simplefxn.com
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: archivy-https-port
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: archivy.simplefxn.com
+    hosts:
+      - archivy.simplefxn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: archivy-vs
+  namespace: istio-system
+spec:
+  hosts:
+  - "archivy.simplefxn.com"
+  gateways:
+  - archivy-gateway
+  http:
+  - route:
+    - destination:
+        host: archivy.apps.svc.cluster.local
+        port:
+          number: 5000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: archivy
+  namespace: istio-system
+spec:
+  host: archivy.apps.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE

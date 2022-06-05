@@ -3,4 +3,4 @@ modules="node-red-contrib-deepstack node-red-contrib-http-multipart node-red-nod
               echo "Installing ${val}"
               npm install $val
               node-red-admin install $val
-            done      
+done      
