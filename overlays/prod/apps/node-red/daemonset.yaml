@@ -36,10 +36,10 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           tcpSocket:
-            port: 8123
+            port: 1880
           timeoutSeconds: 1
         ports:
-        - containerPort: 8123
+        - containerPort: 1880
           name: http
           protocol: TCP
         readinessProbe:
@@ -47,7 +47,7 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           tcpSocket:
-            port: 8123
+            port: 1880
           timeoutSeconds: 1
         resources: {}
         startupProbe:
@@ -55,7 +55,7 @@ spec:
           periodSeconds: 5
           successThreshold: 1
           tcpSocket:
-            port: 8123
+            port: 1880
           timeoutSeconds: 1
         volumeMounts:
         - mountPath: /data
