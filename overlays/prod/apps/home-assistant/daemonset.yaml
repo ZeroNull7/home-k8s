@@ -59,10 +59,119 @@ spec:
           timeoutSeconds: 1
         volumeMounts:
         - mountPath: /config
-          name: config
-        - name: tls
+          name: hass-config
+        - name: hass-tls
           mountPath: /etc/letsencrypt/
           readOnly: true
+      - name: node-red
+        env:
+        - name: TZ
+          value: America/Chicago
+        image: nodered/node-red
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 1880
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 1880
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 1880
+          timeoutSeconds: 1
+        resources: {}
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 1880
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /data
+          name: node-red-data
+        - name: node-red-tls
+          mountPath: /etc/letsencrypt/
+          readOnly: true
+      - name: deepstack
+        env:
+        - name: VISION-SCENE
+          value: True
+        - name: VISION-DETECTION
+          value: True
+        - name: VISION-FACE
+          value: True
+        image: deepquestai/deepstack
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 5000
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 5000
+          timeoutSeconds: 1
+        resources: {}
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 5000
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /datastore
+          name: deepstack-datastore
+      - name: deepstack-ui
+        env:
+        - name: DEEPSTACK_PORT
+          value: 5000
+        image: robmarkcole/deepstack-ui:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 8501
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 8501
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 8501
+          timeoutSeconds: 1
+        resources: {}
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 8501
+          timeoutSeconds: 1
       - name: vscode
         image: codercom/code-server:3.11.1
         imagePullPolicy: IfNotPresent
@@ -82,12 +191,10 @@ spec:
                 name: vscode-secret
                 key: password
         volumeMounts:
-        - mountPath: /config
-          name: config
-        - mountPath: /backup
-          name: backup
-        - mountPath: /media
-          name: media
+        - mountPath: /hass-config
+          name: hass-config
+        - mountPath: /node-red-data
+          name: node-red-data
         securityContext:
             runAsUser: 0
       dnsPolicy: ClusterFirst
@@ -99,15 +206,18 @@ spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: config
+      - name: hass-config
         persistentVolumeClaim:
           claimName: home-assistant-config
-      - name: media
-        persistentVolumeClaim:
-          claimName: home-assistant-media
-      - name: backup
-        persistentVolumeClaim:
-          claimName: home-assistant-backup
-      - name: tls 
+      - name: hass-tls 
         secret:
           secretName: home-assistant-tls
+      - name: data
+        persistentVolumeClaim:
+          claimName: node-red-data
+      - name: tls 
+        secret:
+          secretName: node-red-tls
+      - name: deepstack-datastore
+        persistentVolumeClaim:
+          claimName: deepstack-datastore
