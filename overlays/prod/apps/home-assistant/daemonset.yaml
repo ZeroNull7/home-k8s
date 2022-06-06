@@ -104,11 +104,11 @@ spec:
       - name: deepstack
         env:
         - name: VISION-SCENE
-          value: True
+          value: "True"
         - name: VISION-DETECTION
-          value: True
+          value: "True"
         - name: VISION-FACE
-          value: True
+          value: "True"
         image: deepquestai/deepstack
         imagePullPolicy: Always
         livenessProbe:
