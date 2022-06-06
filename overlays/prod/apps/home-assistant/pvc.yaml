@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 8Gi
   accessModes:
-    — "ReadWriteOnce"
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: apps
