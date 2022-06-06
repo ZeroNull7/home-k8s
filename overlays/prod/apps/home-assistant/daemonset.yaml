@@ -96,8 +96,8 @@ spec:
             port: 1880
           timeoutSeconds: 1
         volumeMounts:
-        - mountPath: /data
-          name: node-red-data
+        - name: node-red-data
+          mountPath: /data
         - name: node-red-tls
           mountPath: /etc/letsencrypt/
           readOnly: true
@@ -141,7 +141,7 @@ spec:
       - name: hass-tls 
         secret:
           secretName: home-assistant-tls
-      - name: data
+      - name: node-red-data
         persistentVolumeClaim:
           claimName: node-red-data
       - name: tls 
