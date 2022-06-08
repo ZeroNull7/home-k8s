@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: mosquitto
   namespace: infra
+  labels:
+    k8s-app: mosquitto
 spec:
-  replicas: 1
   selector:
     matchLabels:
       name: mosquitto
@@ -14,6 +15,15 @@ spec:
         name: mosquitto
     spec:
       hostNetwork: true
+      tolerations:
+      # these tolerations are to have the daemonset runnable on control plane nodes
+      # remove them if your control plane nodes should not run pods
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
       containers:
         - name: mosquitto
           image: eclipse-mosquitto:latest
