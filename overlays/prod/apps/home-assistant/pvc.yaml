@@ -10,6 +10,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: local
+  volumeMode: Filesystem 
+  volumeName: pvc-home-assistant
   resources:
     requests:
       storage: 8Gi
