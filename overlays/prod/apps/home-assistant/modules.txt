@@ -2,5 +2,4 @@ modules="node-red-contrib-deepstack  node-red-contrib-web-worldmap node-red-node
             for val in $modules; do
               echo "Installing ${val}"
               npm install $val
-              node-red-admin install $val
 done      
