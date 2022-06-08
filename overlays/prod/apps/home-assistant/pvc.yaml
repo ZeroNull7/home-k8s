@@ -6,23 +6,6 @@ metadata:
   labels:
     app: home-assistant
   namespace: apps
-  name: home-assistant-config
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local
-  volumeMode: Filesystem 
-  volumeName: pvc-home-assistant
-  resources:
-    requests:
-      storage: 8Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app: home-assistant
-  namespace: apps
   name: home-assistant-backup
 spec:
   storageClassName: local
@@ -46,21 +29,6 @@ spec:
   resources:
     requests:
       storage: 16Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app: node-red
-  namespace: apps
-  name: node-red-data
-spec:
-  storageClassName: local
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

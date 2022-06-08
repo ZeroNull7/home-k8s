@@ -1,16 +1,15 @@
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: home-assistant
+    app: node-red
   namespace: apps
-  name: home-assistant-config
+  name: node-red-data
 spec:
+  storageClassName: local
   accessModes:
     - ReadWriteOnce
-  storageClassName: local
   volumeMode: Filesystem 
   volumeName: pvc-home-assistant
   resources:
