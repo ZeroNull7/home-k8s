@@ -168,7 +168,7 @@ spec:
       - name: deepstack-ui
         env:
         - name: DEEPSTACK_PORT
-          value: 5000
+          value: "5000"
         image: robmarkcole/deepstack-ui:latest
         imagePullPolicy: Always
         livenessProbe:
