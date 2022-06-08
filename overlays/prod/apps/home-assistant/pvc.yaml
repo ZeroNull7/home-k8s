@@ -8,7 +8,6 @@ metadata:
   namespace: apps
   name: home-assistant-config
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
