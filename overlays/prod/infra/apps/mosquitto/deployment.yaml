@@ -13,6 +13,7 @@ spec:
       labels:
         name: mosquitto
     spec:
+      hostNetwork: true
       containers:
         - name: mosquitto
           image: eclipse-mosquitto:latest
