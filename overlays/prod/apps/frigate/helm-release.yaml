@@ -80,14 +80,13 @@ spec:
         front_door:
           ffmpeg:
             inputs:
-              - path: rtsp://root:Ike0cuso@172.23.0.186/axis-media/ssm/media.amp?resolution=1920x1080
+              - path: 'rtsp://root:Ike0cuso@172.23.0.186/axis-media/ssm/media.amp?resolution=1920x1080'
                 roles:
                   - detect
-                  - rtmp
-            input_args: -avoid_negative_ts make_zero -fflags +genpts+discardcorrupt -rtsp_transport udp_multicast -stimeout 5000000 -use_wallclock_as_timestamps 1
+                input_args: -avoid_negative_ts make_zero -fflags +genpts+discardcorrupt -rtsp_transport udp_multicast -stimeout 5000000 -use_wallclock_as_timestamps 1
           detect:
-            width: 1280
-            height: 720
+            width: 1920
+            height: 1080
             fps: 5
     
     # Probes configuration
