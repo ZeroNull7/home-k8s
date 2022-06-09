@@ -74,9 +74,6 @@ spec:
           type: cpu
         cpu4:
           type: cpu
-
-      ffmpeg:
-        input_args: -avoid_negative_ts make_zero -fflags +genpts+discardcorrupt -rtsp_transport udp_multicast -stimeout 5000000 -use_wallclock_as_timestamps 1
     
       cameras:
         # Name of your camera
@@ -87,6 +84,7 @@ spec:
                 roles:
                   - detect
                   - rtmp
+            input_args: -avoid_negative_ts make_zero -fflags +genpts+discardcorrupt -rtsp_transport udp_multicast -stimeout 5000000 -use_wallclock_as_timestamps 1 -vcodec h264 -f rtsp
           detect:
             width: 1280
             height: 720
