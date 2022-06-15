@@ -142,7 +142,7 @@ spec:
           name: http
           protocol: TCP
         - containerPort: 1935
-          name: RTMP
+          name: rtmp
           protocol: TCP
         readinessProbe:
           failureThreshold: 3
