@@ -162,8 +162,6 @@ spec:
         volumeMounts:
         - mountPath: /media
           name: frigate-media
-        - mountPath: /tmp
-          name: frigate-tmp
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       restartPolicy: Always
