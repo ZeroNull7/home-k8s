@@ -126,15 +126,9 @@ spec:
           name: node-red-data
         securityContext:
             runAsUser: 0
-      - name: deepstack
+      - name: frigate
         env:
-        - name: VISION-SCENE
-          value: "True"
-        - name: VISION-DETECTION
-          value: "True"
-        - name: VISION-FACE
-          value: "True"
-        image: deepquestai/deepstack
+        image: blakeblackshear/frigate:stable-amd64
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
@@ -146,6 +140,9 @@ spec:
         ports:
         - containerPort: 5000
           name: http
+          protocol: TCP
+        - containerPort: 1935
+          name: RTMP feeds
           protocol: TCP
         readinessProbe:
           failureThreshold: 3
@@ -163,40 +160,10 @@ spec:
             port: 5000
           timeoutSeconds: 1
         volumeMounts:
-        - mountPath: /datastore
-          name: deepstack-datastore
-      - name: deepstack-ui
-        env:
-        - name: DEEPSTACK_PORT
-          value: "5000"
-        image: robmarkcole/deepstack-ui:latest
-        imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 3
-          periodSeconds: 10
-          successThreshold: 1
-          tcpSocket:
-            port: 8501
-          timeoutSeconds: 1
-        ports:
-        - containerPort: 8501
-          name: http
-          protocol: TCP
-        readinessProbe:
-          failureThreshold: 3
-          periodSeconds: 10
-          successThreshold: 1
-          tcpSocket:
-            port: 8501
-          timeoutSeconds: 1
-        resources: {}
-        startupProbe:
-          failureThreshold: 30
-          periodSeconds: 5
-          successThreshold: 1
-          tcpSocket:
-            port: 8501
-          timeoutSeconds: 1
+        - mountPath: /media
+          name: frigate-media
+        - mountPath: /tmp
+          name: frigate-tmp
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       restartPolicy: Always
@@ -218,7 +185,11 @@ spec:
       - name: node-red-tls 
         secret:
           secretName: node-red-tls
-      - name: deepstack-datastore
+      - name: frigate-media
         persistentVolumeClaim:
-          claimName: deepstack-datastore
+          claimName: frigate-media
+      - name: tmp
+        emptyDir:
+          medium: Memory
+          sizeLimit: 8Gi
 
