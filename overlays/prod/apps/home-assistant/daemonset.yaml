@@ -188,7 +188,7 @@ spec:
       - name: frigate-media
         persistentVolumeClaim:
           claimName: frigate-media
-      - name: tmp
+      - name: frigate-tmp
         emptyDir:
           medium: Memory
           sizeLimit: 8Gi
