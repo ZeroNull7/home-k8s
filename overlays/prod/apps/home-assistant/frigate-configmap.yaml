@@ -23,6 +23,30 @@ data:
             - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=detect
               roles:
                 - detect
+        zones:
+          door:
+            coordinates: 386,523,352,634,0,462,0,226
+            objects:
+              - person
+              - cat
+              - dog
+              - bird
+          front_yard:
+            coordinates: 233,234,401,53,623,0,872,0,1118,0,1280,61,1280,720,890,720,574,699,344,638,420,446,233,264
+            objects:
+              - person
+              - cat
+              - dog
+              - bird
+        record:
+          events:
+            required_zones:
+              - door
+              - front_yard
+        snapshots:
+          required_zones:
+            - door
+            - front_yard
       garage:
         ffmpeg:
           inputs:
@@ -68,7 +92,21 @@ data:
                 - detect
                 - rtmp
                 - record
-    
+        zones:
+          pool:
+            coordinates: 241,720,1280,720,1280,138,628,106,369,152,221,187,79,233,149,462
+            objects:
+              - person
+              - cat
+              - bird
+              - dog
+        record:
+          events:
+            required_zones:
+              - pool
+        snapshots:
+          required_zones:
+            - pool
     record:
       enabled: True
       events:
