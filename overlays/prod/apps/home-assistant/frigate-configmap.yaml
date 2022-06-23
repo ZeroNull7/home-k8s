@@ -18,6 +18,7 @@ data:
               roles:
                 - detect
                 - rtmp
+                - record
     record:
       enabled: True
       expire_interval: 60
@@ -37,4 +38,3 @@ data:
       crop: True
       retain:
         default: 60
-        
