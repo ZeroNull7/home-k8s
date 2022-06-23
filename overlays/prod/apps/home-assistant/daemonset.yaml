@@ -63,6 +63,8 @@ spec:
         - name: hass-tls
           mountPath: /etc/letsencrypt/
           readOnly: true
+        - mountPath: /frigate-config
+          name: frigate-config
       - name: node-red
         env:
         - name: TZ
@@ -162,6 +164,11 @@ spec:
         volumeMounts:
         - mountPath: /media
           name: frigate-media
+        - mountPath: /tmp
+          name: frigate-tmp
+        - mountPath: /config
+          name: frigate-config
+
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       restartPolicy: Always
@@ -190,4 +197,7 @@ spec:
         emptyDir:
           medium: Memory
           sizeLimit: 8Gi
+      - name: frigate-config
+        configMap:
+          name: frigate-config
 

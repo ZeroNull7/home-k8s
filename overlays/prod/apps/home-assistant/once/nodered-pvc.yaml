@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem 
-  volumeName: pvc-home-assistant
+  volumeName: pvc-9a747ae2-a5dc-48d4-920c-ac66bc03f35e
   resources:
     requests:
       storage: 8Gi
