@@ -11,7 +11,7 @@ data:
       topic_prefix: frigate
       client_id: frigate
     cameras:
-      back:
+      front_right_camera:
         ffmpeg:
           inputs:
             - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp
