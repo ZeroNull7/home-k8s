@@ -11,7 +11,7 @@ data:
       topic_prefix: frigate
       client_id: frigate
     cameras:
-      front_right_camera:
+      garage:
         ffmpeg:
           inputs:
             - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=profile_1_h264
@@ -23,20 +23,24 @@ data:
             - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=detect
               roles:
                 - detect
-          record:
-            events:
-              required_zones:
-                - driveway
-                - street
-      front_left_camera:
+        record:
+          events:
+            required_zones:
+              - driveway
+              - street
+      front_door:
         ffmpeg:
           inputs:
-            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp
+            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=profile_1_h264
+              roles:
+                - record
+            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=rtmp
+              roles:
+                - rtmp
+            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=detect
               roles:
                 - detect
-                - rtmp
-                - record
-      pool_camera:
+      pool:
         ffmpeg:
           inputs:
             - path: rtsp://axis:Ike0cuso@172.23.0.186/onvif-media/media.amp
