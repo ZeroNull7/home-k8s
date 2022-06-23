@@ -21,16 +21,9 @@ data:
                 - record
     record:
       enabled: True
-      expire_interval: 60
-      retain:
-        days: 120
-        mode: all
       events:
         retain:
           default: 120
-          mode: motion
-          objects:
-            person: 15
     snapshots:
       enabled: True
       timestamp: True
