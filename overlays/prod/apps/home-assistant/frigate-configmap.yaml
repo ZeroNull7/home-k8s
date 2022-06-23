@@ -11,7 +11,7 @@ data:
       topic_prefix: frigate
       client_id: frigate
     cameras:
-      garage:
+      front_door:
         ffmpeg:
           inputs:
             - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=profile_1_h264
@@ -21,6 +21,18 @@ data:
               roles:
                 - rtmp
             - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=detect
+              roles:
+                - detect
+      garage:
+        ffmpeg:
+          inputs:
+            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=profile_1_h264
+              roles:
+                - record
+            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=rtmp
+              roles:
+                - rtmp
+            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=detect
               roles:
                 - detect
         record:
@@ -48,18 +60,6 @@ data:
               - bird
               - cat
               - dog
-      front_door:
-        ffmpeg:
-          inputs:
-            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=profile_1_h264
-              roles:
-                - record
-            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=rtmp
-              roles:
-                - rtmp
-            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=detect
-              roles:
-                - detect
       pool:
         ffmpeg:
           inputs:
