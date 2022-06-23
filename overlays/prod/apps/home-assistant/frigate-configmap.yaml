@@ -31,3 +31,12 @@ data:
       crop: True
       retain:
         default: 60
+    objects:
+      track:
+        - person
+        - car
+        - motorcycle
+        - bird
+        - cat
+        - dog
+        
