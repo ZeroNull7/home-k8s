@@ -28,6 +28,22 @@ data:
             required_zones:
               - driveway
               - street
+        zones:
+          driveway:
+            coordinates: 108,362,74,720,884,720,808,410,748,241,695,116,316,102
+            objects:
+              - person
+              - bird
+              - cat
+              - dog
+          street:
+            coordinates: 0,151,275,108,691,119,993,171,1256,333,1248,283,996,85,888,48,648,44,445,30,181,49,0,81
+            objects:
+              - car
+              - person
+              - bird
+              - cat
+              - dog
       front_door:
         ffmpeg:
           inputs:
@@ -48,22 +64,7 @@ data:
                 - detect
                 - rtmp
                 - record
-    zones:
-      driveway:
-        coordinates: 108,362,74,720,884,720,808,410,748,241,695,116,316,102
-        objects:
-          - person
-          - bird
-          - cat
-          - dog
-      street:
-        coordinates: 0,151,275,108,691,119,993,171,1256,333,1248,283,996,85,888,48,648,44,445,30,181,49,0,81
-        objects:
-          - car
-          - person
-          - bird
-          - cat
-          - dog
+    
     record:
       enabled: True
       events:
