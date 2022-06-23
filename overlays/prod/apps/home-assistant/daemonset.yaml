@@ -63,8 +63,6 @@ spec:
         - name: hass-tls
           mountPath: /etc/letsencrypt/
           readOnly: true
-        - mountPath: /frigate-config
-          name: frigate-config
       - name: node-red
         env:
         - name: TZ
