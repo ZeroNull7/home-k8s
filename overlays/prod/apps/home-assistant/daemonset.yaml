@@ -168,7 +168,6 @@ spec:
           name: frigate-tmp
         - mountPath: /config
           name: frigate-config
-
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       restartPolicy: Always

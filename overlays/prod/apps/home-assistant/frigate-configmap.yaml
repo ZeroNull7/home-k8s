@@ -5,6 +5,11 @@ metadata:
   namespace: apps
 data:
   config.yml: |
+    mqtt:
+      host: mosquitto.infra.svc.cluster.local
+      port: 1883
+      topic_prefix: frigate
+      client_id: frigate
     cameras:
       back:
         ffmpeg:
