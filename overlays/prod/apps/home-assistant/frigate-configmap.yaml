@@ -93,7 +93,7 @@ data:
                 - rtmp
                 - record
         zones:
-          pool:
+          pool_zone:
             coordinates: 241,720,1280,720,1280,138,628,106,369,152,221,187,79,233,149,462
             objects:
               - person
@@ -103,10 +103,10 @@ data:
         record:
           events:
             required_zones:
-              - pool
+              - pool_zone
         snapshots:
           required_zones:
-            - pool
+            - pool_zone
     record:
       enabled: True
       events:
