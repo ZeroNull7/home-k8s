@@ -28,6 +28,10 @@ data:
             required_zones:
               - driveway
               - street
+        snapshots:
+          required_zones:
+            - driveway
+            - street
         zones:
           driveway:
             coordinates: 108,362,74,720,884,720,808,410,748,241,695,116,316,102
