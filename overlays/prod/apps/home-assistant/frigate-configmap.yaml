@@ -14,11 +14,15 @@ data:
       front_right_camera:
         ffmpeg:
           inputs:
-            - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp
+            - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=profile_1_h264
+              roles:
+                - record
+            - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=rtmp
+              roles:
+                - rtmp
+            - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=detect
               roles:
                 - detect
-                - rtmp
-                - record
       front_left_camera:
         ffmpeg:
           inputs:
@@ -55,4 +59,16 @@ data:
         - bird
         - cat
         - dog
-
+    detectors:
+      cpu1:
+        type: cpu
+        num_threads: 3
+      cpu2:
+        type: cpu
+        num_threads: 3
+      cpu3:
+        type: cpu
+        num_threads: 3
+      cpu4:
+        type: cpu
+        num_threads: 3
