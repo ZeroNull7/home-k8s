@@ -46,6 +46,3 @@ spec:
       serverName: "Ketelburg"
       serviceType: LoadBalancer
 
-    nodeSelector:
-      kubernetes.io/arch: amd64
-      node-role.kubernetes.io/application: "true"
