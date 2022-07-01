@@ -19,7 +19,7 @@ data:
   #DEFAULT_PLAYER_PERMISSION_LEVEL: "member" # Options: visitor, member, operator
   DEFAULT_PLAYER_PERMISSION_LEVEL: "member"
   #LEVEL_NAME: "my_minecraft_world"
-  LEVEL_NAME: "ketelburg world"
+  LEVEL_NAME: "ketelburg_world"
   LEVEL_SEED: "33480944"
   SERVER_NAME: "Ketelburg_server"
   #LEVEL_TYPE: "DEFAULT" # Options: FLAT, LEGACY, DEFAULT
