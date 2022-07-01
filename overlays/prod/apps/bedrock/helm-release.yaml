@@ -23,7 +23,7 @@ spec:
       TZ: America/Chicago
 
     persistence:
-      storageClass: nfs-local
+      storageClass: local
       dataDir:
         enabled: true
         Size: 10Gi
