@@ -8,6 +8,7 @@ metadata:
     app: bds
   namespace: apps
 data:
+  DEBUG: "True"
   # Find more options at https://github.com/itzg/docker-minecraft-bedrock-server#server-properties
   # Remove # from in front of line if changing from default values.
   EULA: "TRUE" # Must accept EULA to use this minecraft server
