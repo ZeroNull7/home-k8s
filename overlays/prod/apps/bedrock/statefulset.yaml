@@ -5,6 +5,7 @@ metadata:
   labels:
     app: bds
   name: bds
+  namespace: apps
 spec:
   # never more than 1 since BDS is not horizontally scalable
   replicas: 1
