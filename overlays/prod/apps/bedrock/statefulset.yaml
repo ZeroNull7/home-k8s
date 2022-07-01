@@ -29,18 +29,8 @@ spec:
             - mountPath: /data
               name: bedrock-data
           ports:
-            - containerPort: 19132
+            - containerPort: 29132
               protocol: UDP
-          readinessProbe: &probe
-            exec:
-              command:
-                - mc-monitor
-                - status-bedrock
-                - --host
-                # force health check against IPv4 port
-                - 127.0.0.1
-            initialDelaySeconds: 30
-          livenessProbe: *probe
           tty: true
           stdin: true
   volumeClaimTemplates:
