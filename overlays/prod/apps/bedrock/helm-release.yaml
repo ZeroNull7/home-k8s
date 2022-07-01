@@ -38,10 +38,10 @@ spec:
       version: "1.18.0.02"
       difficulty: normal
       gameMode: survival
-      levelSeed: ""
+      levelSeed: "1"
       SERVER_PORT: "19232"
       ops: "2535405985178539"
-      levelName: "ketelburg_adventure"
+      levelName: "TNT World"
       maxThreads: 0 # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
       cheats: true
       serverName: "Ketelburg"
