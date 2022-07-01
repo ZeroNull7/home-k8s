@@ -5,7 +5,6 @@ metadata:
   labels:
     app: bds
   name: bds
-  namespace: apps
 spec:
   # never more than 1 since BDS is not horizontally scalable
   replicas: 1
@@ -23,14 +22,24 @@ spec:
           image: itzg/minecraft-bedrock-server
           imagePullPolicy: Always
           env:
-            - name: EULA
-              value: "TRUE"
+          - name: EULA
+            value: "TRUE"
           volumeMounts:
             - mountPath: /data
-              name: bedrock-data
+              name: data
           ports:
             - containerPort: 19132
               protocol: UDP
+          readinessProbe: &probe
+            exec:
+              command:
+                - mc-monitor
+                - status-bedrock
+                - --host
+                # force health check against IPv4 port
+                - 127.0.0.1
+            initialDelaySeconds: 30
+          livenessProbe: *probe
           tty: true
           stdin: true
         - name: vscode
@@ -58,11 +67,11 @@ spec:
               runAsUser: 0
   volumeClaimTemplates:
     - metadata:
-        name: bedrock-data
+        name: data
       spec:
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 4Gi
+            storage: 1Gi
 ---
