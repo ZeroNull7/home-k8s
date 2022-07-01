@@ -39,6 +39,7 @@ spec:
       difficulty: normal
       gameMode: survival
       levelSeed: ""
+      SERVER_PORT: "22118"
       ops: "2535405985178539"
       levelName: "ketelburg_adventure"
       maxThreads: 0 # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
