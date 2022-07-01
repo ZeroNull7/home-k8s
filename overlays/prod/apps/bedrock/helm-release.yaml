@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: minecraft-bedrock
-      version: 1.1.9
+      version: 2.0.0
       sourceRef:
         kind: HelmRepository
         name: minecraft-server
@@ -35,12 +35,12 @@ spec:
 
     minecraftServer:
       eula: "TRUE"
-      version: "1.18.0.02"
+      version: "LATEST"
       difficulty: normal
       gameMode: survival
       levelSeed: "1"
       SERVER_PORT: "19232"
-      ops: "2535405985178539"
+      ops: "2535435538046181"
       levelName: "TNT World"
       maxThreads: 0 # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
       cheats: true
