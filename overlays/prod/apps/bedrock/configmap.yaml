@@ -22,7 +22,6 @@ data:
   LEVEL_NAME: "ketelburg world"
   LEVEL_SEED: "33480944"
   SERVER_NAME: "Ketelburg_server"
-  SERVER_PORT: "29132"
   SERVER_PORT_V6: "29133"
   #LEVEL_TYPE: "DEFAULT" # Options: FLAT, LEGACY, DEFAULT
   ALLOW_CHEATS: "true" # Options: true, false

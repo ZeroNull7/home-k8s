@@ -29,7 +29,7 @@ spec:
             - mountPath: /data
               name: bedrock-data
           ports:
-            - containerPort: 29132
+            - containerPort: 19132
               protocol: UDP
           tty: true
           stdin: true
