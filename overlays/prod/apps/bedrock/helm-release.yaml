@@ -1,0 +1,51 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minecraft-bedrock
+  namespace: apps
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: minecraft-bedrock
+      version: 1.1.9
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server
+        namespace: flux-system
+      interval: 5m
+  values:
+    image: itzg/minecraft-bedrock-server
+    imageTag: latest
+
+    extraEnv:
+      TZ: America/Chicago
+
+    persistence:
+      storageClass: nfs-local
+      dataDir:
+        enabled: true
+        Size: 10Gi
+
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 500m
+
+    minecraftServer:
+      eula: "TRUE"
+      version: "1.18.0.02"
+      difficulty: normal
+      gameMode: survival
+      levelSeed: ""
+      ops: "2535405985178539"
+      levelName: "ketelburg_adventure"
+      maxThreads: 0 # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
+      cheats: true
+      serverName: "Ketelburg"
+      serviceType: LoadBalancer
+
+    nodeSelector:
+      kubernetes.io/arch: amd64
+      node-role.kubernetes.io/application: "true"
