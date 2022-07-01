@@ -40,6 +40,7 @@ spec:
       gameMode: survival
       levelSeed: "1"
       SERVER_PORT: "19232"
+      SERVER_PORT_V6: "19133"
       ops: "2535435538046181"
       levelName: "TNT World"
       maxThreads: 0 # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
