@@ -88,4 +88,5 @@ spec:
       - name: bedrock-init-script
         configMap:
           name: bedrock-init-script
+          defaultMode: 0777
   
