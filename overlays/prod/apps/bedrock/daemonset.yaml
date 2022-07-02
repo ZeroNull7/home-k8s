@@ -59,7 +59,7 @@ spec:
             - --user-data-dir=/config/.vscode
           ports:
             - name: vscode
-              containerPort: 8124
+              containerPort: 8125
               protocol: TCP
           env:
             - name: PASSWORD
