@@ -81,7 +81,7 @@ spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: bedrock-data
+      - name: bedrock-data
         persistentVolumeClaim:
           claimName: bds
   
