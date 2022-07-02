@@ -68,7 +68,7 @@ spec:
               runAsUser: 0
   volumeClaimTemplates:
     - metadata:
-        name: data
+        name: bedrock-data
       spec:
         accessModes:
           - ReadWriteOnce
