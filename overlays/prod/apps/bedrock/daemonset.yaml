@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: bedrock
+  namespace: apps
+  labels:
+    k8s-app: bedrock
+spec:
+  selector:
+    matchLabels:
+      name: bedrock
+  template:
+    metadata:
+      labels:
+        name: bedrock
+    spec:
+      hostNetwork: true
+      tolerations:
+      # these tolerations are to have the daemonset runnable on control plane nodes
+      # remove them if your control plane nodes should not run pods
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+        - name: main
+          image: itzg/minecraft-bedrock-server
+          imagePullPolicy: Always
+          env:
+          - name: EULA
+            value: "TRUE"
+          volumeMounts:
+            - mountPath: /data
+              name: bedrock-data
+          ports:
+            - containerPort: 19132
+              protocol: UDP
+          readinessProbe: &probe
+            exec:
+              command:
+                - mc-monitor
+                - status-bedrock
+                - --host
+                # force health check against IPv4 port
+                - 127.0.0.1
+            initialDelaySeconds: 30
+          livenessProbe: *probe
+          tty: true
+          stdin: true
+        - name: vscode
+          image: codercom/code-server:3.11.1
+          imagePullPolicy: IfNotPresent
+          workingDir: /config
+          args:
+            - --port=8124
+            - --extensions-dir=/config/.vscode
+            - --user-data-dir=/config/.vscode
+          ports:
+            - name: vscode
+              containerPort: 8124
+              protocol: TCP
+          env:
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vscode-secret
+                  key: password
+          volumeMounts:
+            - mountPath: /data
+              name: bedrock-data
+          securityContext:
+              runAsUser: 0
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: bedrock-data
+        persistentVolumeClaim:
+          claimName: bds
+  
