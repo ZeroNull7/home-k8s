@@ -5,5 +5,14 @@ metadata:
   namespace: apps
 data:
   test.sh: |
-   #!/bin/bash
-   echo "Hello World"
+    #!/bin/bash
+    set -eo pipefail
+
+    : "${TMP_DIR:=/tmp}"
+
+    if [[ ${DEBUG^^} = TRUE ]]; then
+      set -x
+      curlArgs=(-v)
+      echo "DEBUG: running as $(id -a) with $(ls -ld /data)"
+      echo "       current directory is $(pwd)"
+    fi
