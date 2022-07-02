@@ -31,6 +31,8 @@ spec:
           env:
           - name: EULA
             value: "TRUE"
+          - name: DEBUG
+            value: "TRUE"
           volumeMounts:
             - mountPath: /data
               name: bedrock-data
