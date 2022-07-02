@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bedrock-init-script
+data:
+  test.sh: |
+   #!/bin/bash
+   echo "Hello World"
