@@ -27,7 +27,7 @@ spec:
       initContainers:
         - name: init
           image: debian:bookworm
-          command: [ "/bin/sh", "-c", "ls /script/" ]
+          command: [ "/bin/sh", "-c", "/script/test.sh" ]
           volumeMounts:
             - mountPath: /data
               name: bedrock-data
