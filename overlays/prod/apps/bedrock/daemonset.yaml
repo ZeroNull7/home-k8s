@@ -50,29 +50,6 @@ spec:
               protocol: UDP
           tty: true
           stdin: true
-        - name: vscode
-          image: codercom/code-server:3.11.1
-          imagePullPolicy: IfNotPresent
-          workingDir: /config
-          args:
-            - --port=8125
-            - --extensions-dir=/config/.vscode
-            - --user-data-dir=/config/.vscode
-          ports:
-            - name: vscode
-              containerPort: 8125
-              protocol: TCP
-          env:
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: vscode-secret
-                  key: password
-          volumeMounts:
-            - mountPath: /data
-              name: bedrock-data
-          securityContext:
-              runAsUser: 0
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       restartPolicy: Always
