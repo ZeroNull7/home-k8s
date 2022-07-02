@@ -27,7 +27,7 @@ spec:
             value: "TRUE"
           volumeMounts:
             - mountPath: /data
-              name: data
+              name: bedrock-data
           ports:
             - containerPort: 19132
               protocol: UDP
