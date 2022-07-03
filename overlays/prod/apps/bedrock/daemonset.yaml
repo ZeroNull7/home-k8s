@@ -25,7 +25,7 @@ spec:
         operator: Exists
         effect: NoSchedule
       initContainers:
-        - name: install_tools
+        - name: install-tools
           image: debian:bookworm
           command: [ "apt-get", "install", "-y", "curl" ]
         - name: init
