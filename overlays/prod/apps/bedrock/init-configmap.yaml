@@ -8,7 +8,7 @@ data:
     #!/bin/bash
     set -eo pipefail
 
-    apt-get update && apt-get -y install --no-install-recommends curl
+    apt-get update && apt-get -y install --no-install-recommends curl unzip
 
     : "${TMP_DIR:=/tmp}"
 
