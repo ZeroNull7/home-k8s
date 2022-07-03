@@ -26,7 +26,7 @@ spec:
         effect: NoSchedule
       initContainers:
         - name: init
-          image: debian:buster
+          image: ubuntu:18.04
           command: [ "/bin/sh", "-c", "/script/test.sh" ]
           volumeMounts:
             - mountPath: /data
@@ -40,7 +40,7 @@ spec:
             value: "TRUE"
       containers:
         - name: main
-          image: debian:buster
+          image: ubuntu:18.04
           imagePullPolicy: Always
           command: ["/bin/sleep", "3650d"]
           volumeMounts:
