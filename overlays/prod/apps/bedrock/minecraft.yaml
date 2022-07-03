@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: minecraft-bedrock
+  namespace: apps
   labels:
     role: service-config
     app: bds
@@ -36,6 +37,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: bds
+  namespace: apps
 spec:
   accessModes:
     - ReadWriteOnce
@@ -49,6 +51,7 @@ metadata:
   labels:
     app: bds
   name: bds
+  namespace: apps
 spec:
   # never more than 1 since BDS is not horizontally scalable
   replicas: 1
