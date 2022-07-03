@@ -8,6 +8,8 @@ data:
     #!/bin/bash
     set -eo pipefail
 
+    apt-get update && apt-get -y install --no-install-recommends curl
+
     : "${TMP_DIR:=/tmp}"
 
     if [[ ${DEBUG^^} = TRUE ]]; then
