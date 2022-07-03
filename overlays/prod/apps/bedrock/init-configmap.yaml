@@ -16,3 +16,32 @@ data:
       echo "DEBUG: running as $(id -a) with $(ls -ld /data)"
       echo "       current directory is $(pwd)"
     fi
+
+    if [[ ${EULA^^} != TRUE ]]; then
+      echo
+      echo "EULA must be set to TRUE to indicate agreement with the Minecraft End User License"
+      echo "See https://minecraft.net/terms"
+      echo
+      echo "Current value is '${EULA}'"
+      echo
+      exit 1
+    fi
+    DOWNLOAD_URL=$(curl -s https://mc-bds-helper.vercel.app/api/latest)
+
+    [[ $TMP_DIR != /tmp ]] && mkdir -p "$TMP_DIR"
+    TMP_ZIP="$TMP_DIR/$(basename "${DOWNLOAD_URL}")"
+
+    echo "Downloading Bedrock server  ..."
+    if ! curl "${curlArgs[@]}" -o ${TMP_ZIP} -fsSL ${DOWNLOAD_URL}; then
+      echo "ERROR failed to download from ${DOWNLOAD_URL}"
+      echo "      Double check that the given VERSION is valid"
+      exit 2
+    fi
+
+    # Do not overwrite existing files, which means the cleanup above needs to account for things
+    # that MUST be replaced on upgrade
+    unzip -q -n ${TMP_ZIP}
+    [[ $TMP_DIR != /tmp ]] && rm -rf "$TMP_DIR"
+
+    chmod +x bedrock_server
+    ls -laR
