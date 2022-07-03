@@ -28,7 +28,7 @@ data:
       echo
       exit 1
     fi
-    DOWNLOAD_URL=$(curl -s https://mc-bds-helper.vercel.app/api/latest)
+    DOWNLOAD_URL=https://minecraft.azureedge.net/bin-linux/bedrock-server-1.19.2.02.zip
 
     [[ $TMP_DIR != /tmp ]] && mkdir -p "$TMP_DIR"
     TMP_ZIP="$TMP_DIR/$(basename "${DOWNLOAD_URL}")"
