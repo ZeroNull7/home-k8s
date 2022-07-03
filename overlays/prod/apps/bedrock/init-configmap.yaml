@@ -46,5 +46,5 @@ data:
     [[ $TMP_DIR != /tmp ]] && rm -rf "$TMP_DIR"
 
     chmod +x bedrock_server
-    ls -laR $TMP_DIR
+    ls -l 
     pwd
