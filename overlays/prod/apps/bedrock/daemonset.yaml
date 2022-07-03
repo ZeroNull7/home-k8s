@@ -33,15 +33,15 @@ spec:
               name: bedrock-data
             - name: bedrock-init-script
               mountPath: /script
-      containers:
-        - name: main
-          image: debian:bookworm
-          imagePullPolicy: Always
           env:
           - name: EULA
             value: "TRUE"
           - name: DEBUG
             value: "TRUE"
+      containers:
+        - name: main
+          image: debian:bookworm
+          imagePullPolicy: Always
           volumeMounts:
             - mountPath: /data
               name: bedrock-data
