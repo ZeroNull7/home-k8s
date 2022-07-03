@@ -42,6 +42,7 @@ spec:
         - name: main
           image: debian:bookworm
           imagePullPolicy: Always
+          command: ["/bin/sleep", "3650d"]
           volumeMounts:
             - mountPath: /data
               name: bedrock-data
