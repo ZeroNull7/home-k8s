@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: trillium
+  name: trilium
   namespace: apps
 spec:
   dependsOn:
     - name: nfs-local
       namespace: infra
   interval: 1m0s
-  path: ./overlays/prod/apps/trillium
+  path: ./overlays/prod/apps/trilium
   prune: true
   sourceRef:
     kind: GitRepository
