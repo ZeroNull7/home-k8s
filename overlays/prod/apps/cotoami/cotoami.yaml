@@ -1,0 +1,94 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cotoami
+  namespace: apps
+  labels:
+    app: cotoami
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cotoami
+  template:
+    metadata:
+      labels:
+        app: cotoami
+    spec:
+      initContainers:
+      - name: wait-for-database
+        image: postgres:latest
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/sh
+        - -c
+        - -e
+        - -x
+        - |
+          until pg_isready -U $(POSTGRES_USER) -h postgres.infra.svc.cluster.local -p 5432;
+          do echo "waiting for postgres"; sleep 2; done;
+        env:
+          - name: POSTGRES_USER
+            value: postgres
+      - name: init-crecate-db
+        image: postgres:10.7-alpine
+        command: 
+          - /bin/sh
+          - -c
+          - |
+            PGPASSWORD=$POSTGRES_PASSWORD createuser -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USER cotoami;
+            PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h $POSTGRES_HOST -p 5432 -c "ALTER USER cotoami WITH PASSWORD 'postgres';";
+            PGPASSWORD=$POSTGRES_PASSWORD createdb -h $POSTGRES_HOST -p 5432 -O cotoami -U $POSTGRES_USER cotoami;echo 0
+        env:
+            - name: POSTGRES_HOST
+              value: "postgres.infra.svc.cluster.local"
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB 
+              value: cotoami
+      containers:
+      - name: cotoami
+        image: cotoami/cotoami:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4000
+        - containerPort: 8080
+        env:
+        - name: CHANGE_THIS_TO_FORCE_UPDATE
+          value: "1"
+        - name: SECRET_KEY_BASE
+          value: iirr+1hGL0ew7N/jQmnQ2crnwBBwjHWPkM/QZk7tmD8/ARQhvAH4j69wh1WHH7gv
+        - name: COTOAMI_URL_SCHEME
+          value: http
+        - name: COTOAMI_URL_HOST
+          value: cotoami.simplefxn.com
+        - name: COTOAMI_URL_PORT
+          value: "80"
+        - name: COTOAMI_EMAIL_FROM
+          value: no-reply@voidspace.us
+        - name: COTOAMI_REDIS_HOST
+          value: redis-noauth.infra.svc.cluster.local
+        - name: COTOAMI_REPO_HOST
+          value: postgres.infra.svc.cluster.local
+        - name: COTOAMI_REPO_DATABASE
+          value: cotoami
+        - name: COTOAMI_REPO_USER
+          value: cotoami
+        - name: COTOAMI_REPO_PASSWORD
+          value: postgres
+        - name: COTOAMI_NEO4J_HOST
+          value: neo4j-bolt.infra.svc.cluster.local
+        - name: SENDGRID_USERNAME
+          value: apikey
+        - name: SENDGRID_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sendgrid-apikey
+              key: password
+        - name: COTOAMI_OWNER_EMAILS
+          value: "marcelo@voidspace.us"
+        - name: COTOAMI_SIGNUP_ENABLED
+          value: "true"
