@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: trilium.simplefxn.com
+  namespace: istio-system
+spec:
+  secretName: trilium.simplefxn.com
+  subject:
+    organizations:
+    - SimpleFxn
+  commonName: trilium.simplefxn.com
+  dnsNames:
+  - trilium.simplefxn.com
+  issuerRef:
+    name: simplefxn-issuer
+    kind: ClusterIssuer

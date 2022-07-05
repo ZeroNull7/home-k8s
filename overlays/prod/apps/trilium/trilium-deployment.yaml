@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: trilium
+  name: trilium
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trilium
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: trilium
+      annotations:
+        backup.velero.io/backup-volumes: trilium
+    spec:
+      containers:
+        - env:
+            - name: TRILIUM_DATA_DIR
+              value: /data
+          image: zadam/trilium
+          name: trilium
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: trilium
+      restartPolicy: Always
+      volumes:
+        - name: trilium
+          persistentVolumeClaim:
+            claimName: trilium

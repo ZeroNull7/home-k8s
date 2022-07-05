@@ -83,6 +83,10 @@ spec:
           value: neo4j-bolt.infra.svc.cluster.local
         - name: SENDGRID_USERNAME
           value: apikey
+        - name: LANG 
+          value: en_US.UTF-8 
+        - name: LC_ALL 
+          value: C.UTF-8
         - name: SENDGRID_API_KEY
           valueFrom:
             secretKeyRef:
