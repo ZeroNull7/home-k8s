@@ -5,5 +5,4 @@ resources:
 - sendgrid-apikey.yaml
 - service.yaml
 - cotoami.yaml
-- ingress-gateway.yaml
 - certificate.yaml
