@@ -1,0 +1,125 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "grafana-secrets"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: grafana-creadentials
+          annotations:
+            "helm.sh/hook": "pre-install"
+            "helm.sh/hook-delete-policy": "before-hook-creation"
+        stringData:
+          admin-user: "admin"
+          admin-password: {{ randAlphaNum 16 | b64enc | quote }}
+
+  - name: "home-prometheus-stack"
+    chart: "prometheus-community/kube-prometheus-stack"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.prometheus_community_chart_version | quote }}
+    wait: true
+    timeout: 300
+    needs:
+      - "grafana-secrets"
+    values:
+    - {{ toYaml .Values.prometheus | nindent 6 }}
+    hooks:
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd alertmanagerconfigs.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml"]
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd alertmanagers.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"]
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd podmonitors.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml"]
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd probes.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml"]
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd prometheuses.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml"]
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd prometheusrules.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml"]
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd servicemonitors.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml"]
+    - events: ["prepare"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl get crd thanosrulers.monitoring.coreos.com >/dev/null 2>&1 || \
+              kubectl replace --force -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd alertmanagerconfigs.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd alertmanagers.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd podmonitors.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd probes.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd prometheuses.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd prometheusrules.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd servicemonitors.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete crd thanosrulers.monitoring.coreos.com"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc prometheus-home-monitoring-prometheus-db-prometheus-home-monitoring-prometheus-0"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl -n kube-system delete svc home-monitoring-kubelet"]
+    set:
+    - name: prometheusOperator.createCustomResource
+      value: false
