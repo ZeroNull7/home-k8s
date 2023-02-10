@@ -1,0 +1,10 @@
+spark_operator_chart_version: "1.1.26"
+k8s_raw_chart_version: "0.2.3"
+
+spark_operator:
+  sparkJobNamespace: "default"
+  logLevel: 2
+  podMonitor:
+    enabled: true
+    labels:
+      prometheus.io/monitor: "true"

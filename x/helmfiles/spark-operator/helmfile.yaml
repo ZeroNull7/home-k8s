@@ -1,0 +1,21 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: spark-operator
+    url: https://googlecloudplatform.github.io/spark-on-k8s-operator
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "spark-operator"
+    chart: "spark-operator/spark-operator"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.spark_operator_chart_version | quote }}
+    wait: true
+    timeout: 300
+    values:
+    - {{ toYaml .Values.spark_operator | nindent 6 }}
+    
