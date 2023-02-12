@@ -2,6 +2,6 @@ environments:
   default:
     values:
       - defaults.yaml
-  aks-synthetics:
+  home:
     values:
-      - aks-synthetics.yaml
+      - home.yaml

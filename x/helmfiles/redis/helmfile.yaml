@@ -26,7 +26,7 @@ releases:
             "helm.sh/hook-delete-policy": "before-hook-creation"
         stringData:
           password: {{ randAlphaNum 16 | b64enc | quote }}
-  - name: "tv2-redis-cluster"
+  - name: "iweather-redis-cluster"
     chart: "bitnami-charts/redis-cluster"
     disableValidation: true
     namespace: {{ .Namespace }}
@@ -39,25 +39,25 @@ releases:
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-0"]
+      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-0"]
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-1"]
+      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-1"]
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-2"]
+      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-2"]
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-3"]
+      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-3"]
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-4"]
+      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-4"]
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-5"]
+      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-5"]
     
