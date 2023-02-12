@@ -1,0 +1,7 @@
+environments:
+  default:
+    values:
+      - defaults.yaml
+  aks-synthetics:
+    values:
+      - aks-synthetics.yaml

@@ -1,0 +1,5 @@
+redis_chart_version: "7.0.8"
+k8s_raw_chart_version: "0.2.3"
+
+redis: {}
+

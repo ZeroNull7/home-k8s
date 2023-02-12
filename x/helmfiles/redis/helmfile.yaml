@@ -1,0 +1,63 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: bitnami-charts
+    url: https://charts.bitnami.com/bitnami
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "redis-secret"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: redis-creadentials
+          annotations:
+            "helm.sh/hook": "pre-install"
+            "helm.sh/hook-delete-policy": "before-hook-creation"
+        stringData:
+          password: {{ randAlphaNum 16 | b64enc | quote }}
+  - name: "tv2-redis-cluster"
+    chart: "bitnami-charts/redis-cluster"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.redis_chart_version | quote }}
+    wait: true
+    timeout: 300
+    values:
+    - {{ toYaml .Values.redis | nindent 6 }}
+    hooks:
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-0"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-1"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-2"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-3"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-4"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc redis-data-tv2-redis-cluster-5"]
+    
