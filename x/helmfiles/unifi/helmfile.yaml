@@ -1,0 +1,19 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: k8s-at-home
+    url: https://k8s-at-home.com/charts/
+
+releases:
+  - name: "home"
+    chart: "k8s-at-home/unifi"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.unifi_chart_version | quote }}
+    wait: true
+    timeout: 300
+    values:
+    - {{ toYaml .Values.unifi | nindent 6 }}
+    
+    

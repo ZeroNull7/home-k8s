@@ -1,0 +1,5 @@
+unifi_chart_version: "5.1.2"
+k8s_raw_chart_version: "0.2.3"
+
+unifi: {}
+
