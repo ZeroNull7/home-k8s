@@ -51,3 +51,10 @@ kafka:
           max.message.bytes: 64000
           flush.messages: 1000
           retention.ms: 5000
+      - name: ris-message
+        partitions: 8
+        replicationFactor: 1
+        config:
+          max.message.bytes: 64000
+          flush.messages: 1000
+          retention.ms: 5000
