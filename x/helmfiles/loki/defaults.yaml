@@ -1,0 +1,4 @@
+loki_chart_version: "2.1.2"
+k8s_raw_chart_version: "0.2.3"
+
+loki: {}
