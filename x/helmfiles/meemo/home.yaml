@@ -1,0 +1,4 @@
+k8s_raw_chart_version: "0.2.3"
+mongo_operator_chart_version: "0.7.8"
+
+meemo: {}

@@ -1,0 +1,66 @@
+#$ingestion_burst_size
+
+loki_stack_chart_version: "2.9.9"
+k8s_raw_chart_version: "0.2.3"
+
+#loki:
+#  loki:
+#    auth_enabled: false
+#    commonConfig:
+#      path_prefix: /var/loki
+#      replication_factor: 1
+#  minio:
+#    enabled: false
+#  read:
+#    replicas: 1
+#  write:
+#    replicas: 1
+  
+loki_stack: 
+  singleBinary:
+    persistence:
+      size: 128Gi
+  promtail:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    config:
+      logLevel: debug
+      #clients:
+      #  - url: http://loki:3100/loki/api/v1/push
+      snippets:
+        extraScrapeConfigs: |
+          # Add an additional scrape config for syslog
+          - job_name: syslog
+            syslog:
+              listen_address: 0.0.0.0:{{ .Values.extraPorts.syslog.containerPort }}
+              labels:
+                job: syslog
+            relabel_configs:
+              - source_labels:
+                  - __syslog_message_hostname
+                target_label: hostname
+
+              # example label values: kernel, CRON, kubelet
+              - source_labels:
+                  - __syslog_message_app_name
+                target_label: app
+
+              # example label values: debug, notice, informational, warning, error
+              - source_labels:
+                  - __syslog_message_severity
+                target_label: level
+    extraPorts:
+      syslog:
+        name: tcp-syslog
+        containerPort: 1514
+        service:
+          port: 1514
+          type: LoadBalancer
+          externalTrafficPolicy: Local
+    limits_config:
+      enforce_metric_name: false
+      reject_old_samples: true
+      reject_old_samples_max_age: 168h
+      ingestion_rate_mb: 8
+    

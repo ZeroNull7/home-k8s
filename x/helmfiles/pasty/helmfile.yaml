@@ -1,0 +1,69 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "pasty"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          annotations:
+            component: pasty
+          creationTimestamp: null
+          labels:
+            io.kompose.service: pasty
+          name: pasty
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              io.kompose.service: pasty
+          strategy:
+            type: Recreate
+          template:
+            metadata:
+              annotations:
+                component: pasty
+              creationTimestamp: null
+              labels:
+                io.kompose.service: pasty
+            spec:
+              imagePullSecrets: 
+                - name: reg-cred-secret
+              containers:
+                - name: pasty
+                  image: registry.simplefxn.com:5000/pasty:latest
+                  ports:
+                    - containerPort: 80
+                      protocol: TCP
+                  resources: {}
+                  env:
+                    - name: PASTY_WEB_ADDRESS
+                      value: "0.0.0.0:80"
+                    - name: PASTY_STORAGE_S3_ENDPOINT
+                      value: "http://172.23.0.2:9001/"
+                    - name: PASTY_STORAGE_S3_ACCESS_KEY_ID
+                      value: ""
+                    - name: PASTY_STORAGE_S3_SECRET_ACCESS_KEY
+                      value: "805afJ0ER7B8XwRw"
+                    - name: PASTY_STORAGE_S3_SECRET_TOKEN
+                      value: "BPJcYFapZsVuM8mGezJmwAupCiXjXhBs"
+                    - name: PASTY_STORAGE_S3_SECURE
+                      value: ""
+                    - name: PASTY_STORAGE_S3_BUCKET
+                      value: "pasty"
+
+              restartPolicy: Always
+
+    

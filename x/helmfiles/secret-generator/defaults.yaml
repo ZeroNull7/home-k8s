@@ -1,0 +1,4 @@
+k8s_raw_chart_version: "0.2.3"
+kubernetes_secrets_generator_chart_version: "3.2.0"
+
+kubernetes_secrets_generator: {}

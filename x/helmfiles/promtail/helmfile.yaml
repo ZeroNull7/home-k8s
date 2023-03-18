@@ -1,0 +1,123 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+  - name: "grafana"
+    url: "https://grafana.github.io/helm-charts"
+
+releases:
+  - name: "syslog-ng"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: syslog-ng-config
+        data:
+          syslog-ng.conf: |
+            ############################################################################
+            # Default syslog-ng.conf file which collects all local logs into a
+            # single file called /var/log/messages tailored to container usage.
+            #
+            # The changes from the stock, default syslog-ng.conf file is that we've
+            # dropped the system() source that is not needed and that we enabled network
+            # connections using default-network-drivers(). Customize as needed and
+            # override using the -v option to docker, such as:
+            #
+            #  docker run ...  -v "$PWD/syslog-ng.conf":/etc/syslog-ng/syslog-ng.conf
+            #
+
+            @version: 3.29
+            @include "scl.conf"
+
+            source s_local {
+            	internal();
+            };
+
+            source s_network {
+            	default-network-drivers(
+            		# NOTE: TLS support
+            		#
+            		# the default-network-drivers() source driver opens the TLS
+            		# enabled ports as well, however without an actual key/cert
+            		# pair they will not operate and syslog-ng would display a
+            		# warning at startup.
+            		#
+            		#tls(key-file("/path/to/ssl-private-key") cert-file("/path/to/ssl-cert"))
+            	);
+            };
+
+            destination d_loki {
+            	syslog("promtail-syslog.default.svc.cluster.local" transport("tcp") port("1514"));
+            };
+
+            log {
+                    source(s_local);
+                    source(s_network);
+                    destination(d_loki);
+            };
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          annotations:
+            loki-stack-component: syslog-ng
+          creationTimestamp: null
+          labels:
+            io.kompose.service: syslog-ng
+          name: syslog-ng
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              io.kompose.service: syslog-ng
+          strategy:
+            type: Recreate
+          template:
+            metadata:
+              annotations:
+                loki-stack-component: syslog-ng
+              creationTimestamp: null
+              labels:
+                io.kompose.service: syslog-ng
+            spec:
+              hostNetwork: true
+              containers:
+                - args:
+                    - -edv
+                  image: balabit/syslog-ng:latest
+                  name: syslog-ng
+                  ports:
+                    - containerPort: 514
+                      protocol: UDP
+                      hostPort: 514
+                    - containerPort: 601
+                    - containerPort: 514
+                      protocol: TCP
+                      hostPort: 514
+                  resources: {}
+                  volumeMounts:
+                    - mountPath: /etc/syslog-ng/syslog-ng.conf
+                      subPath: syslog-ng.conf
+                      name: syslog-config-volume
+              restartPolicy: Always
+              volumes:
+                - name: syslog-config-volume
+                  configMap:
+                    name: syslog-ng-config
+  - name: "promtail"
+    chart: "grafana/promtail"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.promtail_chart_version | quote }}
+    wait: true
+    timeout: 300
+    values:
+    - {{ toYaml .Values.promtail | nindent 6 }}

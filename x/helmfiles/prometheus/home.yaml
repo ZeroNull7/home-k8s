@@ -15,6 +15,8 @@ prometheus:
       existingSecret: "grafana-creadentials"
       userKey: admin-user
       passwordKey: admin-password
+    service:
+      type: LoadBalancer
   prometheus:
     prometheusSpec:
       retention: 365d
