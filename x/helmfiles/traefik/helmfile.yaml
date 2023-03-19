@@ -1,0 +1,21 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: traefik
+    url: https://helm.traefik.io/traefik
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "ingress"
+    chart: "traefik/traefik"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.traefik_chart_version | quote }}
+    wait: true
+    timeout: 300
+    values:
+    - {{ toYaml .Values.traefik | nindent 6 }}
+    
