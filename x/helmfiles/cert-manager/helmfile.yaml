@@ -1,0 +1,62 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: jetstack
+    url: https://charts.jetstack.io
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "cert-manager"
+    chart: "jetstack/cert-manager"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.cert_manager_chart_version | quote }}
+    wait: true
+    timeout: 300
+    values:
+    - {{ toYaml .Values.cert_manager | nindent 6 }}
+  - name: "simplefxn-issuer"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+      - resources:
+        - apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: simplefxn-issuer
+            namespace: infra
+          spec:
+            acme:
+              email: marcelo@voidspace.us
+              server: https://acme-v02.api.letsencrypt.org/directory
+              privateKeySecretRef:
+                name: simplefxn-issuer-account-key
+              solvers:
+              - dns01:
+                  cloudflare:
+                    email: marcelo@voidspace.us
+                    apiTokenSecretRef:
+                      name: cloudflare-api-key-secret
+                      key: api-key
+        - apiVersion: cert-manager.io/v1
+          kind: Certificate
+          metadata:
+            name: notes.simplefxn.com
+            namespace: default
+          spec:
+            secretName: notes.simplefxn.com
+            subject:
+              organizations:
+              - SimpleFxn
+            commonName: notes.simplefxn.com
+            dnsNames:
+            - notes.simplefxn.com
+            issuerRef:
+              name: simplefxn-issuer
+              kind: ClusterIssuer
