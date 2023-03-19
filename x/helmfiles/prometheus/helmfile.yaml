@@ -28,7 +28,7 @@ releases:
           admin-user: "admin"
           admin-password: {{ randAlphaNum 16 | b64enc | quote }}
 
-  - name: "home-prometheus-stack"
+  - name: "stack"
     chart: "prometheus-community/kube-prometheus-stack"
     disableValidation: true
     namespace: {{ .Namespace }}

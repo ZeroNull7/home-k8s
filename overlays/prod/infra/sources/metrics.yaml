@@ -8,8 +8,6 @@ spec:
   dependsOn: 
     - name: nfs-synology
       namespace: infra
-    - name: cert-manager
-      namespace: infra
   interval: 10m0s
   path: ./overlays/prod/infra/apps/metrics
   prune: true

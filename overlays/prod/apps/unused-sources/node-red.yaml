@@ -8,8 +8,6 @@ spec:
   dependsOn:
     - name: nfs-local
       namespace: infra
-    - name: cert-manager
-      namespace: infra
   interval: 1m0s
   path: ./overlays/prod/apps/node-red
   prune: true
