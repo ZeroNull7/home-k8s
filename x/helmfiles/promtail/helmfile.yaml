@@ -59,6 +59,12 @@ releases:
             	syslog("promtail-syslog.default.svc.cluster.local" transport("tcp") port("1514"));
             };
 
+            destination d_kafka {
+              kafka(
+                client-
+              );
+            };
+
             log {
                     source(s_local);
                     source(s_network);
@@ -112,6 +118,7 @@ releases:
                 - name: syslog-config-volume
                   configMap:
                     name: syslog-ng-config
+  
   - name: "promtail"
     chart: "grafana/promtail"
     disableValidation: true
