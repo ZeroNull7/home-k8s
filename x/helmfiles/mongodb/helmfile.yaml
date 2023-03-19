@@ -1,0 +1,171 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+  - name: "mongodb"
+    url: "https://mongodb.github.io/helm-charts"
+
+releases:
+  - name: "mongo-community-operator"
+    chart: "mongodb/community-operator"
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.mongo_operator_chart_version | quote }}
+    wait: true
+    timeout: 300
+
+  - name: "meemo-mongodb-secrets"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: mongodb.mongodb-main.admin
+          annotations:
+            secret-generator.v1.mittwald.de/autogenerate: password
+            secret-generator.v1.mittwald.de/encoding: hex
+        type: Opaque
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: mongodb.mongodb-main.auth
+          annotations:
+          #   argocd.argoproj.io/compare-options: IgnoreExtraneous
+            secret-generator.v1.mittwald.de/autogenerate: password
+            secret-generator.v1.mittwald.de/encoding: hex
+        type: Opaque
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: mongodb.mongodb-main.reader
+          annotations:
+          #   argocd.argoproj.io/compare-options: IgnoreExtraneous
+            secret-generator.v1.mittwald.de/autogenerate: password
+            secret-generator.v1.mittwald.de/encoding: hex
+        type: Opaque
+
+  - name: "meemo-mongodb"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    needs:
+      - "mongo-community-operator"
+      - "meemo-mongodb-secrets"
+
+    values:
+    - resources:
+      - apiVersion: mongodbcommunity.mongodb.com/v1
+        kind: MongoDBCommunity
+        metadata:
+          name: mongodb
+        spec:
+          members: 1
+          type: ReplicaSet
+          version: "4.4.18"
+          security:
+            authentication:
+              modes: ["SCRAM"]
+          statefulSet:
+            spec:
+              template:
+                spec:
+                  containers:
+                    - name: mongod
+                      resources:
+                        limits:
+                          cpu: "0.5"
+                          memory: 500M
+                        requests:
+                          cpu: "0.2"
+                          memory: 200M
+                    - name: mongodb-agent
+                      resources:
+                        limits:
+                          cpu: "0.3"
+                          memory: 300M
+                        requests:
+                          cpu: "0.2"
+                          memory: 200M
+                  initContainers:
+                    - command:
+                        - chown
+                        - -R
+                        - "2000"
+                        - /data
+                        - /logs
+                      image: busybox
+                      volumeMounts:
+                      - mountPath: /data
+                        name: data-volume
+                      - mountPath: /logs
+                        name: logs-volume
+                      securityContext:
+                        runAsNonRoot: false
+                        runAsUser: 0
+                        runAsGroup: 0
+                      name: change-dir-permissions
+              volumeClaimTemplates:
+                - metadata:
+                    name: data-volume
+                  spec:
+                    accessModes:
+                    - ReadWriteOnce
+                    resources:
+                      requests:
+                        storage: 64G
+                    storageClassName: synology
+                - metadata:
+                    name: logs-volume
+                  spec:
+                    accessModes:
+                    - ReadWriteOnce
+                    resources:
+                      requests:
+                        storage: 8G
+                    storageClassName: synology
+          users:
+            - name: admin
+              db: admin
+              passwordSecretRef:
+                name: mongodb.mongodb-main.admin
+              roles:
+                - name: clusterAdmin
+                  db: admin
+                - name: userAdminAnyDatabase
+                  db: admin
+                - name: root
+                  db: admin
+              scramCredentialsSecretName: admin-scram
+            - name: auth
+              db: auth
+              passwordSecretRef:
+                name: mongodb.mongodb-main.auth
+              roles:
+                - name: readWrite
+                  db: auth
+              scramCredentialsSecretName: auth-scram
+            - name: reader
+              db: reader
+              passwordSecretRef:
+                name: mongodb.mongodb-main.reader
+              roles:
+                - name: readAnyDatabase
+                  db: reader
+              scramCredentialsSecretName: reader-scram
+          additionalMongodConfig:
+            storage.wiredTiger.engineConfig.journalCompressor: zlib
+
+      # the user credentials will be generated from this secret
+      # once the credentials are generated, this secret is no longer required
+
+    

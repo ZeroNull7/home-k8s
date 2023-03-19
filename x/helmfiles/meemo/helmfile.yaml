@@ -5,82 +5,40 @@ repositories:
   # Kubernetes incubator repo of helm charts
   - name: "incubator"
     url: "https://charts.helm.sh/incubator"
-  - name: "mongodb"
-    url: "https://mongodb.github.io/helm-charts"
 
 releases:
-  - name: "mongo-community-operator"
-    chart: "mongodb/community-operator"
-    disableValidation: true
-    namespace: {{ .Namespace }}
-    version: {{ .Values.mongo_operator_chart_version | quote }}
-    wait: true
-    timeout: 300
-  - name: "meemo-mongodb"
-    chart: "incubator/raw"
-    namespace: {{ .Namespace }}
-    version: {{ .Values.k8s_raw_chart_version | quote }}
-    wait: true
-    timeout: 60
-    needs:
-      - "mongo-community-operator"
-    values:
-    - resources:
-      - apiVersion: mongodbcommunity.mongodb.com/v1
-        kind: MongoDBCommunity
-        metadata:
-          name: example-mongodb
-        spec:
-          members: 3
-          type: ReplicaSet
-          version: "4.2.6"
-          security:
-            authentication:
-              modes: ["SCRAM"]
-          users:
-            - name: my-user
-              db: admin
-              passwordSecretRef: # a reference to the secret that will be used to generate the user's password
-                name: my-user-password
-              roles:
-                - name: clusterAdmin
-                  db: admin
-                - name: userAdminAnyDatabase
-                  db: admin
-              scramCredentialsSecretName: my-scram
-          additionalMongodConfig:
-            storage.wiredTiger.engineConfig.journalCompressor: zlib
-
-      # the user credentials will be generated from this secret
-      # once the credentials are generated, this secret is no longer required
-  - name: "meemo-mongodb-secret"
-    chart: "incubator/raw"
-    namespace: {{ .Namespace }}
-    version: {{ .Values.k8s_raw_chart_version | quote }}
-    wait: true
-    timeout: 60
-    needs:
-      - "mongo-community-operator"
-    values:
-    - resources:
-      - apiVersion: v1
-        kind: Secret
-        metadata:
-          name: my-user-password
-        type: Opaque
-        stringData:
-          password: <your-password-here>
   - name: "meemo"
     chart: "incubator/raw"
     namespace: {{ .Namespace }}
     version: {{ .Values.k8s_raw_chart_version | quote }}
     wait: true
     timeout: 60
-    needs:
-      - "meemo-mongodb-secret"
-      - "meemo-mongodb"
     values:
     - resources:
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: meemo-data
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: meemo-service
+        spec:
+          selector:
+            application: meemo
+          type: LoadBalancer
+          ports:
+          - name: meemo-service-port
+            protocol: TCP
+            port: 80
+            targetPort:  meemo-web-svc
+
       - apiVersion: apps/v1
         kind: Deployment
         metadata:
@@ -88,13 +46,13 @@ releases:
             component: meemo
           creationTimestamp: null
           labels:
-            io.kompose.service: meemo
+            application: meemo
           name: meemo
         spec:
           replicas: 1
           selector:
             matchLabels:
-              io.kompose.service: meemo
+              application: meemo
           strategy:
             type: Recreate
           template:
@@ -103,22 +61,51 @@ releases:
                 component: meemo
               creationTimestamp: null
               labels:
-                io.kompose.service: meemo
+                application: meemo
             spec:
               imagePullSecrets: 
                 - name: reg-cred-secret
               containers:
                 - name: meemo
-                  image: registry.simplefxn.com:5000/meemo:latest
+                  image: registry.simplefxn.com:5000/meemo:v1.17.1
+                  imagePullPolicy: Always
                   ports:
                     - containerPort: 3000
                       protocol: TCP
+                      name: meemo-web-svc
                   resources: {}
                   env:
-                    - name: meemo_WEB_ADDRESS
-                      value: "0.0.0.0:80"
-                    
-
+                    - name: MONGO_USERNAME
+                      valueFrom:
+                        secretKeyRef:
+                          name: mongodb-admin-admin
+                          key: username
+                    - name: MONGO_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                          name: mongodb-admin-admin
+                          key: password
+                    - name: PORT
+                      value: "3000"
+                    - name: "BIND_ADDRESS"
+                      value: "0.0.0.0"
+                    - name: "CLOUDRON_MONGODB_URL"
+                      value: "mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@mongodb-svc.default.svc.cluster.local:27017/meemo?authSource=admin"
+                    - name: "NODE_ENV"
+                      value: "production"
+                    - name: "CLOUDRON_LOCAL_AUTH_FILE"
+                      value: "/data/users.json"
+                    - name: "LOCAL_AUTH_FILE"
+                      value: "/data/users.json"
+                    - name: "CLOUDRON_APP_ORIGIN"
+                      value: "http://notes.simplefxn.com"
+                  volumeMounts: 
+                    - name: meemo-data-volume
+                      mountPath: /data
+              volumes:
+                - name: meemo-data-volume
+                  persistentVolumeClaim:
+                    claimName: meemo-data
               restartPolicy: Always
 
     
