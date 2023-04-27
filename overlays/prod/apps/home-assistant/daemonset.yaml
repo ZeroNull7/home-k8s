@@ -198,7 +198,7 @@ spec:
       - name: frigate-tmp
         emptyDir:
           medium: Memory
-          sizeLimit: 8Gi
+          sizeLimit: 16Gi
       - name: frigate-config
         configMap:
           name: frigate-config

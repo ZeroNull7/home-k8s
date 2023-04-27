@@ -24,6 +24,15 @@ data:
         mainhall_sub:
           - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.133:554//h264Preview_01_sub
           - "ffmpeg:rtsp_cam_sub#audio=opus"
+        frontdoor:
+          - rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=profile_1_h264
+          - "ffmpeg:rtsp_cam#audio=opus"
+        garage:
+          - rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=profile_1_h264
+          - "ffmpeg:rtsp_cam#audio=opus"
+        pool: 
+          - rtsp://axis:Ike0cuso@172.23.0.186/onvif-media/media.amp
+          - "ffmpeg:rtsp_cam#audio=opus"
     cameras:
       living_room:
         ffmpeg:
@@ -54,14 +63,10 @@ data:
       front_door:
         ffmpeg:
           inputs:
-            - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=profile_1_h264
+            - path: rtsp://127.0.0.1:8554/frontdoor 
+              input_args: preset-rtsp-restream
               roles:
                 - record
-            - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=rtmp
-              roles:
-                - rtmp
-            - path: rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=detect
-              roles:
                 - detect
         zones:
           door:
@@ -90,14 +95,10 @@ data:
       garage:
         ffmpeg:
           inputs:
-            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=profile_1_h264
+            - path: rtsp://127.0.0.1:8554/frontdoor 
+              input_args: preset-rtsp-restream
               roles:
                 - record
-            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=rtmp
-              roles:
-                - rtmp
-            - path: rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=detect
-              roles:
                 - detect
         record:
           events:
@@ -127,11 +128,11 @@ data:
       pool:
         ffmpeg:
           inputs:
-            - path: rtsp://axis:Ike0cuso@172.23.0.186/onvif-media/media.amp
+             - path: rtsp://127.0.0.1:8554/frontdoor 
+              input_args: preset-rtsp-restream
               roles:
-                - detect
-                - rtmp
                 - record
+                - detect
         zones:
           pool_zone:
             coordinates: 241,720,1280,720,1280,138,628,106,369,152,221,187,79,233,149,462
@@ -178,5 +179,11 @@ data:
         type: cpu
         num_threads: 3
       cpu4:
+        type: cpu
+        num_threads: 3
+      cpu5:
+        type: cpu
+        num_threads: 3
+      cpu6:
         type: cpu
         num_threads: 3
