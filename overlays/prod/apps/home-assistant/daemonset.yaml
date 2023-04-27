@@ -130,7 +130,7 @@ spec:
             runAsUser: 0
       - name: frigate
         env:
-        image: ghcr.io/blakeblackshear/frigate:master-6bcf44a
+        image: ghcr.io/blakeblackshear/frigate:0.12.0-beta8
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
