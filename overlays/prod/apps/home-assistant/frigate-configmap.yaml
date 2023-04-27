@@ -128,7 +128,7 @@ data:
       pool:
         ffmpeg:
           inputs:
-             - path: rtsp://127.0.0.1:8554/frontdoor 
+            - path: rtsp://127.0.0.1:8554/frontdoor 
               input_args: preset-rtsp-restream
               roles:
                 - record
