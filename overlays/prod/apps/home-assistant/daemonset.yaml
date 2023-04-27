@@ -146,6 +146,9 @@ spec:
         - containerPort: 1935
           name: rtmp
           protocol: TCP
+        - containerPort: 8554
+          name: rtsp
+          protocol: TCP
         readinessProbe:
           failureThreshold: 3
           periodSeconds: 10
