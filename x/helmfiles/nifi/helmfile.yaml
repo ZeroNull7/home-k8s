@@ -1,0 +1,41 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  # Stable repo of official helm charts
+  - name: "stable"
+    url: "https://charts.helm.sh/stable"
+
+releases:
+  - name: "kafka"
+    chart: "bitnami/kafka"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.bitnami_kafka_chart_version | quote }}
+    wait: true
+    timeout: 360
+    values:
+    - {{ toYaml .Values.kafka | nindent 6 }}
+    hooks:
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc data-kafka-zookeeper-0"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc data-kafka-0"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc data-kafka-1"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc data-kafka-2"]
+    - events: ["postuninstall"]
+      command: "bash"
+      showlogs: true
+      args: ["-c", "kubectl delete pvc data-kafka-3"]
+

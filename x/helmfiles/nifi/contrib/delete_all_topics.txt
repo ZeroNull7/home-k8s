@@ -1,0 +1,10 @@
+#!/bin/usr/env bash
+
+topics=$(JMX_PORT=5557 kafka-topics.sh --bootstrap-server localhost:9092 --list)
+
+for topic in ${topics[@]};
+do
+   if [ "$topic" != "__consumer_offsets" ]; then
+    JMX_PORT=5557 kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic $topic
+   fi
+done

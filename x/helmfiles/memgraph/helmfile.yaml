@@ -1,0 +1,88 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "memgraph"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: apps/v1
+        kind: StatefulSet
+        metadata:
+          name: memgraph
+          labels:
+            app.kubernetes.io/name: memgraph
+            app.kubernetes.io/managed-by: Helm
+        spec:
+          replicas: 1
+          serviceName: memgraph-svc
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: memgraph
+          podManagementPolicy: OrderedReady
+          updateStrategy:
+                type: RollingUpdate
+          template:
+            metadata:
+              labels:
+                app.kubernetes.io/name: memgraph
+            spec:
+              containers:
+                - name: memgraph
+                  image: "memgraph/memgraph:latest"
+                  imagePullPolicy: Always
+                  command: ["/usr/lib/memgraph/memgraph", "--memory-limit=96304", "--kafka-bootstrap-servers=kafka:9092"]
+                  args:
+
+                  env:
+                    - name: MEMGRAPH_USER
+                      value: "memgraph"
+                    - name: MEMGRAPH_PASSWORD
+                      value: "password"
+                  ports:
+                    - name: memgraph
+                      containerPort: 7687
+                      protocol: TCP
+                    - name: memgraph-logs
+                      containerPort: 7444
+                      protocol: TCP
+                    - name: memgraph-rep
+                      containerPort: 10000
+                      protocol: TCP
+                  resources:
+                    limits:
+                      memory: 96G
+                    requests:
+                      cpu: "4"
+                      memory: 96G               
+
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: memgraph-svc
+          labels:
+            app.kubernetes.io/name: memgraph
+            app.kubernetes.io/managed-by: Helm
+        spec:
+          type: LoadBalancer
+          ports:
+            - name: bolt
+              port: 7687
+              targetPort: 7687
+              protocol: TCP
+            - name: logs
+              port: 7444
+              targetPort: 7444
+              protocol: TCP
+          selector:
+            app.kubernetes.io/name: memgraph
+        
+    

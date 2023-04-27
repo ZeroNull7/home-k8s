@@ -1,0 +1,3 @@
+bitnami_kafka_chart_version: "20.0.2"
+
+kafka: {}

@@ -43,43 +43,61 @@ releases:
             #
             #  docker run ...  -v "$PWD/syslog-ng.conf":/etc/syslog-ng/syslog-ng.conf
             #
-
-            @version: 3.29
+            @version: 4.1
             @include "scl.conf"
 
-            source s_local {
-            	internal();
+            # First, set some global options.
+            options { chain_hostnames(off); flush_lines(0); use_dns(no); use_fqdn(no);
+            	  dns_cache(no); owner("root"); group("adm"); perm(0640);
+            	  bad_hostname("^gconfd$");
             };
 
-            source s_network {
-            	default-network-drivers(
-            		# NOTE: TLS support
-            		#
-            		# the default-network-drivers() source driver opens the TLS
-            		# enabled ports as well, however without an actual key/cert
-            		# pair they will not operate and syslog-ng would display a
-            		# warning at startup.
-            		#
-            		#tls(key-file("/path/to/ssl-private-key") cert-file("/path/to/ssl-cert"))
-            	);
+            ########################
+            # Sources
+            ########################
+            # This is the default behavior of sysklogd package
+            # Logs may come from unix stream, but not from another machine.
+            #
+
+            source s_src {
+                   system();
+                   internal();
+                   network();
             };
 
-            destination d_loki {
-            	syslog("loki-stack-promtail-syslog.default.svc.cluster.local" transport("tcp") port("1514"));
+            ########################
+            # Destinations
+            ########################
+
+            # The root's console.
+            #
+            destination d_console { usertty("root"); };
+
+
+            destination d_net { tcp("loki-stack-promtail-syslog.default.svc.cluster.local" port(1514) log_fifo_size(1000)); };
+            destination d_kafka {
+              channel {
+                rewrite {
+                  set("${HOST}"    value(".eventv1.host"));
+                  set("1"          value(".eventv1.@version"));
+                  set("${ISODATE}" value(".eventv1.@timestamp") condition("${.eventv1.@timestamp}" eq ""));
+                  set("${MESSAGE}" value(".eventv1.message")    condition("${.eventv1.message}" eq ""));
+                  set("${MSG}"     value(".eventv1.message")    condition("${.eventv1.message}" eq ""));
+                  set("generic"    value(".eventv1.type")       condition("${.eventv1.type}" eq ""));
+                };
+                destination {
+                  kafka-c(config(queue.buffering.max.ms("1000"))
+                        topic("syslog")
+                        bootstrap-servers("kafka.default.svc.cluster.local:9092")
+                        message("$(format-json --key .eventv1.* --rekey .eventv1.* --shift 9)"));
+                };
+              };
             };
 
-            destination d_file {
-              file("/var/log/$HOST/$HOST.log");
-            };
-
-            destination d_usertty { usertty("root"); };
-
-            log {
-                    source(s_local);
-                    source(s_network);
-                    destination(d_loki);
-                    destination (d_usertty);
-                    destination (d_file);
+            log { 
+              source(s_src); 
+              destination(d_net);
+              destination(d_kafka);
             };
 
       - apiVersion: apps/v1
@@ -107,10 +125,12 @@ releases:
                 io.kompose.service: syslog-ng
             spec:
               hostNetwork: true
+              imagePullSecrets: 
+                - name: reg-cred-secret
               containers:
                 - args:
-                    - -edv
-                  image: balabit/syslog-ng:latest
+                  image: registry.simplefxn.com:5000/syslog-ng-kafka:0.0.1
+                  imagePullPolicy: Always
                   name: loki-stack-syslog-ng
                   ports:
                     - containerPort: 514

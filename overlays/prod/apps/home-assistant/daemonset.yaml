@@ -130,7 +130,7 @@ spec:
             runAsUser: 0
       - name: frigate
         env:
-        image: blakeblackshear/frigate:stable-amd64
+        image: blakeblackshear/frigate:stable
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3

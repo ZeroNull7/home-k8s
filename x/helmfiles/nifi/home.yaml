@@ -1,0 +1,60 @@
+bitnami_kafka_chart_version: "20.0.2"
+
+kafka:
+  metrics:
+    kafka:
+      enabled: true
+    jmx:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus.io/monitor: "true"
+  defaultReplicationFactor: 1
+  offsetsTopicReplicationFactor: 1
+  numIoThreads: 8
+  numNetworkThreads: 8
+  numPartitions: 1
+  replicaCount: 3
+  logRetentionBytes: "_536870912"
+  logRetentionHours": 1
+  deleteTopicEnable: true
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  externalAccess:
+    enabled: true
+    autoDiscovery:
+      enabled: true
+    service:
+      type: LoadBalancer 
+      annotations:
+        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  rbac:
+    create: true
+  persistence:
+    storageClass: "local"
+    accessModes: [ "ReadWriteOnce" ]
+    size: 16Gi
+  logPersistence:
+    storageClass: "local"
+    accessModes: [ "ReadWriteOnce" ]
+    size: 16Gi
+  provisioning:
+    enabled: true 
+    topics:
+      - name: ris-message-raw
+        partitions: 8
+        replicationFactor: 1
+        config:
+          max.message.bytes: 64000
+          flush.messages: 1000
+          retention.ms: 5000
+      - name: ris-message
+        partitions: 8
+        replicationFactor: 1
+        config:
+          max.message.bytes: 64000
+          flush.messages: 1000
+          retention.ms: 5000
