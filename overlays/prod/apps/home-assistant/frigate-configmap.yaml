@@ -14,22 +14,22 @@ data:
       streams:
         livingroom:
           - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.25:554//h264Preview_01_main
-          - "ffmpeg:rtsp_cam#audio=opus"
+          - "ffmpeg:livingroom#audio=opus"
         livingroom_sub:
           - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.25:554//h264Preview_01_sub
-          - "ffmpeg:rtsp_cam_sub#audio=opus"
+          - "ffmpeg:livingroom_sub#audio=opus"
         mainhall:
           - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.133:554//h264Preview_01_main
-          - "ffmpeg:rtsp_cam#audio=opus"
+          - "ffmpeg:mainhall#audio=opus"
         mainhall_sub:
           - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.133:554//h264Preview_01_sub
-          - "ffmpeg:rtsp_cam_sub#audio=opus"
+          - "ffmpeg:mainhall_sub#audio=opus"
         frontdoor:
           - rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=profile_1_h264
-          - "ffmpeg:rtsp_cam#audio=opus"
+          - "ffmpeg:frontdoor#audio=opus"
         garage:
           - rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=profile_1_h264
-          - "ffmpeg:rtsp_cam#audio=opus"
+          - "ffmpeg:garage#audio=opus"
         pool: 
           - rtsp://axis:Ike0cuso@172.23.0.186/onvif-media/media.amp
           - "ffmpeg:rtsp_cam#audio=opus"
