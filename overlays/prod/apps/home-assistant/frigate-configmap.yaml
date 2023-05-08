@@ -141,9 +141,8 @@ data:
               - cat
               - bird
               - dog
-        motion:
-          mask:
-            - 1205,699,1259,503,954,418,499,308,175,410,207,461,427,391,799,552
+        birdseye:
+          mode: objects
         record:
           events:
             required_zones:
