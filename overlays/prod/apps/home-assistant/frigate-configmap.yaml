@@ -95,7 +95,7 @@ data:
       garage:
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/frontdoor 
+            - path: rtsp://127.0.0.1:8554/garage 
               input_args: preset-rtsp-restream
               roles:
                 - record
@@ -128,7 +128,7 @@ data:
       pool:
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/frontdoor 
+            - path: rtsp://127.0.0.1:8554/pool 
               input_args: preset-rtsp-restream
               roles:
                 - record
