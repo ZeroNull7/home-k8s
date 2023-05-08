@@ -193,5 +193,3 @@ data:
     birdseye:
       enabled: True
       mode: motion
-    ffmpeg:
-      hwaccel_args: preset-vaapi
