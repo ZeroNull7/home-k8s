@@ -187,3 +187,6 @@ data:
       cpu6:
         type: cpu
         num_threads: 3
+    birdseye:
+      enable: True
+      mode: motion
