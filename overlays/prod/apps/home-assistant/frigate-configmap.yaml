@@ -188,5 +188,5 @@ data:
         type: cpu
         num_threads: 3
     birdseye:
-      enable: True
+      enabled: True
       mode: motion
