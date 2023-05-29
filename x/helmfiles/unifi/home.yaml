@@ -19,7 +19,7 @@ unifi:
       size: 64Gi
       retain: true
   mongodb:
-    enabled: true
+    enabled: false
     architecture: standalone
     persistence:
       accessMode: ReadWriteOnce

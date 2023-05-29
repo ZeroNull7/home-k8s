@@ -154,7 +154,7 @@ data:
       enabled: True
       events:
         retain:
-          default: 120
+          default: 30
     snapshots:
       enabled: True
       timestamp: True
