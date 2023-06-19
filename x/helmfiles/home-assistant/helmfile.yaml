@@ -1,0 +1,500 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "home-assistant-x"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: cert-manager.io/v1
+        kind: Certificate
+        metadata:
+          name: home-assistant-tls
+          namespace: apps
+        spec:
+          secretName: home-assistant-tls
+          subject:
+            organizations:
+            - SimpleFxn
+          commonName: home-assistant.simplefxn.com
+          dnsNames:
+          - home-assistant.simplefxn.com
+          - hass.simplefxn.com
+          issuerRef:
+            name: simplefxn-issuer
+            kind: ClusterIssuer
+      - apiVersion: cert-manager.io/v1
+        kind: Certificate
+        metadata:
+          name: node-red-tls
+          namespace: apps
+        spec:
+          secretName: node-red-tls
+          subject:
+            organizations:
+            - SimpleFxn
+          commonName: node-red.simplefxn.com
+          dnsNames:
+          - node-red.simplefxn.com
+          issuerRef:
+            name: simplefxn-issuer
+            kind: ClusterIssuer
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          labels:
+            app: home-assistant
+          namespace: apps
+          name: home-assistant-config
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: local
+          volumeMode: Filesystem 
+          resources:
+            requests:
+              storage: 8Gi
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          labels:
+            app: frigate
+          namespace: apps
+          name: frigate-media-local
+        spec:
+          storageClassName: local
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 256Gi
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          labels:
+            app: node-red
+          namespace: apps
+          name: node-red-data
+        spec:
+          storageClassName: local
+          accessModes:
+            - ReadWriteOnce
+          volumeMode: Filesystem
+          resources:
+            requests:
+              storage: 8Gi
+      - apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: frigate-config
+          namespace: apps
+        data:
+          config.yml: |
+            mqtt:
+              host: mosquitto.infra.svc.cluster.local
+              port: 1883
+              topic_prefix: frigate
+              client_id: frigate
+            go2rtc:
+              streams:
+                livingroom:
+                  - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.25:554//h264Preview_01_main
+                  - "ffmpeg:rtsp_cam#audio=opus"
+                livingroom_sub:
+                  - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.25:554//h264Preview_01_sub
+                  - "ffmpeg:rtsp_cam_sub#audio=opus"
+                mainhall:
+                  - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.133:554//h264Preview_01_main
+                  - "ffmpeg:rtsp_cam#audio=opus"
+                mainhall_sub:
+                  - rtsp://frigate:baTkiv-toxbin-1sovsi@172.23.0.133:554//h264Preview_01_sub
+                  - "ffmpeg:rtsp_cam_sub#audio=opus"
+                frontdoor:
+                  - rtsp://axis:Ike0cuso@172.23.0.184/onvif-media/media.amp?profile=profile_1_h264
+                  - "ffmpeg:rtsp_cam#audio=opus"
+                garage:
+                  - rtsp://axis:Ike0cuso@172.23.0.185/onvif-media/media.amp?profile=profile_1_h264
+                  - "ffmpeg:rtsp_cam#audio=opus"
+                pool: 
+                  - rtsp://axis:Ike0cuso@172.23.0.186/onvif-media/media.amp
+                  - "ffmpeg:rtsp_cam#audio=opus"
+            cameras:
+              living_room:
+                ffmpeg:
+                  output_args:
+                    record: preset-record-generic-audio-copy
+                  inputs:
+                    - path: rtsp://127.0.0.1:8554/livingroom 
+                      input_args: preset-rtsp-restream
+                      roles:
+                        - record
+                    - path: rtsp://127.0.0.1:8554/livingroom_sub
+                      input_args: preset-rtsp-restream
+                      roles:
+                        - detect
+              mainhall:
+                ffmpeg:
+                  output_args:
+                    record: preset-record-generic-audio-copy
+                  inputs:
+                    - path: rtsp://127.0.0.1:8554/mainhall 
+                      input_args: preset-rtsp-restream
+                      roles:
+                        - record
+                    - path: rtsp://127.0.0.1:8554/mainhall _sub
+                      input_args: preset-rtsp-restream
+                      roles:
+                        - detect
+              front_door:
+                ffmpeg:
+                  inputs:
+                    - path: rtsp://127.0.0.1:8554/frontdoor 
+                      input_args: preset-rtsp-restream
+                      roles:
+                        - record
+                        - detect
+                zones:
+                  door:
+                    coordinates: 386,523,352,634,0,462,0,226
+                    objects:
+                      - person
+                      - cat
+                      - dog
+                      - bird
+                  front_yard:
+                    coordinates: 233,234,401,53,623,0,872,0,1118,0,1280,61,1280,720,890,720,574,699,344,638,420,446,233,264
+                    objects:
+                      - person
+                      - cat
+                      - dog
+                      - bird
+                record:
+                  events:
+                    required_zones:
+                      - door
+                      - front_yard
+                snapshots:
+                  required_zones:
+                    - door
+                    - front_yard
+              garage:
+                ffmpeg:
+                  inputs:
+                    - path: rtsp://127.0.0.1:8554/garage 
+                      input_args: preset-rtsp-restream
+                      roles:
+                        - record
+                        - detect
+                record:
+                  events:
+                    required_zones:
+                      - driveway
+                      - street
+                snapshots:
+                  required_zones:
+                    - driveway
+                    - street
+                zones:
+                  driveway:
+                    coordinates: 108,362,74,720,884,720,808,410,748,241,695,116,316,102
+                    objects:
+                      - person
+                      - bird
+                      - cat
+                      - dog
+                  street:
+                    coordinates: 0,151,275,108,691,119,993,171,1256,333,1248,283,996,85,888,48,648,44,445,30,181,49,0,81
+                    objects:
+                      - car
+                      - person
+                      - bird
+                      - cat
+                      - dog
+              pool:
+                ffmpeg:
+                  inputs:
+                    - path: rtsp://127.0.0.1:8554/pool 
+                      input_args: preset-rtsp-restream
+                      roles:
+                        - record
+                        - detect
+                zones:
+                  pool_zone:
+                    coordinates: 241,720,1280,720,1280,138,628,106,369,152,221,187,79,233,149,462
+                    objects:
+                      - person
+                      - cat
+                      - bird
+                      - dog
+                birdseye:
+                  mode: objects
+                record:
+                  events:
+                    required_zones:
+                      - pool_zone
+                snapshots:
+                  required_zones:
+                    - pool_zone
+            record:
+              enabled: True
+              events:
+                retain:
+                  default: 30
+            snapshots:
+              enabled: True
+              timestamp: True
+              bounding_box: True
+              crop: True
+              retain:
+                default: 60
+            objects:
+              track:
+                - person
+                - car
+                - motorcycle
+                - bird
+                - cat
+                - dog
+            detectors:
+              cpu1:
+                type: cpu
+                num_threads: 3
+              cpu2:
+                type: cpu
+                num_threads: 3
+              cpu3:
+                type: cpu
+                num_threads: 3
+              cpu4:
+                type: cpu
+                num_threads: 3
+              cpu5:
+                type: cpu
+                num_threads: 3
+              cpu6:
+                type: cpu
+                num_threads: 3
+            birdseye:
+              enabled: True
+              mode: motion
+      - apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: home-assistant-x
+          namespace: apps
+          labels:
+            k8s-app: home-assistant-x
+        spec:
+          selector:
+            matchLabels:
+              name: home-assistant-x
+          template:
+            metadata:
+              labels:
+                name: home-assistant-x
+            spec:
+              hostNetwork: true
+              tolerations:
+              # these tolerations are to have the daemonset runnable on control plane nodes
+              # remove them if your control plane nodes should not run pods
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+                effect: NoSchedule
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+                effect: NoSchedule
+              containers:
+              - name: home-assistant-x
+                env:
+                - name: TZ
+                  value: America/Chicago
+                image: homeassistant/home-assistant:latest
+                imagePullPolicy: Always
+                livenessProbe:
+                  failureThreshold: 3
+                  periodSeconds: 10
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 8123
+                  timeoutSeconds: 1
+                ports:
+                - containerPort: 8123
+                  name: http
+                  protocol: TCP
+                readinessProbe:
+                  failureThreshold: 3
+                  periodSeconds: 10
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 8123
+                  timeoutSeconds: 1
+                resources: {}
+                startupProbe:
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 8123
+                  timeoutSeconds: 1
+                volumeMounts:
+                - mountPath: /config
+                  name: hass-config
+                - name: hass-tls
+                  mountPath: /etc/letsencrypt/
+                  readOnly: true
+              - name: node-red
+                env:
+                - name: TZ
+                  value: America/Chicago
+                image: nodered/node-red
+                imagePullPolicy: Always
+                livenessProbe:
+                  failureThreshold: 3
+                  periodSeconds: 10
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 1880
+                  timeoutSeconds: 1
+                ports:
+                - containerPort: 1880
+                  name: http
+                  protocol: TCP
+                readinessProbe:
+                  failureThreshold: 3
+                  periodSeconds: 10
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 1880
+                  timeoutSeconds: 1
+                resources: {}
+                startupProbe:
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 1880
+                  timeoutSeconds: 1
+                volumeMounts:
+                - name: node-red-data
+                  mountPath: /data
+                - name: node-red-tls
+                  mountPath: /etc/letsencrypt/
+                  readOnly: true
+              - name: vscode
+                image: codercom/code-server:3.11.1
+                imagePullPolicy: IfNotPresent
+                workingDir: /config
+                args:
+                  - --port=8124
+                  - --extensions-dir=/config/.vscode
+                  - --user-data-dir=/config/.vscode
+                ports:
+                  - name: vscode
+                    containerPort: 8124
+                    protocol: TCP
+                env:
+                  - name: PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: vscode-secret
+                        key: password
+                volumeMounts:
+                - mountPath: /hass-config
+                  name: hass-config
+                - mountPath: /node-red-data
+                  name: node-red-data
+                - mountPath: /frigate-config
+                  name: frigate-config
+                securityContext:
+                    runAsUser: 0
+              - name: frigate
+                env:
+                image: ghcr.io/blakeblackshear/frigate:0.12.1
+                imagePullPolicy: Always
+                livenessProbe:
+                  failureThreshold: 3
+                  periodSeconds: 10
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 5000
+                  timeoutSeconds: 1
+                ports:
+                - containerPort: 5000
+                  name: http
+                  protocol: TCP
+                - containerPort: 1935
+                  name: rtmp
+                  protocol: TCP
+                - containerPort: 8554
+                  name: rtsp
+                  protocol: TCP
+                readinessProbe:
+                  failureThreshold: 3
+                  periodSeconds: 10
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 5000
+                  timeoutSeconds: 1
+                resources: {}
+                startupProbe:
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  successThreshold: 1
+                  tcpSocket:
+                    port: 5000
+                  timeoutSeconds: 1
+                volumeMounts:
+                - mountPath: /media
+                  name: frigate-media
+                - mountPath: /tmp
+                  name: frigate-tmp
+                - mountPath: /config
+                  name: frigate-config
+                - mountPath: /dev/shm
+                  name: shm
+              dnsPolicy: ClusterFirst
+              enableServiceLinks: true
+              restartPolicy: Always
+              schedulerName: default-scheduler
+              securityContext: {}
+              serviceAccount: default
+              serviceAccountName: default
+              terminationGracePeriodSeconds: 30
+              volumes:
+              - name: hass-config
+                persistentVolumeClaim:
+                  claimName: home-assistant-config
+              - name: hass-tls 
+                secret:
+                  secretName: home-assistant-tls
+              - name: node-red-data
+                persistentVolumeClaim:
+                  claimName: node-red-data
+              - name: node-red-tls 
+                secret:
+                  secretName: node-red-tls
+              - name: frigate-media
+                persistentVolumeClaim:
+                  claimName: frigate-media-local
+              - name: frigate-tmp
+                emptyDir:
+                  medium: Memory
+                  sizeLimit: 16Gi
+              - name: shm
+                emptyDir:
+                  medium: Memory
+                  sizeLimit: 1Gi
+              - name: frigate-config
+                configMap:
+                  name: frigate-config
+
+

@@ -1,0 +1,84 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "mqtt"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: mosquitto-configmap
+          namespace: infra
+        data:
+          mosquitto.conf: |-
+            listener 1883
+            allow_anonymous true 
+      - apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: mosquitto
+          namespace: infra
+          labels:
+            k8s-app: mosquitto
+        spec:
+          selector:
+            matchLabels:
+              name: mosquitto
+          template:
+            metadata:
+              labels:
+                name: mosquitto
+            spec:
+              hostNetwork: true
+              tolerations:
+              # these tolerations are to have the daemonset runnable on control plane nodes
+              # remove them if your control plane nodes should not run pods
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+                effect: NoSchedule
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+                effect: NoSchedule
+              containers:
+                - name: mosquitto
+                  image: eclipse-mosquitto:latest
+                  ports:
+                  - containerPort: 1883
+                  - containerPort: 9001
+                  volumeMounts:
+                  - name: mosquitto-config
+                    mountPath: /mosquitto/config/mosquitto.conf
+                    subPath: mosquitto.conf
+              volumes:
+              - name: mosquitto-config
+                configMap:
+                  name: mosquitto-configmap
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: mosquitto
+          namespace: infra
+        spec:
+          type: ClusterIP
+          selector:
+            name: mosquitto
+          ports:
+            - name: mqtt1883
+              protocol: TCP
+              port: 1883
+              targetPort: 1883
+            - name: mqtt9001
+              protocol: TCP
+              port: 9001
+              targetPort: 9001
