@@ -1,0 +1,75 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "pasty"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: rethinkdb
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: local
+          volumeMode: Filesystem 
+          resources:
+            requests:
+              storage: 24Gi        
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: rethinkdb
+          labels:
+            app: rethinkdb
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: rethinkdb
+          template:
+            metadata:
+              labels:
+                app: rethinkdb
+            spec:
+              containers:
+              - name: rethinkdb
+                image: rethinkdb:latest
+                imagePullPolicy: Always
+                ports:
+                - name: web
+                  containerPort: 8080
+                  protocol: TCP
+                - name: db
+                  containerPort: 28015
+                  protocol: TCP
+                volumeMounts:
+                - mountPath: "/data"
+                  name: rethinkdb-data
+              volumes:
+              - name: rethinkdb-data
+                persistentVolumeClaim:
+                  claimName: rethinkdb
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: rethinkdb
+        spec:
+          selector:
+            app: rethinkdb
+          ports:
+          - protocol: TCP
+            port: 28015
+            targetPort: 28015
+            name: db

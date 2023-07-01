@@ -1,0 +1,120 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "registry"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: cert-manager.io/v1
+        kind: Certificate
+        metadata:
+          name: registry-tls
+        spec:
+          secretName: registry-tls
+          subject:
+            organizations:
+            - SimpleFxn
+          commonName: registry.simplefxn.com
+          dnsNames:
+          - registry.simplefxn.com
+          issuerRef:
+            name: simplefxn-issuer
+            kind: ClusterIssuer
+      - apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: registry-configmap
+        data:
+          config.yml: |-
+            version: 0.1
+            log:
+              accessLog:
+                disabled: false
+              level: debug
+              fields:
+                service: registry
+            storage:
+              cache:
+                blobdescriptor: inmemory
+              filesystem:
+                rootdirectory: /var/lib/registry
+            http:
+              addr: :443
+              host: https://registry.simplefxn.com
+              tls:
+                certificate: /etc/letsencrypt/tls.crt
+                key: /etc/letsencrypt/tls.key
+              headers:
+                X-Content-Type-Options: [nosniff]
+            health:
+              storagedriver:
+                enabled: true
+                interval: 10s
+                threshold: 3
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          annotations:
+            app: registry
+          creationTimestamp: null
+          labels:
+            app: registry
+          name: registry
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: registry
+          strategy:
+            type: Recreate
+          template:
+            metadata:
+              annotations:
+                app: registry
+              creationTimestamp: null
+              labels:
+                app: registry
+            spec:
+              containers:
+                - name: registry
+                  image: registry:2
+                  ports:
+                    - containerPort: 443
+                      protocol: TCP
+                  volumeMounts:
+                  - name: registry-config
+                    mountPath: /etc/docker/registry/config.yml
+                    subPath: config.yml
+                  - name: registry-tls
+                    mountPath: /etc/letsencrypt/
+                    readOnly: true
+              volumes:
+              - name: registry-config
+                configMap:
+                  name: registry-configmap
+              - name: registry-tls
+                secret:
+                  secretName: registry-tls
+              
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: registry
+        spec:
+          type: LoadBalancer
+          selector:
+            app: registry
+          ports:
+          - port: 443
+            targetPort: 443
+                

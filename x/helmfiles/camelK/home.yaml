@@ -1,0 +1,10 @@
+camelk_chart_version: "0.13.1"
+
+camelk:
+  platform:
+    cluster: Kubernetes
+    build:
+      registry:
+        address: 10.200.0.230 
+  operator.global: true
+
