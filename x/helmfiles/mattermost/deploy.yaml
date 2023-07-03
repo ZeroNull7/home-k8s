@@ -1,0 +1,11 @@
+apiVersion: installation.mattermost.com/v1beta1
+kind: Mattermost
+metadata:
+  name: mm-simplefxn
+spec:
+  size: 10users
+  ingress:
+    enabled: true
+    host: mattermost.simplefxn.com
+  version: 6.0.1
+  licenseSecret: ""

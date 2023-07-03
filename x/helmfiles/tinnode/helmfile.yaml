@@ -1,0 +1,214 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "tinode-x"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: cert-manager.io/v1
+        kind: Certificate
+        metadata:
+          name: tinode-tls
+        spec:
+          secretName: tinode-tls
+          subject:
+            organizations:
+            - SimpleFxn
+          commonName: chat.simplefxn.com
+          dnsNames:
+          - chat.simplefxn.com
+          issuerRef:
+            name: simplefxn-issuer
+            kind: ClusterIssuer
+      - apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: tinode-config
+        data:
+          tinode.conf: |
+            {
+                "listen": ":6060",
+                "api_path": "/",
+                "cache_control": 39600,
+                "static_mount": "/",
+                "grpc_listen": ":16060",
+                "api_key_salt": "T713/rYYgW7g4m3vG6zGRh7+FM1t0T8j13koXScOAj4=",
+                "max_message_size": 4194304,
+                "max_subscriber_count": 32,
+                "max_tag_count": 16,
+                "expvar": "/stats/expvar/",
+                "server_status": "",
+
+                "media": {
+                  "use_handler": "fs",
+                  "max_size": 33554432,
+                  "gc_period": 60,
+                  "gc_block_size": 100,
+                  "handlers": {
+                    "fs": {
+                      "upload_dir": "uploads"
+                    }
+                  }
+                },
+
+                "tls": {
+                  "enabled": true,
+                  "http_redirect": ":80",
+                  "strict_max_age": 604800,
+                  "cert_file": "/etc/letsencrypt/tls.crt",
+                  "key_file": "/etc/letsencrypt/tls.key"
+                },
+
+                "auth_config": {
+                  "logical_names": [],
+                  "basic": {
+                    "add_to_tags": true,
+                    "min_login_length": 3,
+                    "min_password_length": 6
+                  },
+                  "token": {
+                    "expire_in": 1209600,
+                    "serial_num": 1,
+                    "key": "wfaY2RgF2S1OQI/ZlK+LSrp1KB2jwAdGAIHQ7JZn+Kc="
+                  }
+                },
+
+                "store_config": {
+                  "uid_key": "la6YsO+bNX/+XIkOqc5Svw==",
+                  "use_adapter": "rethinkdb",
+                  "adapters": {
+                    "rethinkdb": {
+                      "database": "tinode",
+                      "addresses": "rethinkdb"
+                    }
+                  }
+                },
+
+                
+
+                "acc_gc_config": {
+                  "gc_period": 3600,
+                  "gc_block_size": 10,
+                  "gc_min_account_age": 48
+                },
+
+                "push": [
+                  {
+                    "name":"tnpg",
+                    "config": {
+                      "enabled": false,
+                      "token": "",
+                      "org": ""
+                    }
+                  },
+                  {
+                    "name":"fcm",
+                    "config": {
+                      "enabled": false,
+                      "project_id": "",
+                      "credentials_file": "",
+                      "time_to_live": 3600,
+                      "android": {
+                        "enabled": true,
+                        "icon": "ic_logo_push",
+                        "icon_color": "#3949AB",
+                        "click_action": ".MessageActivity",
+                        "msg": {
+                          "title_loc_key": "new_message",
+                          "title": "",
+                          "body_loc_key": "",
+                          "body": ""
+                        },
+                        "sub": {
+                          "title_loc_key": "new_chat",
+                          "body_loc_key": ""
+                        }
+                      }
+                    }
+                  }
+                ],
+
+                "webrtc": {
+                  "enabled": false,
+                  "call_establishment_timeout": 30,
+                  "ice_servers_file": ""
+                },
+
+                "cluster_config": {
+                  "self": "",
+                  "nodes": [
+                    {"name": "tinode-0", "addr": "tinode-0:12000"},
+                    {"name": "tinode-1", "addr": "tinode-1:12001"},
+                    {"name": "tinode-2", "addr": "tinode-2:12002"}
+                  ],
+                  "num_proxy_event_goroutines": 0,
+                  "failover": {
+                    "enabled": true,
+                    "heartbeat": 100,
+                    "vote_after": 8,
+                    "node_fail_after": 16
+                  }
+                },
+
+                "plugins": [
+                  {
+                    "enabled": false,
+                    "name": "python_chat_bot",
+                    "timeout": 20000,
+                    "filters": {
+                      "account": "C"
+                    },
+                    "failure_code": 0,
+                    "failure_text": null,
+                    "service_addr": "tcp://localhost:40051"
+                  }
+                ]
+              }
+
+      - apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: tinode-x
+          labels:
+            app: tinode-x
+        spec:
+          selector:
+            matchLabels:
+              app: tinode-x
+          template:
+            metadata:
+              labels:
+                app: tinode-x
+            spec:
+              containers:
+              - name: tinode-x
+                env:
+                - name: EXT_CONFIG
+                  value: /config/tinode.conf
+                image: tinode/tinode:latest
+                imagePullPolicy: Always
+                volumeMounts:
+                - mountPath: /config
+                  name: tinode-config
+                - name: tinode-tls
+                  mountPath: /etc/letsencrypt/
+                  readOnly: true
+              volumes:
+              - name: tinode-config
+                configMap:
+                  name: tinode-config
+              - name: tinode-tls
+                secret:
+                  secretName: tinode-tls
+
+

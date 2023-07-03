@@ -7,37 +7,24 @@ repositories:
     url: "https://charts.helm.sh/incubator"
 
 releases:
-  - name: "pasty"
+  - name: "rethinkdb"
     chart: "incubator/raw"
     namespace: {{ .Namespace }}
     version: {{ .Values.k8s_raw_chart_version | quote }}
     wait: true
     timeout: 60
     values:
-    - resources:
-      - apiVersion: v1
-        kind: PersistentVolumeClaim
-        metadata:
-          name: rethinkdb
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: local
-          volumeMode: Filesystem 
-          resources:
-            requests:
-              storage: 24Gi        
+    - resources:   
       - apiVersion: apps/v1
-        kind: Deployment
+        kind: StatefulSet
         metadata:
           name: rethinkdb
-          labels:
-            app: rethinkdb
         spec:
           replicas: 1
-          selector:
+          selector: 
             matchLabels:
               app: rethinkdb
+          serviceName: "rethinkdb"
           template:
             metadata:
               labels:
@@ -47,6 +34,9 @@ releases:
               - name: rethinkdb
                 image: rethinkdb:latest
                 imagePullPolicy: Always
+                env:
+                  - name: JOIN
+                    value: rethinkdb-0
                 ports:
                 - name: web
                   containerPort: 8080
@@ -57,19 +47,31 @@ releases:
                 volumeMounts:
                 - mountPath: "/data"
                   name: rethinkdb-data
-              volumes:
-              - name: rethinkdb-data
-                persistentVolumeClaim:
-                  claimName: rethinkdb
+          volumeClaimTemplates:
+          - metadata:
+              name: rethinkdb-data
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              storageClassName: local
+              volumeMode: Filesystem 
+              resources:
+                requests:
+                  storage: 24Gi       
       - apiVersion: v1
         kind: Service
         metadata:
           name: rethinkdb
         spec:
+          type: LoadBalancer
           selector:
             app: rethinkdb
           ports:
-          - protocol: TCP
-            port: 28015
-            targetPort: 28015
-            name: db
+            - name: rethinkdb-admin
+              protocol: TCP
+              port: 8080
+              targetPort: 8080
+            - name: rethinkdb-cluster
+              protocol: TCP
+              port: 28015
+              targetPort: 28015
