@@ -7,7 +7,7 @@ repositories:
     url: "https://charts.helm.sh/incubator"
 
 releases:
-  - name: "mysql"
+  - name: "nats"
     chart: "incubator/raw"
     namespace: {{ .Namespace }}
     version: {{ .Values.k8s_raw_chart_version | quote }}
@@ -18,6 +18,9 @@ releases:
       - apiVersion: "nats.io/v1alpha2"
         kind: "NatsCluster"
         metadata:
-          name: "operated-nats"
+          name: "nats"
         spec:
           size: 3
+          natsConfig:
+            debug: true
+            trace: true
