@@ -1,0 +1,21 @@
+bases:
+- environments.yaml
+---
+repositories:
+  - name: ingress_nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "ingress-nginx"
+    chart: "ingress-nginx/ingress-nginx "
+    disableValidation: true
+    namespace: {{ .Namespace }}
+    version: {{ .Values.ingress_nginx_chart_version | quote }}
+    wait: true
+    timeout: 300
+    values:
+    - {{ toYaml .Values.ingress_nginx | nindent 6 }}
+ 

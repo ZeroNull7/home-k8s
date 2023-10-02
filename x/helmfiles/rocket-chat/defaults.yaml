@@ -1,0 +1,4 @@
+rocket_chat_chart_version: "6.4.1"
+k8s_raw_chart_version: "0.2.3"
+
+rocket_chat: {}

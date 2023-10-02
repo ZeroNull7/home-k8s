@@ -1,0 +1,4 @@
+ingress_nginx_chart_version: "4.8.0"
+k8s_raw_chart_version: "0.2.3"
+
+ingress_nginx: {}
