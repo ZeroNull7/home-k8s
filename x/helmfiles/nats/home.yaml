@@ -2,48 +2,6 @@ k8s_raw_chart_version: "0.2.3"
 nats_chart_version: "1.1.0"
 
 nats: 
-  ################################################################################
-  # Global options
-  ################################################################################
-  global:
-    image:
-      # global image pull policy to use for all container images in the chart
-      # can be overridden by individual image pullPolicy
-      pullPolicy:
-      # global registry to use for all container images in the chart
-      # can be overridden by individual image registry
-      registry: 
-
-    # global labels will be applied to all resources deployed by the chart
-    labels: {}  
-
-  ################################################################################
-  # Common options
-  ################################################################################
-  # override name of the chart
-  nameOverride:
-  # override full name of the chart+release
-  fullnameOverride:
-  # override the namespace that resources are installed into
-  namespaceOverride:  
-
-  # reference a common CA Certificate or Bundle in all nats config `tls` blocks and nats-box contexts
-  # note: `tls.verify` still must be set in the appropriate nats config `tls` blocks to require mTLS
-  tlsCA:
-    enabled: false
-    # set configMapName in order to mount an existing configMap to dir
-    configMapName:
-    # set secretName in order to mount an existing secretName to dir
-    secretName:
-    # directory to mount the configMap or secret to
-    dir: /etc/nats-ca-cert
-    # key in the configMap or secret that contains the CA Certificate or Bundle
-    key: ca.crt 
-
-  ################################################################################
-  # NATS Stateful Set and associated resources
-  ################################################################################  
-
   ############################################################
   # NATS config
   ############################################################
@@ -52,7 +10,7 @@ nats:
       enabled: true
       port: 6222
       # must be 2 or higher when jetstream is enabled
-      replicas: 3 
+      replicas: 3
 
       # apply to generated route URLs that connect to other pods in the StatefulSet
       routeURLs:
@@ -61,8 +19,8 @@ nats:
         user:
         password:
         # set to true to use FQDN in route URLs
-        useFQDN: false
-        k8sClusterDomain: cluster.local 
+        useFQDN: true
+        k8sClusterDomain: subject86.com
 
       tls:
         enabled: false
@@ -74,47 +32,47 @@ nats:
         # merge or patch the tls config
         # https://docs.nats.io/running-a-nats-service/configuration/securing_nats/tls
         merge: {}
-        patch: [] 
+        patch: []
 
       # merge or patch the cluster config
       # https://docs.nats.io/running-a-nats-service/configuration/clustering/cluster_config
       merge: {}
-      patch: [] 
+      patch: []
 
     jetstream:
-      enabled: true  
+      enabled: true
 
       fileStore:
         enabled: true
-        dir: /data  
+        dir: /data
 
         ############################################################
         # stateful set -> volume claim templates -> jetstream pvc
         ############################################################
         pvc:
           enabled: true
-          size: 8Gi
-          storageClassName: local
+          size: 32Gi
+          storageClassName:
 
           # merge or patch the jetstream pvc
           # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#persistentvolumeclaim-v1-core
           merge: {}
           patch: []
           # defaults to "{{ include "nats.fullname" $ }}-js"
-          name: 
+          name:
 
         # defaults to the PVC size
-        maxSize:  
+        maxSize:
 
       memoryStore:
-        enabled: true
+        enabled: false
         # ensure that container has a sufficient memory limit greater than maxSize
-        maxSize: 1Gi  
+        maxSize: 8Gi
 
       # merge or patch the jetstream config
       # https://docs.nats.io/running-a-nats-service/configuration#jetstream
       merge: {}
-      patch: [] 
+      patch: []
 
     nats:
       port: 4222
@@ -128,7 +86,7 @@ nats:
         # merge or patch the tls config
         # https://docs.nats.io/running-a-nats-service/configuration/securing_nats/tls
         merge: {}
-        patch: [] 
+        patch: []
 
     leafnodes:
       enabled: false
@@ -143,12 +101,12 @@ nats:
         # merge or patch the tls config
         # https://docs.nats.io/running-a-nats-service/configuration/securing_nats/tls
         merge: {}
-        patch: [] 
+        patch: []
 
       # merge or patch the leafnodes config
       # https://docs.nats.io/running-a-nats-service/configuration/leafnodes/leafnode_conf
       merge: {}
-      patch: [] 
+      patch: []
 
     websocket:
       enabled: false
@@ -163,7 +121,7 @@ nats:
         # merge or patch the tls config
         # https://docs.nats.io/running-a-nats-service/configuration/securing_nats/tls
         merge: {}
-        patch: [] 
+        patch: []
 
       ############################################################
       # ingress
@@ -178,22 +136,22 @@ nats:
         # sets to the ingress class name
         className:
         # set to an existing secret name to enable TLS on the ingress; applies to all hosts
-        tlsSecretName:  
+        tlsSecretName:
 
         # merge or patch the ingress
         # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#ingress-v1-networking-k8s-io
         merge: {}
         patch: []
         # defaults to "{{ include "nats.fullname" $ }}-ws"
-        name: 
+        name:
 
       # merge or patch the websocket config
       # https://docs.nats.io/running-a-nats-service/configuration/websocket/websocket_conf
       merge: {}
-      patch: [] 
+      patch: []
 
     mqtt:
-      enabled: false
+      enabled: true
       port: 1883
       tls:
         enabled: false
@@ -205,12 +163,12 @@ nats:
         # merge or patch the tls config
         # https://docs.nats.io/running-a-nats-service/configuration/securing_nats/tls
         merge: {}
-        patch: [] 
+        patch: []
 
       # merge or patch the mqtt config
       # https://docs.nats.io/running-a-nats-service/configuration/mqtt/mqtt_config
       merge: {}
-      patch: [] 
+      patch: []
 
     gateway:
       enabled: false
@@ -225,12 +183,12 @@ nats:
         # merge or patch the tls config
         # https://docs.nats.io/running-a-nats-service/configuration/securing_nats/tls
         merge: {}
-        patch: [] 
+        patch: []
 
       # merge or patch the gateway config
       # https://docs.nats.io/running-a-nats-service/configuration/gateways/gateway#gateway-configuration-block
       merge: {}
-      patch: [] 
+      patch: []
 
     monitor:
       enabled: true
@@ -238,15 +196,15 @@ nats:
       tls:
         # config.nats.tls must be enabled also
         # when enabled, monitoring port will use HTTPS with the options from config.nats.tls
-        enabled: false  
+        enabled: false
 
     profiling:
       enabled: false
-      port: 65432 
+      port: 65432
 
     resolver:
       enabled: false
-      dir: /data/resolver 
+      dir: /data/resolver
 
       ############################################################
       # stateful set -> volume claim templates -> resolver pvc
@@ -254,23 +212,23 @@ nats:
       pvc:
         enabled: true
         size: 1Gi
-        storageClassName: 
+        storageClassName:
 
         # merge or patch the pvc
         # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#persistentvolumeclaim-v1-core
         merge: {}
         patch: []
         # defaults to "{{ include "nats.fullname" $ }}-resolver"
-        name: 
+        name:
 
       # merge or patch the resolver
       # https://docs.nats.io/running-a-nats-service/configuration/securing_nats/auth_intro/jwt/resolver
       merge: {}
-      patch: [] 
+      patch: []
 
     # adds a prefix to the server name, which defaults to the pod name
     # helpful for ensuring server name is unique in a super cluster
-    serverNamePrefix: ""  
+    serverNamePrefix: ""
 
     # merge or patch the nats config
     # https://docs.nats.io/running-a-nats-service/configuration
@@ -304,7 +262,7 @@ nats:
     #   include ./my-config-last.conf;
     # }
     merge: {}
-    patch: [] 
+    patch: []
 
   ############################################################
   # stateful set -> pod template -> nats container
@@ -312,9 +270,9 @@ nats:
   container:
     image:
       repository: nats
-      tag: 2.10.1-alpine
+      tag: 2.10.7-alpine
       pullPolicy:
-      registry: 
+      registry:
 
     # container port options
     # must be enabled in the config section also
@@ -327,7 +285,7 @@ nats:
       cluster: {}
       gateway: {}
       monitor: {}
-      profiling: {} 
+      profiling: {}
 
     # map with key as env var name, value can be string or map
     # example:
@@ -339,12 +297,12 @@ nats:
     #         secretKeyRef:
     #           name: nats-auth
     #           key: token
-    env: {} 
+    env: {}
 
     # merge or patch the container
     # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#container-v1-core
     merge: {}
-    patch: [] 
+    patch: []
 
   ############################################################
   # stateful set -> pod template -> reloader container
@@ -353,22 +311,22 @@ nats:
     enabled: true
     image:
       repository: natsio/nats-server-config-reloader
-      tag: 0.11.0
+      tag: 0.14.0
       pullPolicy:
-      registry: 
+      registry:
 
     # env var map, see nats.env for an example
-    env: {} 
+    env: {}
 
     # all nats container volume mounts with the following prefixes
     # will be mounted into the reloader container
     natsVolumeMountPrefixes:
-    - /etc/ 
+    - /etc/
 
     # merge or patch the container
     # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#container-v1-core
     merge: {}
-    patch: [] 
+    patch: []
 
   ############################################################
   # stateful set -> pod template -> prom-exporter container
@@ -378,38 +336,38 @@ nats:
     enabled: false
     image:
       repository: natsio/prometheus-nats-exporter
-      tag: 0.12.0
+      tag: 0.13.0
       pullPolicy:
-      registry: 
+      registry:
 
     port: 7777
     # env var map, see nats.env for an example
-    env: {} 
+    env: {}
 
     # merge or patch the container
     # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#container-v1-core
     merge: {}
-    patch: [] 
+    patch: []
 
     ############################################################
     # prometheus pod monitor
     ############################################################
     podMonitor:
-      enabled: false  
+      enabled: false
 
       # merge or patch the pod monitor
       # https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.PodMonitor
       merge: {}
       patch: []
       # defaults to "{{ include "nats.fullname" $ }}"
-      name: 
+      name:
 
 
   ############################################################
   # service
   ############################################################
   service:
-    enabled: true 
+    enabled: true
 
     # service port options
     # additional boolean field enable to control whether port is exposed in the service
@@ -431,20 +389,18 @@ nats:
       monitor:
         enabled: false
       profiling:
-        enabled: false  
+        enabled: false
 
     # merge or patch the service
     # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#service-v1-core
-    merge:
-      spec:
-        type: LoadBalancer
+    merge: {}
     patch: []
     # defaults to "{{ include "nats.fullname" $ }}"
-    name: 
+    name:
 
   ############################################################
   # other nats extension points
-  ############################################################  
+  ############################################################
 
   # stateful set
   statefulSet:
@@ -453,13 +409,13 @@ nats:
     merge: {}
     patch: []
     # defaults to "{{ include "nats.fullname" $ }}"
-    name: 
+    name:
 
   # stateful set -> pod template
   podTemplate:
     # adds a hash of the ConfigMap as a pod annotation
     # this will cause the StatefulSet to roll when the ConfigMap is updated
-    configChecksumAnnotation: true  
+    configChecksumAnnotation: true
 
     # map of topologyKey: topologySpreadConstraint
     # labelSelector will be added to match StatefulSet pods
@@ -468,24 +424,21 @@ nats:
     #   kubernetes.io/hostname:
     #     maxSkew: 1
     #
-    topologySpreadConstraints: {} 
+    topologySpreadConstraints: {}
 
     # merge or patch the pod template
     # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#pod-v1-core
     merge: {}
-    patch: [] 
+    patch: []
 
   # headless service
   headlessService:
     # merge or patch the headless service
     # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#service-v1-core
-    merge: 
-      spec:
-        clusterIP:
-        type: LoadBalancer
+    merge: {}
     patch: []
     # defaults to "{{ include "nats.fullname" $ }}-headless"
-    name: 
+    name:
 
   # config map
   configMap:
@@ -494,7 +447,7 @@ nats:
     merge: {}
     patch: []
     # defaults to "{{ include "nats.fullname" $ }}-config"
-    name: 
+    name:
 
   # pod disruption budget
   podDisruptionBudget:
@@ -504,7 +457,7 @@ nats:
     merge: {}
     patch: []
     # defaults to "{{ include "nats.fullname" $ }}"
-    name: 
+    name:
 
   # service account
   serviceAccount:
@@ -514,7 +467,7 @@ nats:
     merge: {}
     patch: []
     # defaults to "{{ include "nats.fullname" $ }}"
-    name: 
+    name:
 
 
   ############################################################
@@ -523,7 +476,7 @@ nats:
   # NATS Box Deployment and associated resources
   ############################################################
   natsBox:
-    enabled: true 
+    enabled: true
 
     ############################################################
     # NATS contexts
@@ -553,15 +506,15 @@ nats:
           # defaults to /etc/nats-certs/<context-name>
           dir:
           cert: tls.crt
-          key: tls.key  
+          key: tls.key
 
         # merge or patch the context
         # https://docs.nats.io/using-nats/nats-tools/nats_cli#nats-contexts
         merge: {}
-        patch: [] 
+        patch: []
 
     # name of context to select by default
-    defaultContextName: default 
+    defaultContextName: default
 
     ############################################################
     # deployment -> pod template -> nats-box container
@@ -569,21 +522,21 @@ nats:
     container:
       image:
         repository: natsio/nats-box
-        tag: 0.14.0
+        tag: 0.14.1
         pullPolicy:
-        registry: 
+        registry:
 
       # env var map, see nats.env for an example
-      env: {} 
+      env: {}
 
       # merge or patch the container
       # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#container-v1-core
       merge: {}
-      patch: [] 
+      patch: []
 
     ############################################################
     # other nats-box extension points
-    ############################################################  
+    ############################################################
 
     # deployment
     deployment:
@@ -592,14 +545,14 @@ nats:
       merge: {}
       patch: []
       # defaults to "{{ include "nats.fullname" $ }}-box"
-      name: 
+      name:
 
     # deployment -> pod template
     podTemplate:
       # merge or patch the pod template
       # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#pod-v1-core
       merge: {}
-      patch: [] 
+      patch: []
 
     # contexts secret
     contextsSecret:
@@ -608,7 +561,7 @@ nats:
       merge: {}
       patch: []
       # defaults to "{{ include "nats.fullname" $ }}-box-contexts"
-      name: 
+      name:
 
     # contents secret
     contentsSecret:
@@ -617,7 +570,7 @@ nats:
       merge: {}
       patch: []
       # defaults to "{{ include "nats.fullname" $ }}-box-contents"
-      name: 
+      name:
 
     # service account
     serviceAccount:
@@ -627,7 +580,7 @@ nats:
       merge: {}
       patch: []
       # defaults to "{{ include "nats.fullname" $ }}-box"
-      name: 
+      name:
 
 
   ################################################################################
@@ -671,6 +624,4 @@ nats:
   #               $tplYaml: >
   #                 {{ .Values.config.websocket.port }}
   #
-  extraResources: []  
-
-
+  extraResources: []
