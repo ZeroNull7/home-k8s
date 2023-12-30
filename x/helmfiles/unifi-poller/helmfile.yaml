@@ -1,0 +1,110 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "unifi-poller"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: unifi-poller
+          namespace: monitoring
+          labels:
+            app: unifi-poller
+            type: poller
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: unifi-poller
+              type: poller
+          template:
+            metadata:
+              labels:
+                app: unifi-poller
+                type: poller
+              annotations:
+                prometheus.io/path: /metrics
+                prometheus.io/port: "9130"
+                prometheus.io/scrape: "true"
+            spec:
+              containers:
+              - name: unifi-poller
+                image: ghcr.io/unpoller/unpoller:latest
+                ports:
+                - containerPort: 9130
+                  name: tcp
+                  protocol: TCP
+                - containerPort: 9130
+                  name: udp
+                  protocol: UDP
+                volumeMounts:
+                - name: config-volume
+                  mountPath: /etc/unpoller/up.conf
+                  subPath: unifi-poller.conf
+              volumes:
+              - name: config-volume
+                secret:
+                  secretName: unifi-poller
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: unifi-poller
+          namespace: monitoring
+          labels:
+            app: unifi-poller
+            type: poller
+        stringData:
+          unifi-poller.conf: |
+              [poller]
+                  debug = false
+                  quiet = false
+                  plugins = []
+              [prometheus]
+                disable = false
+                http_listen = "0.0.0.0:9130"
+                report_errors = false
+              [unifi]
+                  dynamic = false
+              [loki]
+                disable = true
+              #Point to your own Loki service
+                url = "http://loki.monitoring.svc.cluster.local:3100"
+              [influxdb]
+                disable = false
+                # How often to poll UniFi and report to Datadog.
+                interval = "1m"
+                # the influxdb url to post data
+                url = "http://influx.monitoring.svc.subject86.com:8086"
+                # the secret auth token, this enables InfluxDB 1.8, 2.x compatibility.
+                # auth_token: somesecret
+                user = "unifi"
+                pass = "unifi"
+                # the influxdb org
+                org = "ketelburg"
+                # the influxdb bucket
+                bucket = "unifi"
+                # how many points to batch write per flush.
+                batch_size = 20
+              [[unifi.controller]]
+              #Change to your own URL
+                  url         = "https://192.168.69.4:8443/"
+                  user        = "marcelo"
+                  pass        = "Hiasitz!1"
+                  sites       = ["all"]
+                  save_ids    = true
+                  save_dpi    = true
+                  save_sites  = true
+                  hash_pii    = false
+                  verify_ssl  = false

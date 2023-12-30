@@ -1,0 +1,136 @@
+bases:
+- environments.yaml
+---
+repositories:
+  # Kubernetes incubator repo of helm charts
+  - name: "incubator"
+    url: "https://charts.helm.sh/incubator"
+
+releases:
+  - name: "influxdb"
+    chart: "incubator/raw"
+    namespace: {{ .Namespace }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
+    wait: true
+    timeout: 60
+    values:
+    - resources:
+      - apiVersion: v1
+        kind: Secret
+        metadata:
+          name: influx-admin
+          namespace: monitoring
+          annotations:
+            secret-generator.v1.mittwald.de/autogenerate: password
+            secret-generator.v1.mittwald.de/type: base64
+        data:
+          username: YWRtaW4K
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: influx
+          namespace: monitoring
+          labels:
+            type: influx
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              type: influx
+          template:
+            metadata:
+              labels:
+                type: influx
+            spec:
+              containers:
+              - name: influxdb
+                image: influxdb:1.8
+                ports:
+                - containerPort: 8086
+                env:
+        #Fill with own settings
+                - name: INFLUXDB_DB
+                  value: maindb
+                - name: INFLUXDB_HTTP_AUTH_ENABLED
+                  value: 'false'
+                - name: INFLUXDB_ADMIN_USER
+                  value: admin
+                - name: INFLUXDB_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: influx-admin
+                      key: password
+                volumeMounts:
+                  - name: influx-volume
+                    mountPath: /var/lib/influxdb
+              volumes:
+                - name: influx-volume
+                  persistentVolumeClaim:
+                    claimName: influx-volume-claim
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: influx-volume-claim
+          namespace: monitoring
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 64Gi
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: influx
+          namespace: monitoring
+        spec:
+          selector:
+            type: influx
+          ports:
+            - protocol: TCP
+              port: 8086
+              targetPort: 8086
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: chronograf
+          namespace: monitoring
+          labels:
+            type: chronograf
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              type: chronograf
+          template:
+            metadata:
+              labels:
+                type: chronograf
+            spec:
+              containers:
+              - name: chronograf
+                image: chronograf:latest
+                ports:
+                - containerPort: 8888
+                env:
+                - name: INFLUXDB_URL
+                  value: http://influx.monitoring.svc.subject86.com:8086
+                - name: INFLUXDB_USERNAME
+                  value: admin
+                - name: INFLUXDB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: influx-admin
+                      key: password
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: chronograf
+          namespace: monitoring
+        spec:
+          selector:
+            type: chronograf
+          ports:
+            - protocol: TCP
+              port: 8888
+              targetPort: 8888

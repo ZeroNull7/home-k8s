@@ -9,15 +9,7 @@ repositories:
     url: "https://mongodb.github.io/helm-charts"
 
 releases:
-  - name: "mongo-community-operator"
-    chart: "mongodb/community-operator"
-    disableValidation: true
-    namespace: {{ .Namespace }}
-    version: {{ .Values.mongo_operator_chart_version | quote }}
-    wait: true
-    timeout: 300
-
-  - name: "meemo-mongodb-secrets"
+  - name: "mongodb-secrets"
     chart: "incubator/raw"
     namespace: {{ .Namespace }}
     version: {{ .Values.k8s_raw_chart_version | quote }}
@@ -52,16 +44,14 @@ releases:
             secret-generator.v1.mittwald.de/encoding: hex
         type: Opaque
 
-  - name: "meemo-mongodb"
+  - name: "mongodb"
     chart: "incubator/raw"
     namespace: {{ .Namespace }}
     version: {{ .Values.k8s_raw_chart_version | quote }}
     wait: true
     timeout: 60
     needs:
-      - "mongo-community-operator"
-      - "meemo-mongodb-secrets"
-
+      - "mongodb-secrets"
     values:
     - resources:
       - apiVersion: mongodbcommunity.mongodb.com/v1
@@ -69,12 +59,12 @@ releases:
         metadata:
           name: mongodb
         spec:
-          members: 1
+          members: 3
           type: ReplicaSet
-          version: "4.4.18"
+          version: "6.0.5"
           security:
             authentication:
-              modes: ["SCRAM"]
+              modes: ["SCRAM-SHA-1"]
           statefulSet:
             spec:
               template:

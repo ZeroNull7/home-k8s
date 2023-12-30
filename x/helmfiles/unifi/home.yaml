@@ -1,6 +1,8 @@
 unifi_chart_version: "5.1.2"
 k8s_raw_chart_version: "0.2.3"
 
+k8s_raw:
+
 unifi:
   image:
     repository: jacobalberty/unifi
@@ -17,10 +19,5 @@ unifi:
       mountPath: /unifi
       accessMode: ReadWriteOnce
       size: 64Gi
-      retain: true
-  mongodb:
-    enabled: false
-    architecture: standalone
-    persistence:
-      accessMode: ReadWriteOnce
-      size: 64Gi
+      storageClass: topolvm-provisioner
+

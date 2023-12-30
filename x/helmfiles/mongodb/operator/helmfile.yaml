@@ -5,16 +5,14 @@ repositories:
   # Kubernetes incubator repo of helm charts
   - name: "incubator"
     url: "https://charts.helm.sh/incubator"
-  - name: "nats"
-    url: "https://nats-io.github.io/k8s/helm/charts/"
+  - name: "mongodb"
+    url: "https://mongodb.github.io/helm-charts"
 
 releases:
-  - name: "nats"
-    chart: "nats/nats"
+  - name: "mongo-community-operator"
+    chart: "mongodb/community-operator"
     disableValidation: true
     namespace: {{ .Namespace }}
-    version: {{ .Values.nats_chart_version | quote }}
+    version: {{ .Values.mongo_operator_chart_version | quote }}
     wait: true
     timeout: 300
-    values:
-    - {{ toYaml .Values.nats | nindent 6 }}

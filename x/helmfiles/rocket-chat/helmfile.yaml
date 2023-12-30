@@ -2,20 +2,83 @@ bases:
 - environments.yaml
 ---
 repositories:
-  - name: rocketchat
-    url: https://rocketchat.github.io/helm-charts
-  # Kubernetes incubator repo of helm charts
   - name: "incubator"
     url: "https://charts.helm.sh/incubator"
 
 releases:
-  - name: "rocketchat"
-    chart: "rocketchat/rocketchat"
-    disableValidation: true
+  - name: "rocket-chat"
+    chart: "incubator/raw"
     namespace: {{ .Namespace }}
-    version: {{ .Values.rocket_chat_chart_version | quote }}
+    version: {{ .Values.k8s_raw_chart_version | quote }}
     wait: true
-    timeout: 300
+    timeout: 60
     values:
-    - {{ toYaml .Values.rocket_chat | nindent 6 }}
- 
+    - resources:
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: rocketchat-server
+        spec:
+          selector:
+            app: rocketchat-server
+          ports:
+            - name: http
+              port: 3000
+              targetPort: 3000
+          type: LoadBalancer
+      - apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: chat-app-ingress
+          annotations:
+            cert-manager.io/cluster-issuer: "simplefxn-issuer"
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        spec:
+          ingressClassName: nginx
+          tls:
+          - hosts:
+            - chat.simplefxn.com
+            secretName: chat.simplefxn.com-tls
+          rules:
+          - host: "chat.simplefxn.com"
+            http:
+              paths:
+                - pathType: Prefix
+                  path: "/"
+                  backend:
+                    service:
+                      name: rocketchat-server
+                      port:
+                        number: 3000
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: rocketchat-server
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: rocketchat-server
+          template:
+            metadata:
+              labels:
+                app: rocketchat-server
+            spec:
+              containers:
+                - name: rocketchat-server
+                  image: rocketchat/rocket.chat:latest
+                  ports:
+                    - containerPort: 3000
+                  env:
+                    - name: DB_ADMIN_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                          name: mongodb.mongodb-main.admin
+                          key: password
+                    - name: MONGO_URL
+                      value: mongodb://admin:$(DB_ADMIN_PASSWORD)@mongodb-svc.default.svc.cluster.local:27017/rocketchat?authSource=admin
+                    - name: MONGO_OPLOG_URL
+                      value: mongodb://admin:$(DB_ADMIN_PASSWORD)@mongodb-svc.default.svc.cluster.local:27017/local?authSource=admin
+                    - name: ROOT_URL
+                      value: https://chat.simplefxn.com
+                  imagePullPolicy: Always

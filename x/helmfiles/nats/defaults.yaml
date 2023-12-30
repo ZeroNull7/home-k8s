@@ -1,1 +1,4 @@
 k8s_raw_chart_version: "0.2.3"
+nats_chart_version: "1.1.0"
+
+nats: {}

@@ -24,6 +24,8 @@ releases:
     version: {{ .Values.k8s_raw_chart_version | quote }}
     wait: true
     timeout: 60
+    needs: 
+      - cert-manager
     values:
       - resources:
         - apiVersion: cert-manager.io/v1
