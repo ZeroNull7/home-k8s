@@ -1,4 +1,4 @@
-cert_manager_chart_version: "v1.13.2"
+cert_manager_chart_version: "v1.13.3"
 k8s_raw_chart_version: "0.2.3"
 
 cert_manager:
@@ -71,7 +71,9 @@ cert_manager:
     # Automount API credentials for a Service Account.
     automountServiceAccountToken: true
   # Optional additional arguments
-  extraArgs: []
+  extraArgs:
+    - --dns01-recursive-nameservers-only
+    - --dns01-recursive-nameservers=1.1.1.1:53
     # Use this flag to set a namespace that cert-manager will use to store
     # supporting resources required for each ClusterIssuer (default is kube-system)
     # - --cluster-resource-namespace=kube-system

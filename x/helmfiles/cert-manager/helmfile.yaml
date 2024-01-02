@@ -18,7 +18,7 @@ releases:
     timeout: 300
     values:
     - {{ toYaml .Values.cert_manager | nindent 6 }}
-  - name: "simplefxn-issuer"
+  - name: "issuers"
     chart: "incubator/raw"
     namespace: {{ .Namespace }}
     version: {{ .Values.k8s_raw_chart_version | quote }}
@@ -32,7 +32,6 @@ releases:
           kind: ClusterIssuer
           metadata:
             name: simplefxn-issuer
-            namespace: infra
           spec:
             acme:
               email: marcelo@voidspace.us
@@ -44,21 +43,23 @@ releases:
                   cloudflare:
                     email: marcelo@voidspace.us
                     apiTokenSecretRef:
-                      name: cloudflare-api-key-secret
+                      name: cloudflare-api-key
                       key: api-key
         - apiVersion: cert-manager.io/v1
-          kind: Certificate
+          kind: ClusterIssuer
           metadata:
-            name: notes.simplefxn.com
-            namespace: default
+            name: subject86-issuer
           spec:
-            secretName: notes.simplefxn.com
-            subject:
-              organizations:
-              - SimpleFxn
-            commonName: notes.simplefxn.com
-            dnsNames:
-            - notes.simplefxn.com
-            issuerRef:
-              name: simplefxn-issuer
-              kind: ClusterIssuer
+            acme:
+              email: marcelo@voidspace.us
+              server: https://acme-v02.api.letsencrypt.org/directory
+              privateKeySecretRef:
+                name: subject86-issuer-account-key
+              solvers:
+              - dns01:
+                  cloudflare:
+                    email: marcelo@voidspace.us
+                    apiTokenSecretRef:
+                      name: cloudflare-api-key
+                      key: api-token
+
