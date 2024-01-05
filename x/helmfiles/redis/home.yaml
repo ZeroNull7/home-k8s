@@ -1,16 +1,19 @@
-redis_chart_version: "9.1.4"
+redis_chart_version: "18.6.2"
 k8s_raw_chart_version: "0.2.3"
 
 redis:
-  existingSecret: "redis-credentials"
-  existingSecretPasswordKey: "password"
-  persistence:
-    size: 32Gi
-  redis:
-    externalAccess:
-      enabled: true
-  cluster:
-    nodes: 3
-    replicas: 2
-  metrics:
-    enabled: true
+  clusterDomain: subject86.com
+  auth:
+    existingSecret: "redis-credentials"
+    existingSecretPasswordKey: "password"
+  master:
+    count: 1
+    persistence:
+      size: 16Gi
+  replica:
+    replicaCount: 1
+    persistence:
+      size: 16Gi
+  service:
+    type: ClusterIP
+  

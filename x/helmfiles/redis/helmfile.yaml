@@ -27,7 +27,7 @@ releases:
         stringData:
           password: {{ randAlphaNum 16 | b64enc | quote }}
   - name: "redis-cluster"
-    chart: "bitnami-charts/redis-cluster"
+    chart: "bitnami-charts/redis"
     disableValidation: true
     namespace: {{ .Namespace }}
     version: {{ .Values.redis_chart_version | quote }}
@@ -39,25 +39,10 @@ releases:
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-0"]
+      args: ["-c", "kubectl delete pvc redis-data-redis-cluster-master-0"]
     - events: ["postuninstall"]
       command: "bash"
       showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-1"]
-    - events: ["postuninstall"]
-      command: "bash"
-      showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-2"]
-    - events: ["postuninstall"]
-      command: "bash"
-      showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-3"]
-    - events: ["postuninstall"]
-      command: "bash"
-      showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-4"]
-    - events: ["postuninstall"]
-      command: "bash"
-      showlogs: true
-      args: ["-c", "kubectl delete pvc redis-data-iweather-redis-cluster-5"]
+      args: ["-c", "kubectl delete pvc redis-data-redis-cluster-replicas-0"]
+
     
