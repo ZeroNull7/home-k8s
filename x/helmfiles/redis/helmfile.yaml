@@ -20,13 +20,13 @@ releases:
       - apiVersion: v1
         kind: Secret
         metadata:
-          name: redis-creadentials
+          name: redis-credentials
           annotations:
             "helm.sh/hook": "pre-install"
             "helm.sh/hook-delete-policy": "before-hook-creation"
         stringData:
           password: {{ randAlphaNum 16 | b64enc | quote }}
-  - name: "iweather-redis-cluster"
+  - name: "redis-cluster"
     chart: "bitnami-charts/redis-cluster"
     disableValidation: true
     namespace: {{ .Namespace }}

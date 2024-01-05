@@ -1,23 +1,16 @@
-redis_chart_version: "8.3.5"
+redis_chart_version: "9.1.4"
 k8s_raw_chart_version: "0.2.3"
 
 redis:
-  existingSecret: "redis-creadentials"
+  existingSecret: "redis-credentials"
   existingSecretPasswordKey: "password"
   persistence:
-    storageClass: "local"
-    size: 128Gi
+    size: 32Gi
   redis:
     externalAccess:
       enabled: true
-      annotations:
-          azure-load-balancer-internal: "true"
   cluster:
-    nodes: 9
+    nodes: 3
     replicas: 2
   metrics:
     enabled: true
-    serviceMonitor:
-      enabled: true 
-      labels:
-        prometheus.io/monitor: "true"
