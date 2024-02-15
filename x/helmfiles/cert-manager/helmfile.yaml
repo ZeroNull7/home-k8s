@@ -62,4 +62,21 @@ releases:
                     apiTokenSecretRef:
                       name: cloudflare-api-key
                       key: api-token
+        - apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: scifibeat-issuer
+          spec:
+            acme:
+              email: marcelo@voidspace.us
+              server: https://acme-v02.api.letsencrypt.org/directory
+              privateKeySecretRef:
+                name: scifibeat-issuer-account-key
+              solvers:
+                - dns01:
+                    cloudflare:
+                      email: marcelo@voidspace.us
+                      apiTokenSecretRef:
+                        name: cloudflare-api-key
+                        key: api-key
 
